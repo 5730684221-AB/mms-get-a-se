@@ -19,7 +19,7 @@
     *
 6. Papon Trongprakorb
     * 5730325021
-    * https://github.com/5730325021-PT
+    * 
 7. Panyapol Chuenwatanakul
     * 5730337521
     * https://github.com/5730337521-PC
