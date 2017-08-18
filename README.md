@@ -1,27 +1,29 @@
-### Get A SE (section 33)
+## Get A SE :+1:
+
+###Section 33
 
 ### Members
-* Thanet Sirichanyaphong 
+1. Thanet Sirichanyaphong 
     * 5730251121
     * https://github.com/aiThanet
-* Phatchara Chokdurong 
+2. Phatchara Chokdurong 
     * 5730367321
     *
-* Tanawat Sorsa-ard 
+3. Tanawat Sorsa-ard 
     * 5730241921
     * https://github.com/5730241921-TS
-* Jessada Wisecarver
+4. Jessada Wisecarver
     * 5730097921
     * https://github.com/5730097921-JW
-* Aouychai Buranamanit
+5. Aouychai Buranamanit
     * 5730684221
     *
-* Papon Trongprakorb
+6. Papon Trongprakorb
     * 5730325021
     * https://github.com/5730325021-PT
-* Panyapol Chuenwatanakul
+7. Panyapol Chuenwatanakul
     * 5730337521
     * https://github.com/5730337521-PC
-* Nitichai Tiyaamornwong 
+8. Nitichai Tiyaamornwong 
     * 5730303121
     *
