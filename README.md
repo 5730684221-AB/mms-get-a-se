@@ -1,6 +1,6 @@
-## Get A SE :+1:
+## :star::star::star: Get A SE :star::star::star:
 
-###Section 33
+### Section 33
 
 ### Members
 1. Thanet Sirichanyaphong 
