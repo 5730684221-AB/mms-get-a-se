@@ -7,7 +7,7 @@
     * https://github.com/aiThanet
 2. Phatchara Chokdurong 
     * 5730367321
-    *
+    * https://github.com/5730367321-PC
 3. Tanawat Sorsa-ard 
     * 5730241921
     * https://github.com/5730241921-TS
