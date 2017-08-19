@@ -1,4 +1,4 @@
-## :star: Get A SE
+## :star: Get A SE :star:
 ### Section 33
 
 ### Members
