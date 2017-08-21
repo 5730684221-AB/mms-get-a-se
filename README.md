@@ -1,7 +1,9 @@
 ## :star: Get A SE :star:
-### Section 33
 
-### Members
+![section](https://img.shields.io/badge/section-33-red.svg?style=flat-square)
+
+## Contributors
+
 1. Thanet Sirichanyaphong 
     * 5730251121
     * https://github.com/aiThanet
