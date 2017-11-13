@@ -10,6 +10,12 @@ var session = require('express-session');
 var index = require('./routes/index');
 var service = require('./routes/service');
 var trainer = require('./routes/trainer');
+var api = require('./routes/api');
+
+//mongo
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://192.168.99.100:32768/my_database', { useMongoClient: true });
+mongoose.Promise = global.Promise;
 
 var app = express();
 
@@ -27,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/service', service);
+app.use('/trainer', trainer);
+app.use('/api', api);
 
 //session
 app.set('trust proxy', 1) // trust first proxy
