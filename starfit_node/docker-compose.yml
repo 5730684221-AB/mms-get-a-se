@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-     user_account_service:
+     main_app:
         build: .
         ports:
             - "8123:8123"
@@ -10,7 +10,7 @@ services:
         environment:
             - DATABASE_HOST=database
         links:
-            - user_data:user_data
+            - database:database
 
     database:
         build: ./Database
