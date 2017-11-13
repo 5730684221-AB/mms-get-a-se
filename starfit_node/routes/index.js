@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
   // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
 
-//push test
+//push test 2
 //signup
 // router.post('/signup', function (req, res) => {
 //     //add new user to db
