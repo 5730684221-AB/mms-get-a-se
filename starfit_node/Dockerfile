@@ -5,6 +5,8 @@ ADD . /app
 RUN cd /app; \  
     npm install
 
-EXPOSE 8123
+EXPOSE 3000
 
-CMD ["node", "/app/app.js"]  
+WORKDIR /app
+
+CMD ["npm","start"]  
