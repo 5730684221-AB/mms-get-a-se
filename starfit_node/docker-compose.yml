@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+     user_account_service:
+        build: .
+        ports:
+            - "8123:8123"
+        depends_on:
+            - database
+        environment:
+            - DATABASE_HOST=database
+        links:
+            - user_data:user_data
+
+    database:
+        build: ./Database
+        ports:  
