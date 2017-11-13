@@ -18,23 +18,23 @@ router.get('/', function(req, res, next) {
   // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
 
-signup
-router.post('/signup', function (req, res) => {
-    //add new user to db
-    // User.create({
-    //     username: req.body.username,
-    //     email: req.body.email,
-    //     password: req.body.password
-    // })
-    .then(user => {
-        req.session.user = user.dataValues;
-        res.redirect('/');
-    })
-    .catch(error => {
-        res.status(500).send({ error: 'something blew up during signup' });
-        console.log("signup error");
-    });
-});
+//signup
+// router.post('/signup', function (req, res) => {
+//     //add new user to db
+//     // User.create({
+//     //     username: req.body.username,
+//     //     email: req.body.email,
+//     //     password: req.body.password
+//     // })
+//     .then(user => {
+//         req.session.user = user.dataValues;
+//         res.redirect('/');
+//     })
+//     .catch(error => {
+//         res.status(500).send({ error: 'something blew up during signup' });
+//         console.log("signup error");
+//     });
+// });
 
 //login
 router.post('/login', function (req, res){
