@@ -32,7 +32,7 @@ router.get('/user/:_id', (req, res) => {
 
 router.post('/user', (req, res) => {
 	var user = req.body;
-	Users.addUser(book, (err, user) => {
+	Users.addUser(user, (err, user) => {
 		if(err){
 			throw err;
 		}
