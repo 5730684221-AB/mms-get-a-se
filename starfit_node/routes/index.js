@@ -6,8 +6,7 @@ var Users = require('../models/users');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Index/login', style: 'login' });
-  // res.render('view', { title: 'Index/Login', layout: 'login' });
+  res.render('index', { title: 'Index/login', style: 'style'});
 });
 
 // middleware function to check for logged-in users
