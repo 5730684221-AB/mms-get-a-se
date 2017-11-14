@@ -32,26 +32,25 @@ module.exports.getUserByUid = (uid, callback) => {
 }
 
 // Add User
-module.exports.addUser = (User, callback) => {
-	User.create(User, callback);
+module.exports.addUser = (user, callback) => {
+	User.create(user, callback);
 }
 
 // Update User
-module.exports.updateUser = (id, User, options, callback) => {
-	var query = {_id: id};
+module.exports.updateUser = (uid, user, options, callback) => {
+	var query = { 'uid': uid };
 	var update = {
-    uid : User.uid,
-    email : User.email,
-    address : User.address,
-    fname : User.fname,
-    lname : User.lname,
-    password : User.password
+    email : user.email,
+    address : user.address,
+    fname : user.fname,
+    lname : user.lname,
+    password : user.password
 	}
 	User.findOneAndUpdate(query, update, options, callback);
 }
 
 // Delete User
-module.exports.removeUser = (id, callback) => {
-	var query = {_id: id};
+module.exports.removeUser = (uid, callback) => {
+	var query = { 'uid': uid };
 	User.remove(query, callback);
 }

@@ -1,4 +1,4 @@
-#How to deploy
+# How to deploy
 
 1. install npm https://www.npmjs.com/ and docker
 1. run ```npm install``` to install all nodejs depedency
