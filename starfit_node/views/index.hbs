@@ -1,5 +1,8 @@
 {{> navbar}}
 
+{{> sign_up}}
+{{> sign_in}}
+
 <div class="row">
   <div class="search-bg">
     <div class="container ">
@@ -8,14 +11,14 @@
         <h4 class="display-4">With
           <a href="/">starfit.com</a> it isn't.</h4>
       </div>
-      <div class="search-box">
+      <form action="/search" method="GET" class="search-box">
         <h4>Search services</h4>
         <div class="row">
           <div class="search-option col-md-6 col-xs-12 col-lg-6">
             <div class="input-group">
               <span class="input-group-btn">
                 <button class="btn searchbox-text-icon" type="button">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </span>
               <input type="text" class="form-control searchbox-text" placeholder="Search for...">
@@ -25,7 +28,7 @@
             <div class="input-group">
               <span class="input-group-btn">
                 <button class="btn searchbox-text-icon" type="button">
-                  <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
                 </button>
               </span>
               <select name="amphur" class="form-control searchbox-text searchbox-dropbox">
@@ -90,7 +93,7 @@
             <div class="input-group">
               <span class="input-group-btn">
                 <button class="btn searchbox-text-icon" type="button">
-                  <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                  <i class="fa fa-tags" aria-hidden="true"></i>
                 </button>
               </span>
               <select name="tag" class="form-control searchbox-text searchbox-dropbox">
@@ -108,7 +111,7 @@
             <div class="input-group" style="width:70%">
               <span class="input-group-btn">
                 <button class="btn searchbox-text-icon" type="button">
-                  <span class="glyphicon glyphicon-bitcoin" aria-hidden="true"></span>
+                  <i class="fa fa-money" aria-hidden="true"></i>
                 </button>
               </span>
               <select name="tag" class="form-control searchbox-text searchbox-dropbox">
@@ -118,21 +121,21 @@
                 <option value="3">&gt; 1000 baht</option>
               </select>
             </div>
-            <button class="search-button p-2">Search</button>
+            <input type="submit" class="search-button p-2" value="Search">
           </div>
         </div>
         <div class="row">
           <div class="col-xs-6"></div>
           <div class="col-xs-6"></div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
 
-<footer>
-  {{> footer}} 
-</footer>
+<div class="search-result"></div>
+{{> footer}} 
+
 
 
 {{!-- Recommended section --}} {{!--
