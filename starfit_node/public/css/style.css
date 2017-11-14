@@ -134,7 +134,7 @@ li.nav-item>a {
 }
 
 .inspire{
-    height: 200px;
+    height: 220px;
     font-family: 'Fugaz One', cursive;
     text-align: center;
 }
@@ -184,6 +184,9 @@ li.nav-item>a {
     a.signup-button {
         color: red;
         background: none;
+    }
+    a.signup-button:hover{
+        background: white;
     }
     .copyright{
         display: none;
