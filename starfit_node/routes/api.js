@@ -32,7 +32,8 @@ router.get('/user/:_id', (req, res) => {
 
 router.post('/user', (req, res) => {
 	var user = req.body;
-	Users.addUser(book, (err, user) => {
+	console.log(req);
+	Users.addUser(user, (err, user) => {
 		if(err){
 			throw err;
 		}
@@ -43,10 +44,13 @@ router.post('/user', (req, res) => {
 router.put('/user/:_id', (req, res) => {
 	var id = req.params._id;
 	var user = req.body;
-	Users.updateUser(id, user, {}, (err, user) => {
+	console.log(id);
+	console.log(user);
+	Users.updateUser(id,user, {}, (err, user) => {
 		if(err){
 			throw err;
 		}
+		//this return before update
 		res.json(user);
 	});
 });
