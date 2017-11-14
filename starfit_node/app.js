@@ -25,8 +25,6 @@ db.once('open', function() {
   console.log("connected to db")
 });
 
-var Users = require('./models/users');
-
 var app = express();
 
 //session

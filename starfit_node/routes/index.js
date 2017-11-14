@@ -6,7 +6,6 @@ var Users = require('../models/users');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-<<<<<<< HEAD
   console.log(req.session.views);
   if (req.session.views) {
     req.session.views++;
@@ -14,11 +13,8 @@ router.get('/', function(req, res, next) {
   else {
     req.session.views = 1;
   }
-  res.render('index', { title: 'Index/login', style: 'login' });
+  res.render('index', { title: 'Index/login', style: 'style' });
   // res.render('view', { title: 'Index/Login', layout: 'login' });
-=======
-  res.render('index', { title: 'Index/login', style: 'style'});
->>>>>>> 09d01677b04bbe61b0c6c51ee255e11699aa0023
 });
 
 // middleware function to check for logged-in users
