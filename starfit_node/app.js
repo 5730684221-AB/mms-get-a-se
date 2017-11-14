@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var multer = require('multer');
 
 var hbs = require('hbs');
 var session = require('express-session');
@@ -13,6 +15,7 @@ var index = require('./routes/index');
 var service = require('./routes/service');
 var trainer = require('./routes/trainer');
 var api = require('./routes/api');
+var images = require('./routes/images');
 
 //mongo
 var mongoose = require('mongoose');
@@ -26,6 +29,8 @@ db.once('open', function() {
 });
 
 var app = express();
+
+
 
 //session
 app.set('trust proxy', 1) // trust first proxy
@@ -48,6 +53,7 @@ app.use('/', index);
 app.use('/service', service);
 app.use('/trainer', trainer);
 app.use('/api', api);
+app.use('/images', images);
 
 
 // catch 404 and forward to error handler
