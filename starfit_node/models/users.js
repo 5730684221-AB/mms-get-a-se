@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
-
+//email is ID
 var userchema = mongoose.Schema ({
-  uid : String ,
   email : String,
   address : String,
   fname : String,
@@ -26,9 +25,13 @@ module.exports.getUser = (callback, limit) => {
 	User.find(callback).limit(limit);
 }
 
-// Get User
-module.exports.getUserByUid = (uid, callback) => {
-	User.findOne({ 'uid': uid }, callback);
+// // Get User
+// module.exports.getUserByUid = (uid, callback) => {
+// 	User.findOne({ 'uid': uid }, callback);
+// }
+
+module.exports.getUserByE = (email, callback) => {
+	User.findOne({ 'email': email }, callback);
 }
 
 // Add User
@@ -37,10 +40,9 @@ module.exports.addUser = (user, callback) => {
 }
 
 // Update User
-module.exports.updateUser = (uid, user, options, callback) => {
-	var query = { 'uid': uid };
+module.exports.updateUser = (email, user, options, callback) => {
+	var query = { 'email': email };
 	var update = {
-    email : user.email,
     address : user.address,
     fname : user.fname,
     lname : user.lname,
@@ -50,7 +52,7 @@ module.exports.updateUser = (uid, user, options, callback) => {
 }
 
 // Delete User
-module.exports.removeUser = (uid, callback) => {
-	var query = { 'uid': uid };
+module.exports.removeUser = (email, callback) => {
+	var query = { 'email': email };
 	User.remove(query, callback);
 }

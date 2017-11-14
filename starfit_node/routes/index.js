@@ -55,11 +55,13 @@ router.post('/login', function (req, res){
     //find one in db
     Users.findOne({'email' : email}).then(function (user) {
       console.log(user);
+      console.log("password " , password);
+      console.log("correct pw " , user.password);
       if (!user) {
           console.log("user not found");
           //user not found
           res.send("user not found");
-      } else if (!user.password == password) {
+      } else if (user.password != password) {
           console.log("wrong pw");
           //wrong pw
           res.send("wrong pw");
