@@ -4,10 +4,30 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+<<<<<<< HEAD
 var hbs = require('hbs');
+=======
+var session = require('express-session');
+>>>>>>> 2d6f19ad70f3ea661bbeeb295ceda26e9e203ac1
 
+//routes
 var index = require('./routes/index');
-var users = require('./routes/users');
+var service = require('./routes/service');
+var trainer = require('./routes/trainer');
+var api = require('./routes/api');
+
+//mongo
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://192.168.99.100:27017/db', { useMongoClient: true });
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log("connected to db")
+});
+
+var Users = require('./models/users');
 
 var app = express();
 
@@ -20,12 +40,23 @@ app.set('view engine', 'hbs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/service', service);
+app.use('/trainer', trainer);
+app.use('/api', api);
+
+//session
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

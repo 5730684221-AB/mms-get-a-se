@@ -19,7 +19,7 @@
 5. Aouychai Buranamanit
     * 5730684221
     * https://github.com/5730684221-AB
-6. Papon Trongprakorb
+6. Papon Trongprakob
     * 5730325021
     * https://github.com/5730325021-PT
 7. Panyapol Chuenwatanakul

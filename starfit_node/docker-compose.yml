@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+ main:
+  build: .
+  ports:
+   - "3000:3000"
+  depends_on:
+   - database
+  environment:
+   - DATABASE_HOST=database
+  links:
+   - database:database
+
+ database:
+  image: mongo
+  ports:  
+   - "27017:27017"
+
+ init_db:
+  build: ./Database
+  links:
+    - database:database
+  depends_on: 
+    - database
