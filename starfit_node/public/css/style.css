@@ -2,6 +2,9 @@ html,
 body {
     font-size: 14px !important;
     font-family: "Kanit",sans-serif;
+    overflow-x: hidden;
+    margin:0;
+    padding:0;
 }
 
 h1 {
@@ -65,6 +68,10 @@ li.nav-item>a {
     width: 100%;
 }
 
+.homepage-section{
+    
+}
+
 .top-caption>h1 {
     font-family: Lobster, cursive;
     text-align: center;
@@ -85,9 +92,14 @@ li.nav-item>a {
     cursor: pointer;
     color: white;
     position: absolute;
-    bottom: 5px;
+    bottom: 0px;
     right: 15px;
     background: rgb(255, 160, 68);
+    border-radius: 5px;
+}
+
+.searchbox-text-icon{
+    width: 45px;
 }
 
 .search-bg {
@@ -102,11 +114,53 @@ li.nav-item>a {
     width : 90%;
     margin: 30px auto;
     padding: 20px 40px;
+    -webkit-box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
+    box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
 }
 
 .search-box>h4 {
     color: white;
     font-size: 35px;
+}
+
+.searchbox-dropbox{
+    -webkit-appearance: none;
+}
+
+.search-option {
+    margin: 10px auto;
+}
+
+.search-result{
+    height: 210px;
+}
+
+.my-footer {
+    overflow-x: hidden;
+    color: white;
+    background: red;
+    -webkit-box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
+    box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
+}
+
+.text-red{
+    color:red;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
 }
 
 @media (max-width: 768px) {
