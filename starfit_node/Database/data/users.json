@@ -1,0 +1,31 @@
+[{
+	"uid":"26362177",
+	"email":"AiThanet@gmail.com",
+	"address":"Earth",
+	"fname":"Thanet",
+	"lname":"Sirichanyaphong",
+	"password":"GQW12d#Rqsr23rgdfWR567IO31IJ12r",
+	"reservations":[
+		{
+		"rid":"12315323",
+		"sid":"33232",
+		"timestamp":"",
+		"tname":"Papon Trongprokorb",
+		"uname":"Thanet Sirichanyaphong",
+		"price":"780",
+		"paymethod":"credit"
+		}
+	]
+},
+{
+	"uid":"26334234",
+	"email":"Poppapon@gmail.com",
+	"address":"Thailand",
+	"fname":"Papon",
+	"lname":"Trongprokorb",
+	"password":"FYdgI235M456ff78JBGT6H78k87yY66",
+	"trainer":true,
+	"services":["33232","33233"
+	]
+}
+]

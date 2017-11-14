@@ -1,0 +1,4 @@
+.gitignore
+Dockerfile
+/Database/*
+docker-compose.yml

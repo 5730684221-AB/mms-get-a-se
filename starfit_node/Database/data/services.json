@@ -1,0 +1,41 @@
+[{
+	"sid":"33232",
+	"ttype":"cardio",
+	"rating":"0",
+	"about":"just running",
+	"reviews":[
+		{
+		"uid":"26362177",
+		"sid":"33232",
+		"rev_id":"221",
+		"review":"bad, very bad service."
+		}
+	]
+},
+{
+	"sid":"33233",
+	"ttype":"HIIT",
+	"rating":"0",
+	"about":"BURRRRNNNNNIIIIIIINNNNGGGGG",
+	"place":{
+		"address":"sport complex",
+		"price":400
+	},
+	"reviews":[
+		{
+		"uid":"26362177",
+		"sid":"33232",
+		"rev_id":"221",
+		"review":"meh, better than his *&^#! last.",
+		"reports":[
+			{
+			"rpid":"11",
+			"uid":"2231235523",
+			"type":"abusive",
+			"comment":"bad dude"
+			}
+		]
+		}
+	]
+}
+]
