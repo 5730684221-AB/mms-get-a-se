@@ -14,8 +14,16 @@ var api = require('./routes/api');
 
 //mongo
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://192.168.99.100:32768/my_database', { useMongoClient: true });
-mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://192.168.99.100:27017/db', { useMongoClient: true });
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log("connected to db")
+});
+
+var Users = require('./models/users');
 
 var app = express();
 

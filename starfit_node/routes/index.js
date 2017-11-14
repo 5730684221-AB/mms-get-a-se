@@ -1,7 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var Users = require('../models/users');
+
 /* GET home page. */
+
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Index/login', style: 'login' });
+  // res.render('view', { title: 'Index/Login', layout: 'login' });
+});
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
@@ -13,36 +20,33 @@ var sessionChecker = (req, res, next) => {
     }
 };
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Index/login', style: 'login' });
-  // res.render('view', { title: 'Index/Login', layout: 'login' });
+// signup
+router.post('/signup', function (req, res) {
+    // add new user to db
+    User.addUser({
+        uid : req.body.uid,
+        email : req.body.email,
+        address : req.body.address,
+        fname : req.body.fname,
+        lname : req.body.lname,
+        password : User.password
+    })
+    .then(user => {
+        req.session.user = user.dataValues;
+        res.redirect('/');
+    })
+    .catch(error => {
+        res.status(500).send({ error: 'something blew up during signup' });
+        console.log("signup error");
+    });
 });
-
-//push test 2
-//signup
-// router.post('/signup', function (req, res) => {
-//     //add new user to db
-//     // User.create({
-//     //     username: req.body.username,
-//     //     email: req.body.email,
-//     //     password: req.body.password
-//     // })
-//     .then(user => {
-//         req.session.user = user.dataValues;
-//         res.redirect('/');
-//     })
-//     .catch(error => {
-//         res.status(500).send({ error: 'something blew up during signup' });
-//         console.log("signup error");
-//     });
-// });
 
 //login
 router.post('/login', function (req, res){
-    var username = req.body.username,
+    var email = req.body.email,
         password = req.body.password;
     //find one in db
-    User.findOne({ where: { username: username } }).then(function (user) {
+    User.findOne({ where: { email: email } }).then(function (user) {
         if (!user) {
             console.log("user not found");
             //user not found
