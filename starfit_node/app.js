@@ -25,9 +25,11 @@ db.once('open', function() {
   console.log("connected to db")
 });
 
-var Users = require('./models/users');
-
 var app = express();
+
+//session
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,14 +49,6 @@ app.use('/service', service);
 app.use('/trainer', trainer);
 app.use('/api', api);
 
-//session
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
