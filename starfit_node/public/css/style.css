@@ -5,6 +5,7 @@ body {
     overflow-x: hidden;
     margin:0;
     padding:0;
+    height: 100%;
 }
 
 h1 {
@@ -132,8 +133,10 @@ li.nav-item>a {
     margin: 10px auto;
 }
 
-.search-result{
-    height: 210px;
+.inspire{
+    height: 200px;
+    font-family: 'Fugaz One', cursive;
+    text-align: center;
 }
 
 .my-footer {
@@ -181,6 +184,12 @@ li.nav-item>a {
     a.signup-button {
         color: red;
         background: none;
+    }
+    .copyright{
+        display: none;
+    }
+    .socialbar{
+        margin-right: auto !important;
     }
 }
 
