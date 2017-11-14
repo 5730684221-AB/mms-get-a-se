@@ -6,6 +6,13 @@ var Users = require('../models/users');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
+  console.log(req.session.views);
+  if (req.session.views) {
+    req.session.views++;
+  }
+  else {
+    req.session.views = 1;
+  }
   res.render('index', { title: 'Index/login', style: 'login' });
   // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
@@ -23,19 +30,19 @@ var sessionChecker = (req, res, next) => {
 // signup
 router.post('/signup', function (req, res) {
     // add new user to db
-    User.addUser({
-        uid : req.body.uid,
-        email : req.body.email,
-        address : req.body.address,
-        fname : req.body.fname,
-        lname : req.body.lname,
-        password : User.password
-    })
-    .then(user => {
-        req.session.user = user.dataValues;
+    var newuser = {
+      uid : req.body.uid,
+      email : req.body.email,
+      address : req.body.address,
+      fname : req.body.fname,
+      lname : req.body.lname,
+      password : req.body.password
+    };
+    Users.create(newuser).then(user => {
+        req.session.user = user;
+        console.log(user);
         res.redirect('/');
-    })
-    .catch(error => {
+    }).catch(error => {
         res.status(500).send({ error: 'something blew up during signup' });
         console.log("signup error");
     });
@@ -46,31 +53,37 @@ router.post('/login', function (req, res){
     var email = req.body.email,
         password = req.body.password;
     //find one in db
-    User.findOne({ where: { email: email } }).then(function (user) {
-        if (!user) {
-            console.log("user not found");
-            //user not found
-            res.send("user not found");
-        } else if (!user.validPassword(password)) {
-            console.log("wrong pw");
-            //wrong pw
-            res.send("wrong pw");
-        } else {
-            //login sucssessful
-            req.session.user = user.dataValues;
-            res.redirect('/');
-        }
+    Users.findOne({'email' : email}).then(function (user) {
+      console.log(user);
+      if (!user) {
+          console.log("user not found");
+          //user not found
+          res.send("user not found");
+      } else if (!user.password == password) {
+          console.log("wrong pw");
+          //wrong pw
+          res.send("wrong pw");
+      } else {
+          //login sucssessful
+          req.session.user = user;
+          res.send("login sucssessful");
+          // res.redirect('/');
+      }
     });
+    console.log("session ",req.session);
 });
 
 router.get('/logout', function (req, res, next) {
+  console.log("session ",req.session);
   if (req.session) {
     // delete session object
     req.session.destroy(function (err) {
       if (err) {
         return next(err);
       } else {
-        return res.redirect('/');
+        // return res.redirect('/');
+        console.log("session ",req.session);
+        return res.send("log out complete");
       }
     });
   }
