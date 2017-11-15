@@ -1,0 +1,5 @@
+1,Body building,
+2,Weight loss,
+3,Cardio,
+4,Endurance,
+5,Flexibility,
