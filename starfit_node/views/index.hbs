@@ -22,7 +22,7 @@
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </span>
-              <input type="text" class="form-control searchbox-text" placeholder="Search for...">
+              <input type="text" class="form-control searchbox-text" name="searchfor" placeholder="Search for...">
             </div>
           </div>
           <div class="search-option col-md-6 col-xs-12 col-lg-6">
@@ -32,16 +32,16 @@
                   <i class="fa fa-map-marker" aria-hidden="true"></i>
                 </button>
               </span>
-              <select name="amphur" class="form-control searchbox-text searchbox-dropbox">
+              <select name="location" class="form-control searchbox-text searchbox-dropbox">
                 <option value="0">- เลือกอำเภอ -</option>
                 <option value="18">เขตคลองสาน</option>
-                <option value="46">เขตคลองสามวา</option>
-                <option value="33">เขตคลองเตย</option>
-                <option value="43">เขตคันนายาว</option>
                 <option value="30">เขตจตุจักร </option>
                 <option value="35">เขตจอมทอง </option>
                 <option value="36">เขตดอนเมือง </option>
                 <option value="26">เขตดินแดง </option>
+                {{!-- <option value="46">เขตคลองสามวา</option>
+                <option value="33">เขตคลองเตย</option>
+                <option value="43">เขตคันนายาว</option>
                 <option value="2">เขตดุสิต </option>
                 <option value="19">เขตตลิ่งชัน </option>
                 <option value="48">เขตทวีวัฒนา </option>
@@ -83,7 +83,7 @@
                 <option value="3">เขตหนองจอก </option>
                 <option value="23">เขตหนองแขม </option>
                 <option value="41">เขตหลักสี่ </option>
-                <option value="17">เขตห้วยขวาง </option>
+                <option value="17">เขตห้วยขวาง </option> --}}
               </select>
             </div>
           </div>
@@ -115,7 +115,7 @@
                   <i class="fa fa-money" aria-hidden="true"></i>
                 </button>
               </span>
-              <select name="tag" class="form-control searchbox-text searchbox-dropbox">
+              <select name="price" class="form-control searchbox-text searchbox-dropbox">
                 <option value="0">- เลือกราคา -</option>
                 <option value="1">&lt; 500 baht</option>
                 <option value="2">500-1000 baht</option>
