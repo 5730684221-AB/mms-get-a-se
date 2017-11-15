@@ -1,26 +1,30 @@
 [{
 	"sid":"33232",
-	"ttype":"cardio",
-	"rating":"0",
+	"name":"RUN",
+	"ttype":"Cardio",
+	"rating":"4",
 	"about":"just running",
+	"place":[4],
+	"price":700,
+	"status":"available",
 	"reviews":[
 		{
 		"uid":"26362177",
 		"sid":"33232",
 		"rev_id":"221",
-		"review":"bad, very bad service."
+		"review":"good."
 		}
 	]
 },
 {
 	"sid":"33233",
-	"ttype":"HIIT",
+	"name":"service2",
+	"ttype":"Endurance",
 	"rating":"0",
-	"about":"BURRRRNNNNNIIIIIIINNNNGGGGG",
-	"place":{
-		"address":"sport complex",
-		"price":400
-	},
+	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
+	"place":[12],
+	"price":400,
+	"status":"busy",
 	"reviews":[
 		{
 		"uid":"26362177",

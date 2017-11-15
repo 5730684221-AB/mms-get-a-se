@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Users = require('../models/users');
+var Services = require('../models/services');
 
 /* GET home page. */
 
@@ -44,6 +45,10 @@ router.post('/signup', function (req, res) {
       lname : req.body.lname,
       password : req.body.password
     };
+    if(req.session.user.password !== req.session.user.confirmPass){
+      res.status(500).send({error: 'passwords do not match.'});
+      console.log("passwords do not match");
+    }
     Users.create(newuser).then(user => {
         req.session.user = user;
         console.log(user);
@@ -97,6 +102,45 @@ router.get('/signout', function (req, res, next) {
       }
     });
   }
+});
+
+router.get('/search',function(req,res,next){
+  console.log("query ",req.query);
+  var query = {};
+  if (req.query.searchfor !== '') query.name = "/"+req.query.searchfor+"/i";
+  if (req.query.location !== '0') query.place =req.query.location;
+  if (req.query.tag !== '0') query.ttype= req.query.tag;
+  switch(req.query.price){
+    case '0':break;
+    case '1':
+      query.price = {$lte:500};
+      break;
+    case '2':
+      query.price = {$gte:500,$lte:1000};
+      break;
+    case '3':
+      query.price= {$gte: 1000};
+      break;
+    default:
+      break;
+  }
+  console.log(query);
+   Services.find(query).lean().exec(function(err,result){
+    if(err){
+      console.error(err);
+      return res.status(500).send("An error occurred.");
+    }
+    
+    if(result.length<=0)return res.status(404).send("No service found.");
+    var ret = {};
+    ret.results = result;
+    ret.isSearch = true;
+    ret.results_count = result.length;
+    console.log(ret);
+    //res.status(200).send(ret);
+
+        res.render('index', { title: 'Index/login', style: 'style',account:{isLogin:false,id:1},search:ret});
+      });
 });
 
 module.exports = router;
