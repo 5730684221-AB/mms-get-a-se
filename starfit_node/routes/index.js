@@ -48,6 +48,7 @@ router.post('/signup', function (req, res) {
         req.session.user = user;
         console.log(user);
         res.redirect('/');
+
     }).catch(error => {
         res.status(500).send({ error: 'something blew up during signup' });
         console.log("signup error");
@@ -55,7 +56,7 @@ router.post('/signup', function (req, res) {
 });
 
 //login
-router.post('/login', function (req, res){
+router.post('/signin', function (req, res){
     var email = req.body.email,
         password = req.body.password;
     //find one in db
@@ -74,14 +75,15 @@ router.post('/login', function (req, res){
       } else {
           //login sucssessful
           req.session.user = user;
-          res.send("login sucssessful");
+          res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1}});
+          // res.send("login sucssessful");
           // res.redirect('/');
       }
     });
     console.log("session ",req.session);
 });
 
-router.get('/logout', function (req, res, next) {
+router.get('/signout', function (req, res, next) {
   console.log("session ",req.session);
   if (req.session) {
     // delete session object
@@ -89,9 +91,9 @@ router.get('/logout', function (req, res, next) {
       if (err) {
         return next(err);
       } else {
-        // return res.redirect('/');
+        return res.redirect('/');
         console.log("session ",req.session);
-        return res.send("log out complete");
+        // return res.send("log out complete");
       }
     });
   }
