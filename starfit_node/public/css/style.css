@@ -84,10 +84,6 @@ li.nav-item>a {
     width: 100%;
 }
 
-.homepage-section{
-    
-}
-
 .top-caption>h1 {
     font-family: Lobster, cursive;
     text-align: center;
@@ -130,9 +126,9 @@ li.nav-item>a {
     width : 90%;
     margin: 30px auto;
     padding: 20px 40px;
-    -webkit-box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
-    box-shadow: -1px 13px 50px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -1px 5px 30px 0px rgba(0,0,0,0.6);
+    -moz-box-shadow: -1px 5px 30px 0px rgba(0,0,0,0.6);
+    box-shadow: -1px 5px 30px 0px rgba(0,0,0,0.6);
 }
 
 .search-box>h4 {
@@ -158,17 +154,53 @@ li.nav-item>a {
     overflow-x: hidden;
     color: white;
     background: red;
-    -webkit-box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
-    -moz-box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
-    box-shadow: -1px -4px 69px -15px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
+    -moz-box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
+    box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
 }
 
 .text-red{
     color:red;
 }
 
+.busy{
+    color:red;
+}
+
+.avaliable{
+    color:#08ff00;
+}
+
 .btn-full {
     width: 100%;
+}
+
+#result-card > .card:hover {
+    -webkit-box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
+    -moz-box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
+    box-shadow: -1px -4px 60px -15px rgba(0,0,0,0.6);
+}
+
+#result-card, #result-card:hover{
+    text-decoration: none;
+}
+
+.card-title{
+    color: black;
+}
+
+.card-text{
+    color: rgb(105, 105, 105);
+    line-height: 1.2rem;
+    word-wrap: break-word;
+}
+
+.price-tag{
+    float: left;
+}
+.rate-tag{
+    color:rgb(255, 145, 0);
+    float: right;
 }
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
