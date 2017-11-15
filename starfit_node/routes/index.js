@@ -55,7 +55,7 @@ router.post('/signup', function (req, res) {
 });
 
 //login
-router.post('/login', function (req, res){
+router.post('/signin', function (req, res){
     var email = req.body.email,
         password = req.body.password;
     //find one in db
