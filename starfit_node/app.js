@@ -39,6 +39,12 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('times', function(n, block) {
+  var accum = '';
+  for(var i = 0; i < n; ++i)
+      accum += block.fn(i);
+  return accum;
+});
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public

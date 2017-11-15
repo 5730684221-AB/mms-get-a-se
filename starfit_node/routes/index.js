@@ -5,6 +5,12 @@ var Users = require('../models/users');
 
 /* GET home page. */
 
+var search_test = {
+    isSearch : true,
+    results : [[{status:'busy',fullstar:4,halfstar:1,emptystar:0},{status:'busy',fullstar:3,halfstar:1,emptystar:1},'c'],[{status:'avaliable',fullstar:5,halfstar:0,emptystar:0},'e','f'],['g']],
+    results_count : 7
+};
+
 router.get('/', function(req, res, next) {
   console.log(req.session.views);
   if (req.session.views) {
@@ -13,7 +19,7 @@ router.get('/', function(req, res, next) {
   else {
     req.session.views = 1;
   }
-  res.render('index', { title: 'Index/login', style: 'style',account:{isLogin:false,id:1}});
+  res.render('index', { title: 'Index/login', style: 'style',account:{isLogin:false,id:1},search:search_test});
   // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
 
