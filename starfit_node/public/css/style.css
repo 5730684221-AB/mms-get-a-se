@@ -65,6 +65,21 @@ a.signup-button:hover {
 a.signin-button {
     color: red;
 }
+
+a.trainer-button{
+    color: orange;
+    border: 2px solid orange;
+    border-radius: 25px;
+}
+
+a.trainer-button:hover{
+    color: white;
+    background: orange;
+    border: 2px solid orange;
+    border-radius: 25px;
+    text-decoration: none;
+}
+
 li.nav-item>a {
     width: 100%;
 }
