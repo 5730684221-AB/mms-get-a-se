@@ -14,24 +14,24 @@ var search_test = {
 
 router.get('/', function(req, res, next) {
   console.log("req.session = ",req.session);
-  if (req.session.views) {
-    req.session.views++;
+  console.log("req.sid = ",req.session.id);
+  // console.log("userdata = ", req.session.user);
+  if(sessionChecker(req)){
+      var fullname = req.session.user.fname + " " + req.session.user.lname;
+      res.render('index', { title: 'Index ' + fullname , style: 'style', account:{ isLogin:true, id:1,name : fullname}});
+  }else {
+      res.render('index', { title: 'Index', style: 'style'});
   }
-  else {
-    req.session.views = 1;
-  }
-  res.render('index', { title: 'Index/login', style: 'style'});
-  // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
 
 // middleware function to check for logged-in users
-var sessionChecker = (req, res, next) => {
-    if (req.session.user && req.cookies.user_sid) {
-        //if login go home
-        res.send(req.session.user);
-    } else {
-        next();
-    }
+var sessionChecker = function (req) {
+  if (req.session.user && req.session.id) {
+    //login
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // signup
@@ -83,9 +83,9 @@ router.post('/signin', function (req, res){
       if(err){
         console.log(err);
       }
-      console.log(user);
-      console.log('if' , !user);
-      console.log("password " , password);
+      // console.log(user);
+      // console.log('if' , !user);
+      // console.log("password " , password);
 
       if (!user) {
           ////no user
@@ -98,10 +98,20 @@ router.post('/signin', function (req, res){
           res.send("wrong pw");
       } else {
           //login sucssessful
-          req.session.user = user;
-          res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1,name:"Name1"}});
-          // res.send("login sucssessful");
-          // res.redirect('/');
+          var userdata = {
+            email : user.email,
+            fname : user.fname,
+            lname : user.lname,
+            phone : user.phone,
+            img: user.img,
+            trainer: user.trainer,
+            reservations :user.reservations,
+            login : true
+          };
+          console.log("userdata = ",userdata);
+          req.session.user = userdata;
+          // res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1,name:"Name1"}});
+          res.redirect('/');
       }
     });
     console.log("session ",req.session);

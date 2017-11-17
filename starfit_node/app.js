@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var containerized = require('containerized');
 var fs = require('fs');
 var multer = require('multer');
+var uuid = require('uuid');
 
 var hbs = require('hbs');
 var session = require('express-session');
@@ -37,17 +38,30 @@ db.once('open', function() {
 
 var app = express();
 
-
-
 //session
 app.set('trust proxy', 1) // trust first proxy
+var genuuid = function(){
+  return uuid.v1();
+};
 app.use(session({
+   genid: function(req) {
+     return genuuid(); // use UUIDs for session IDs
+   },
    secret: 'keyboard cat',
+   resave: false,
+   saveUninitialized: false,
    cookie: {
      maxAge: 60000,
-     login: true
+     // secure: true
    }
 }));
+
+// app.use((req, res, next) => {
+//     if (req.cookies.user_sid && !req.session.user) {
+//         res.clearCookie('user_sid');
+//     }
+//     next();
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
