@@ -73,7 +73,7 @@ router.post('/signin', function (req, res){
       console.log('if' , !user);
       console.log("password " , password);
 
-      if (true) {
+      if (!user) {
           ////no user
           res.send("user not found");
       }
