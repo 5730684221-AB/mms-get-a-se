@@ -42,6 +42,21 @@ router.get('/:id', function(req, res) {
     }
     // res.download(images.path);
     // res.download(images.path);
+    // console.log(__dirname + "/../" + images.path);
+    res.sendFile(path.resolve(__dirname +"/../" + images.path));
+
+  });
+});
+
+router.get('/user/:id', function(req, res) {
+
+  //calling the function from index.js class using routes object..
+  images.getImageByE(req.params.id, function(err, images) {
+    if (err) {
+      throw err;
+    }
+    // res.download(images.path);
+    // res.download(images.path);
     console.log(__dirname + "/../" + images.path);
     res.sendFile(path.resolve(__dirname +"/../" + images.path));
 
@@ -50,11 +65,13 @@ router.get('/:id', function(req, res) {
 
 router.post('/', upload.any(), function(req, res, next) {
   console.log(req.files)
-  res.send(req.files);
+
 
   /*req.files has the information regarding the file you are uploading...
   from the total information, i am just using the path and the imageName to store in the mongo collection(table)
   */
+
+  var id = req.body;
   var path = req.files[0].path;
   var imageName = req.files[0].originalname;
 
@@ -65,7 +82,8 @@ router.post('/', upload.any(), function(req, res, next) {
   //imagepath contains two objects, path and the imageName
 
   //we are passing two objects in the addImage method.. which is defined above..
-  images.addImage(imagepath, function(err) {
+  images.addImage(imagepath, function(err, pic) {
+    res.send(pic.id);
 
   });
 

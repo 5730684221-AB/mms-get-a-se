@@ -1,5 +1,5 @@
 # How to deploy
 
 1. install npm https://www.npmjs.com/ and docker
-1. run ```npm install``` to install all nodejs depedency
-1. run ```docker-compose up``` to start mongodb and node container
+1. run ```npm install``` on console  to install all nodejs depedency
+1. run ```docker-compose up``` via docker cli to start mongodb and node container
