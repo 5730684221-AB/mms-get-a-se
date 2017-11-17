@@ -73,17 +73,25 @@ a.signin-button {
 }
 
 a.trainer-button{
-    color: orange;
-    border: 2px solid orange;
-    border-radius: 25px;
+    color: orange !important;
+    border: 2px solid orange !important;
+    border-radius: 25px !important;
 }
 
 a.trainer-button:hover{
-    color: white;
-    background: orange;
-    border: 2px solid orange;
-    border-radius: 25px;
-    text-decoration: none;
+    color: white !important;
+    background: orange !important;
+    border: 2px solid orange !important;
+    border-radius: 25px !important;
+    text-decoration: none !important;
+}
+
+a.gray-link {
+    color:gray;
+}
+
+a.gray-link:hover {
+    color:#3b3b3b;
 }
 
 li.nav-item>a {
