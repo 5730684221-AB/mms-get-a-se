@@ -65,15 +65,20 @@ router.post('/signin', function (req, res){
     var email = req.body.email,
         password = req.body.password;
     //find one in db
-    Users.findOne({'email' : email}).then(function (user) {
+    Users.getUserByE(email,(err, user) => {
+      if(err){
+        console.log(err);
+      }
       console.log(user);
+      console.log('if' , !user);
       console.log("password " , password);
-      console.log("correct pw " , user.password);
-      if (!user) {
-          console.log("user not found");
-          //user not found
+
+      if (true) {
+          ////no user
           res.send("user not found");
-      } else if (user.password != password) {
+      }
+      else if (user.password != password) {
+          // console.log("correct pw " , user.password);
           console.log("wrong pw");
           //wrong pw
           res.send("wrong pw");
@@ -131,12 +136,12 @@ router.get('/search',function(req,res,next){
       console.error('err ',err);
       return res.status(500).send("An error occurred.");
     }
-    
+
     if(result.length<=0){
       console.log("result length < 0");
       return res.status(404).send("No service found.");
     }
-    
+
     var ret = {};
     ret.results = [];
     var newArray = [];
@@ -167,13 +172,13 @@ router.get('/search',function(req,res,next){
       }
     }
 
-    
+
 
     console.log("newArray ",newArray);
     if((result.length%3)>0){
       ret.results.push(newArray);
     }
-    
+
     ret.isSearch = true;
     ret.results_count = result.length;
     console.log('ret ',ret);
