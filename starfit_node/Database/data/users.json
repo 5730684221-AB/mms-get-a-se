@@ -1,9 +1,9 @@
 [{
 	"email":"AiThanet@gmail.com",
-	"address":"Earth",
+	"password":"GQW12d#Rqsr23rgdfWR567IO31IJ12r",
 	"fname":"Thanet",
 	"lname":"Sirichanyaphong",
-	"password":"GQW12d#Rqsr23rgdfWR567IO31IJ12r",
+	"phone":"0812341256",
 	"reservations":[
 		{
 		"rid":"12315323",
@@ -18,11 +18,11 @@
 },
 {
 	"email":"Poppapon@gmail.com",
-	"address":"Thailand",
+	"password":"FYdgI235M456ff78JBGT6H78k87yY66",
 	"fname":"Papon",
 	"lname":"Trongprokorb",
-	"password":"FYdgI235M456ff78JBGT6H78k87yY66",
-	"trainer":true,
+	"phone":"0811230123",
+	"trainer": true,
 	"services":["33232","33233"
 	]
 }

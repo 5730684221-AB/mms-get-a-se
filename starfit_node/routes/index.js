@@ -40,10 +40,11 @@ router.post('/signup', function (req, res) {
     var email = req.body.email;
     var newuser = {
       email : req.body.email,
-      phone : req.body.phone,
+      password : req.body.password,
       fname : req.body.fname,
       lname : req.body.lname,
-      password : req.body.password
+      phone : req.body.phone
+
     };
     // if(req.body.password !== req.body.confirmPass){
     //   res.status(500).send({error: 'passwords do not match.'});
@@ -55,7 +56,7 @@ router.post('/signup', function (req, res) {
       }
       if (!user) {
           ////no user
-          res.send("user not found adding new user");
+          // res.send("user not found adding new user");
           Users.addUser(newuser,(err,user) => {
               if(err){
                 res.status(500).send({ error: 'something blew up during signup' });
@@ -68,7 +69,7 @@ router.post('/signup', function (req, res) {
           });
       }else {
         console.log("Email is already in use");
-        res.send('Email is already in use');
+        res.status(200).send({ error: 'Email is already in use' });
       }
     });
 });
