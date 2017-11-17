@@ -237,6 +237,9 @@ li.nav-item>a {
     li.nav-item>a {
         width: 100%;
     }
+    .signin-as {
+        width: 100%;
+    }
     li.nav-item>a:hover {
         color:red;
         text-decoration: none;
