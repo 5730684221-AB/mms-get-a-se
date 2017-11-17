@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var containerized = require('containerized');
 var fs = require('fs');
 var multer = require('multer');
 
@@ -19,8 +20,14 @@ var images = require('./routes/images');
 
 //mongo
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
-mongoose.connect('mongodb://192.168.99.100:27017/db', { useMongoClient: true });
+var mongodbip = "192.168.99.100:27017";
+if (containerized()) {
+    mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
+} else {
+    mongoose.connect('mongodb://'+mongodbip+'/db', { useMongoClient: true });
+}
+
+//
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
