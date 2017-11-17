@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
   else {
     req.session.views = 1;
   }
-  res.render('index', { title: 'Index/login', style: 'style',account:{isLogin:true,name:"Name1"}});
+  res.render('index', { title: 'Index/login', style: 'style'});
   // res.render('view', { title: 'Index/Login', layout: 'login' });
 });
 
