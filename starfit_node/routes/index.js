@@ -80,7 +80,7 @@ router.post('/signin', function (req, res){
       } else {
           //login sucssessful
           req.session.user = user;
-          res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1}});
+          res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1,name:"Name1"}});
           // res.send("login sucssessful");
           // res.redirect('/');
       }
