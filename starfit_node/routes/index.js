@@ -45,10 +45,10 @@ router.post('/signup', function (req, res) {
       lname : req.body.lname,
       password : req.body.password
     };
-    if(req.session.user.password !== req.session.user.confirmPass){
-      res.status(500).send({error: 'passwords do not match.'});
-      console.log("passwords do not match");
-    }
+    // if(req.body.password !== req.body.confirmPass){
+    //   res.status(500).send({error: 'passwords do not match.'});
+    //   console.log("passwords do not match");
+    // }
     Users.create(newuser).then(user => {
         req.session.user = user;
         console.log(user);
@@ -107,7 +107,7 @@ router.get('/signout', function (req, res, next) {
 router.get('/search',function(req,res,next){
   console.log("query ",req.query);
   var query = {};
-  if (req.query.searchfor !== '') query.name = "/"+req.query.searchfor+"/i";
+  if (req.query.searchfor !== '') query.name = { "$regex": req.query.searchfor, "$options": "i" };
   if (req.query.location !== '0') query.place =req.query.location;
   if (req.query.tag !== '0') query.ttype= req.query.tag;
   switch(req.query.price){
@@ -124,22 +124,62 @@ router.get('/search',function(req,res,next){
     default:
       break;
   }
-  console.log(query);
+  console.log('query2 ',query);
    Services.find(query).lean().exec(function(err,result){
+    console.log('result ',result);
     if(err){
-      console.error(err);
+      console.error('err ',err);
       return res.status(500).send("An error occurred.");
     }
     
-    if(result.length<=0)return res.status(404).send("No service found.");
+    if(result.length<=0){
+      console.log("result length < 0");
+      return res.status(404).send("No service found.");
+    }
+    
     var ret = {};
-    ret.results = result;
+    ret.results = [];
+    var newArray = [];
+
+    //star calculator
+    for(var i=0;i<result.length;i++){
+      var rate = result[i].rating;
+      result[i].fullstar = 0;
+      result[i].halfstar = 0;
+      while(rate>1){
+        rate--;
+        result[i].fullstar++;
+      }
+      if(rate>0){
+        result[i].halfstar=1;
+      }
+      result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;
+    }
+
+    //search result calculator
+    for(var i=0;i<result.length;i++){
+      if(i%3==0){
+        newArray = [];
+      }
+      newArray.push(result[i]);
+      if(i%3==2){
+        ret.results.push(newArray);
+      }
+    }
+
+    
+
+    console.log("newArray ",newArray);
+    if((result.length%3)>0){
+      ret.results.push(newArray);
+    }
+    
     ret.isSearch = true;
     ret.results_count = result.length;
-    console.log(ret);
+    console.log('ret ',ret);
     //res.status(200).send(ret);
 
-        res.render('index', { title: 'Index/login', style: 'style',account:{isLogin:false,id:1},search:ret});
+        res.render('index', { title: 'Index/login', style: 'style',search:ret});
       });
 });
 

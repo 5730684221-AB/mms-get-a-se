@@ -1,10 +1,10 @@
 [{
 	"sid":"33232",
 	"name":"RUN",
-	"ttype":"Cardio",
+	"ttype":3,
 	"rating":"4",
 	"about":"just running",
-	"place":[4],
+	"place":4,
 	"price":700,
 	"status":"available",
 	"reviews":[
@@ -19,11 +19,62 @@
 {
 	"sid":"33233",
 	"name":"service2",
-	"ttype":"Endurance",
-	"rating":"0",
+	"ttype":2,
+	"rating":"1.2",
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-	"place":[12],
+	"place":12,
 	"price":400,
+	"status":"busy",
+	"reviews":[
+		{
+		"uid":"26362177",
+		"sid":"33232",
+		"rev_id":"221",
+		"review":"meh, better than his *&^#! last.",
+		"reports":[
+			{
+			"rpid":"11",
+			"uid":"2231235523",
+			"type":"abusive",
+			"comment":"bad dude"
+			}
+		]
+		}
+	]
+},
+{
+	"sid":"33234",
+	"name":"service3",
+	"ttype":1,
+	"rating":"0.5",
+	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
+	"place":12,
+	"price":1200,
+	"status":"busy",
+	"reviews":[
+		{
+		"uid":"26362177",
+		"sid":"33232",
+		"rev_id":"221",
+		"review":"meh, better than his *&^#! last.",
+		"reports":[
+			{
+			"rpid":"11",
+			"uid":"2231235523",
+			"type":"abusive",
+			"comment":"bad dude"
+			}
+		]
+		}
+	]
+},{
+	"sid":"33235",
+	"name":"service4",
+	"ttype":4,
+	"rating":"2.1",
+	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
+	"place":12,
+	"price":300,
 	"status":"busy",
 	"reviews":[
 		{
