@@ -41,7 +41,13 @@ var app = express();
 
 //session
 app.set('trust proxy', 1) // trust first proxy
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+app.use(session({
+   secret: 'keyboard cat',
+   cookie: {
+     maxAge: 60000,
+     login: true
+   }
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

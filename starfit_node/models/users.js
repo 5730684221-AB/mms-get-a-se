@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 //email is ID
 var userchema = mongoose.Schema ({
   email : String,
-  address : String,
+  password : String,
   fname : String,
   lname : String,
-  password : String,
+  phone : String,
   img: { data: Buffer, contentType: String },
   reservations :[{
       rid : String ,

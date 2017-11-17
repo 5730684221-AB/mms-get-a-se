@@ -13,7 +13,7 @@ var search_test = {
 };
 
 router.get('/', function(req, res, next) {
-  console.log(req.session.views);
+  console.log("req.session = ",req.session);
   if (req.session.views) {
     req.session.views++;
   }
@@ -37,10 +37,10 @@ var sessionChecker = (req, res, next) => {
 // signup
 router.post('/signup', function (req, res) {
     // add new user to db
+    var email = req.body.email;
     var newuser = {
-      uid : req.body.uid,
       email : req.body.email,
-      address : req.body.address,
+      phone : req.body.phone,
       fname : req.body.fname,
       lname : req.body.lname,
       password : req.body.password
@@ -49,14 +49,27 @@ router.post('/signup', function (req, res) {
     //   res.status(500).send({error: 'passwords do not match.'});
     //   console.log("passwords do not match");
     // }
-    Users.create(newuser).then(user => {
-        req.session.user = user;
-        console.log(user);
-        res.redirect('/');
+    Users.getUserByE(email,(err, user) => {
+      if(err){
+        console.log(err);
+      }
+      if (!user) {
+          ////no user
+          res.send("user not found adding new user");
+          Users.addUser(newuser,(err,user) => {
+              if(err){
+                res.status(500).send({ error: 'something blew up during signup' });
+                console.log("signup error");
+              }
+              req.session.user = user;
+              console.log(user);
+              res.redirect('/');
 
-    }).catch(error => {
-        res.status(500).send({ error: 'something blew up during signup' });
-        console.log("signup error");
+          });
+      }else {
+        console.log("Email is already in use");
+        res.send('Email is already in use');
+      }
     });
 });
 
