@@ -62,14 +62,26 @@ router.post('/signup', function (req, res) {
                 res.status(500).send({ error: 'something blew up during signup' });
                 console.log("signup error");
               }
-              req.session.user = user;
-              console.log(user);
+              var userdata = {
+                id : user._id,
+                email : user.email,
+                fname : user.fname,
+                lname : user.lname,
+                phone : user.phone,
+                img: user.img,
+                trainer: user.trainer,
+                reservations :user.reservations,
+                login : true
+              };
+              console.log("userdata = ",userdata);
+              req.session.user = userdata;
               res.redirect('/');
 
           });
       }else {
         console.log("Email is already in use");
-        res.status(200).send({ error: 'Email is already in use' });
+        // res.render('index', { title: 'Index ', style: 'style', wrongmail:true } );
+        res.render('error',{ massage : 'Email is already in use"'});
       }
     });
 });
@@ -99,6 +111,7 @@ router.post('/signin', function (req, res){
       } else {
           //login sucssessful
           var userdata = {
+            id : user._id,
             email : user.email,
             fname : user.fname,
             lname : user.lname,

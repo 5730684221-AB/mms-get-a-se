@@ -43,25 +43,23 @@ app.set('trust proxy', 1) // trust first proxy
 var genuuid = function(){
   return uuid.v1();
 };
-app.use(session({
-   genid: function(req) {
-     return genuuid(); // use UUIDs for session IDs
-   },
-   secret: 'keyboard cat',
-   resave: false,
-   saveUninitialized: false,
-   cookie: {
-     maxAge: 60000,
-     // secure: true
-   }
-}));
+var sess = {
+  genid: function(req) {
+    return genuuid(); // use UUIDs for session IDs
+  },
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60000,
+  }
+};
 
-// app.use((req, res, next) => {
-//     if (req.cookies.user_sid && !req.session.user) {
-//         res.clearCookie('user_sid');
-//     }
-//     next();
-// });
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
