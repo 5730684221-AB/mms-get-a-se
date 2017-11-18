@@ -68,9 +68,11 @@ router.post('/signup', function (req, res) {
                 res.redirect("/");
                 console.log("signup error");
               }
+
               req.session.user = user;
               console.log(user);
               req.flash('success',"Signup successful.");
+
               var userdata = {
                 id : user._id,
                 email : user.email,
@@ -89,6 +91,7 @@ router.post('/signup', function (req, res) {
           });
       }else {
         console.log("Email is already in use");
+
         //res.status(200).send({ error: 'Email is already in use' });
         req.flash('error',"Email is already used.");
         res.redirect('/');
@@ -123,6 +126,7 @@ router.post('/signin', function (req, res){
       } else {
           //login sucssessful
           var userdata = {
+            id : user._id,
             email : user.email,
             fname : user.fname,
             lname : user.lname,
