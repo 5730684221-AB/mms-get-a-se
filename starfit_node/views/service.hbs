@@ -1,43 +1,46 @@
-<div class="container">
-  <img class="logo" src = "/images/logo_wide.png"/>
-  <!-- <h1>Welcome to StarFit</h1><br > -->
-  <div style="height: 10px"></div>
-  <div class="row">
-    <div class="main">
-      <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+<div class="main">
+  <div class="service-name">{{service.name}} Test name</div>
+  <div class="container">
+    <div class="service-status"></div>
+    <div class="service-images"></div>
+    <div class="service-detail"></div>
+    <div class="service-review">
+      <div class="review-header">
+        <h2>Review</h2>
+        <span class="rate-tag">
+          {{#times service.fullstar}}
+          <i class="fa fa-star mx-0 px-0" aria-hidden="true"></i>
+          {{/times}} {{#times service.halfstar}}
+          <i class="fa fa-star-half-o  mx-0 px-0" aria-hidden="true"></i>
+          {{/times}} {{#times service.emptystar}}
+          <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
+          {{/times}}
+        </span>
+        <hr> {{#each service.review}}
+        <div class="review">
+          <div class="reviewer-info">
+            <div><img src="{{this.image}}"></div>
+            <button class="btn btn-danger">Report</button>
+          </div>
+          <div class="reviewer-review">
+            <h4>{{this.name}}</h4>
+            <p>
+              <span class="rate-tag">
+                {{#times this.fullstar}}
+                <i class="fa fa-star mx-0 px-0" aria-hidden="true"></i>
+                {{/times}} {{#times this.halfstar}}
+                <i class="fa fa-star-half-o  mx-0 px-0" aria-hidden="true"></i>
+                {{/times}} {{#times this.emptystar}}
+                <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
+                {{/times}}
+              </span>
+            </p>
+            <p class="reviewer-comment">{{this.comment}}</p>
+            <p class="reviewer-date">{{this.date}}</p>
+          </div>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
-        </div>
+        {{/each}}
       </div>
-      <div class="login-or">
-        <hr class="hr-or">
-        <span class="span-or">or</span>
-      </div>
-
-      <form role="form">
-        <div class="form-group">
-          <label for="inputUsernameEmail">Username or email</label>
-          <input type="text" class="form-control" id="inputUsernameEmail">
-        </div>
-        <div class="form-group">
-          <a class="pull-right" href="#">Forgot password?</a>
-          <label for="inputPassword">Password</label>
-          <input type="password" class="form-control" id="inputPassword">
-        </div>
-        <div class="checkbox pull-right">
-          <label>
-            <input type="checkbox">
-            Remember me </label>
-        </div>
-        <button type="submit" class="btn btn btn-primary">
-          Log In
-        </button>
-      </form>
-
     </div>
-
   </div>
 </div>
