@@ -16,11 +16,15 @@ router.get('/', function(req, res, next) {
   console.log("req.session = ",req.session);
   console.log("req.sid = ",req.session.id);
   // console.log("userdata = ", req.session.user);
+  var error = req.flash("error");
+  var success = req.flash("success");
+  var message = {error:error,success:success}
+  console.log("err = ",message);
   if(sessionChecker(req)){
       var fullname = req.session.user.fname + " " + req.session.user.lname;
-      res.render('index', { title: 'Index ' + fullname , style: 'style', account:{ isLogin:true, id:1,name : fullname}});
+      res.render('index', { title: 'Index ' + fullname ,message:message, style: 'style',account:{ id:1,name : fullname}});
   }else {
-      res.render('index', { title: 'Index', style: 'style'});
+      res.render('index', { title: 'Index', style: 'style',message:message});
   }
 });
 
@@ -59,17 +63,22 @@ router.post('/signup', function (req, res) {
           // res.send("user not found adding new user");
           Users.addUser(newuser,(err,user) => {
               if(err){
-                res.status(500).send({ error: 'something blew up during signup' });
+                // res.status(500).send({ error: 'something blew up during signup' });
+                req.flash('error',"Something blew up during signup.");
+                res.redirect("/");
                 console.log("signup error");
               }
               req.session.user = user;
               console.log(user);
+              req.flash('success',"Signup successful.");
               res.redirect('/');
 
           });
       }else {
         console.log("Email is already in use");
-        res.status(200).send({ error: 'Email is already in use' });
+        //res.status(200).send({ error: 'Email is already in use' });
+        req.flash('error',"Email is already used.");
+        res.redirect('/');
       }
     });
 });
@@ -89,13 +98,15 @@ router.post('/signin', function (req, res){
 
       if (!user) {
           ////no user
-          res.send("user not found");
+          req.flash('error',"Incorrect email or password");
+          res.redirect("/");
       }
       else if (user.password != password) {
           // console.log("correct pw " , user.password);
           console.log("wrong pw");
           //wrong pw
-          res.send("wrong pw");
+          req.flash('error',"Incorrect email or password");
+          res.redirect("/");
       } else {
           //login sucssessful
           var userdata = {
@@ -109,6 +120,7 @@ router.post('/signin', function (req, res){
             login : true
           };
           console.log("userdata = ",userdata);
+          req.flash('success',"Login is successful.");
           req.session.user = userdata;
           // res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1,name:"Name1"}});
           res.redirect('/');
@@ -158,12 +170,16 @@ router.get('/search',function(req,res,next){
     console.log('result ',result);
     if(err){
       console.error('err ',err);
-      return res.status(500).send("An error occurred.");
+      req.flash('error',"An error occurred.");
+      return res.redirect('/');
+      //return res.status(500).send("An error occurred.");
     }
 
     if(result.length<=0){
       console.log("result length < 0");
-      return res.status(404).send("No service found.");
+      req.flash('error',"No service found.");
+      return res.redirect('/');
+      //return res.status(404).send("No service found.");
     }
 
     var ret = {};

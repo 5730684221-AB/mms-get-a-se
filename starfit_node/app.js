@@ -8,6 +8,7 @@ var containerized = require('containerized');
 var fs = require('fs');
 var multer = require('multer');
 var uuid = require('uuid');
+var flash = require('connect-flash');
 
 var hbs = require('hbs');
 var session = require('express-session');
@@ -21,7 +22,7 @@ var images = require('./routes/images');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "192.168.99.100:27017";
+var mongodbip = "localhost:27017";
 if (containerized()) {
     mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
 } else {
@@ -63,6 +64,9 @@ app.use(session({
 //     next();
 // });
 
+//flash message
+app.use(flash());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
@@ -91,15 +95,17 @@ app.use('/images', images);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  res.locals.message = req.flash('error');
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  next();
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
+  //res.locals.message = err.message;
+  res.locals.message = req.flash('error');
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
