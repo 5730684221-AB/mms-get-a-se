@@ -71,6 +71,19 @@ router.post('/signup', function (req, res) {
               req.session.user = user;
               console.log(user);
               req.flash('success',"Signup successful.");
+              var userdata = {
+                id : user._id,
+                email : user.email,
+                fname : user.fname,
+                lname : user.lname,
+                phone : user.phone,
+                img: user.img,
+                trainer: user.trainer,
+                reservations :user.reservations,
+                login : true
+              };
+              console.log("userdata = ",userdata);
+              req.session.user = userdata;
               res.redirect('/');
 
           });
