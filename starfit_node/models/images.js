@@ -27,15 +27,6 @@ module.exports.getImageById = function(id, callback) {
   Image.findById(id, callback);
 }
 
-module.exports.getImageByE = (id, callback) => {
-	User.findOne({ 'id': id }, callback);
-}
-
-module.exports.getImageById = function(id, callback) {
-  Image.findById(id, callback);
-
-}
-
 module.exports.addImage = function(image, callback) {
   Image.create(image, callback);
 }
