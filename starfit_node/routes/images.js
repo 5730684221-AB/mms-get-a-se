@@ -8,50 +8,71 @@ var request = require('request');
 var images = require('../models/images');
 var Users = require('../models/users');
 
-//multer
-var storage = multer.diskStorage({
+// storage img
+var storageimg = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './public/uploads')
+    cb(null, './public/uploads/img')
   },
   filename: function(req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, 'im'+Date.now()+'_'+file.originalname);
+  }
+});
+// storage profiles
+var storagepro = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './public/uploads/profiles')
+  },
+  filename: function(req, file, cb) {
+    cb(null, 'pr'+Date.now()+'_'+file.originalname);
+  }
+});
+// storage services
+var storageser = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './public/uploads/services')
+  },
+  filename: function(req, file, cb) {
+    cb(null, 'sv'+Date.now()+'_'+file.originalname);
   }
 });
 
-var upload = multer({
-  storage: storage
-});
-
-//-----------------------------------------------
+//get img listing
 router.get('/', function(req, res) {
-  //calling the function from index.js class using routes object..
   images.getImages(function(err, images) {
     if (err) {
       throw err;
-
     }
     res.json(images);
-
   });
 });
 
-// URL : http://localhost:3000/images/(give you collectionID)
-// To get the single image/File using id from the MongoDB
-router.get('/_:id', function(req, res) {
-
+//get img by image id
+router.get('/:_id', function(req, res) {
+  var id;
+	//solve ObjectId casting problem
+	if(mongoose.Types.ObjectId.isValid(req.params._id)) {
+		var id = req.params._id;
+	}
+	else{
+		var id = null;
+	}
   //calling the function from index.js class using routes object..
-  images.getImageById(req.params._id, function(err, images) {
+  images.getImageById(id, function(err, images) {
     if (err) {
       throw err;
     }
-    // res.download(images.path);
-    // res.download(images.path);
-    // console.log(__dirname + "/../" + images.path);
-    res.sendFile(path.resolve(__dirname +"/../" + images.path));
-
+    if(images === null){
+      res.send("your image don't exist")
+    } else{
+      // res.download(images.path);
+      // res.download(images.path);
+      console.log(__dirname + "/../" + images.path);
+      res.sendFile(path.resolve(__dirname +"/../" + images.path));
+    }
   });
 });
 
+//get profile by user _id
 router.get('/user/:_id', function(req, res) {
   var id;
 	//solve ObjectId casting problem
@@ -84,7 +105,8 @@ router.get('/user/:_id', function(req, res) {
 	});
 });
 
-router.post('/user/:_id', upload.any(), function(req, res, next) {
+//upload profile by user _id
+router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, res, next) {
   var id;
 	//solve ObjectId casting problem
 	if(mongoose.Types.ObjectId.isValid(req.params._id)) {
@@ -132,7 +154,8 @@ router.post('/user/:_id', upload.any(), function(req, res, next) {
 	});
 });
 
-router.post('/', upload.any(), function(req, res, next) {
+//upload img
+router.post('/', multer({storage : storageimg}).any(), function(req, res, next) {
   console.log(req.files)
 
   /*req.files has the information regarding the file you are uploading...
