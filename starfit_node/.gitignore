@@ -31,4 +31,8 @@ npm-debug.log
 
 .DS_Store
 
-public/uploads/*
+
+# file storage
+public/uploads/profiles/*
+public/uploads/service/*
+public/uploads/img/*
