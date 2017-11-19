@@ -9,60 +9,273 @@
 <div class="container">
   <div class="row">
 
-     <div class="col-md-4 col-xs-6 col-lg-4">
-
+     <div class="col-md-12col-xs-6 col-lg-4">
+       <div class="row">
         <img class="circle" src="/images/logo.png" width="180" height="180" />
-
+       </div>
+        <div class="row">
+         <button type="uppic" class="btn btn-danger btn-sm btn-under-pic " >Upload picture</button>
+      </div>
     </div>
 
-    <div class="col-md-8 col-xs-6 col-lg-8">
-      <div class="row">
-   <form class="col s12">
-     <div class="row">
-       <div class="input-field col s6">
-         <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-         <label for="first_name">First Name</label>
+    <div class="col-md-12 col-xs-6 col-lg-8 margin-top-1">
+    <div class="row">
+     <div class="row ">
+        <div class="input-field col-xs-12 col-md-12 col-lg-12">
+          <label for="Name">Frist name</label>
+          <input class="form-control" type="fname" name="Frist Name" value="Frist Name" >
+        </div>
+        <div class="input-field col-xs-12 col-md-12 col-lg-12">
+          <label for="Lname">Last name</label>
+          <input class="form-control" type="lname" class="validate" value="Last Name">
+        </div>
        </div>
-       <div class="input-field col s6">
-         <input id="last_name" type="text" class="validate">
-         <label for="last_name">Last Name</label>
-       </div>
-     </div>
-     <div class="row">
-       <div class="input-field col s12">
-         <input disabled value="I am not editable" id="disabled" type="text" class="validate">
-         <label for="disabled">Disabled</label>
-       </div>
-     </div>
-     <div class="row">
-       <div class="input-field col s12">
-         <input id="password" type="password" class="validate">
-         <label for="password">Password</label>
-       </div>
-     </div>
-     <div class="row">
-       <div class="input-field col s12">
-         <input id="email" type="email" class="validate">
-         <label for="email">Email</label>
-       </div>
-     </div>
-     <div class="row">
-       <div class="col s12">
-         This is an inline input field:
-         <div class="input-field inline">
-           <input id="email" type="email" class="validate">
-           <label for="email" data-error="wrong" data-success="right">Email</label>
+       <div class="row ">
+         <div class="input-field col-xs-12 col-md-12 col-lg-12">
+           <label for="email">E-mail</label>
+           <input class="form-control" disabled type="e-mail" value="E-mail"  class="validate">
          </div>
-       </div>
-     </div>
-   </form>
- </div>
-
-
+         <div class="input-field col-xs-12 col-md-12 col-lg-12">
+           <label for="number">Phone Number</label>
+           <input class="form-control" type="phone" class="validate" value="Phone number">
+         </div>
+      </div>
     </div>
+    <div class="margin-top-1">
+      <button type="submit" class="btn btn-danger" >Save</button>
+      <button type="button" class="btn btn-secondary" >Cancel</button>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="main">
+    <div class="row">
+      <div class="search-bg">
+        <div class="container ">
+          <div class="top-caption my-2">
+            <h1 class="display-3">Finding a great personal trainer shouldn't be so hard.</h1>
+            <h4 class="display-4">With
+              <a href="/">starfit.com</a> it isn't.</h4>
+          </div>
+          <form action="/search" method="GET" class="search-box">
+            <h4>Search services</h4>
+            <div class="row">
+              <div class="search-option col-md-6 col-xs-12 col-lg-6">
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn searchbox-text-icon" type="button">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <input type="text" class="form-control searchbox-text" name="searchfor" placeholder="Search for...">
+                </div>
+              </div>
+              <div class="search-option col-md-6 col-xs-12 col-lg-6">
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn searchbox-text-icon" type="button">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <select name="location" class="form-control searchbox-text searchbox-dropbox">
+                    <option value="0">- เลือกอำเภอ -</option>
+                    <option value="18">เขตคลองสาน</option>
+                    <option value="30">เขตจตุจักร </option>
+                    <option value="35">เขตจอมทอง </option>
+                    <option value="36">เขตดอนเมือง </option>
+                    <option value="26">เขตดินแดง </option>
+                    <option value="46">เขตคลองสามวา</option>
+                    <option value="33">เขตคลองเตย</option>
+                    <option value="43">เขตคันนายาว</option>
+                    <option value="2">เขตดุสิต </option>
+                    <option value="19">เขตตลิ่งชัน </option>
+                    <option value="48">เขตทวีวัฒนา </option>
+                    <option value="49">เขตทุ่งครุ </option>
+                    <option value="15">เขตธนบุรี </option>
+                    <option value="20">เขตบางกอกน้อย </option>
+                    <option value="16">เขตบางกอกใหญ่ </option>
+                    <option value="6">เขตบางกะปิ </option>
+                    <option value="21">เขตบางขุนเทียน </option>
+                    <option value="31">เขตบางคอแหลม </option>
+                    <option value="29">เขตบางซื่อ </option>
+                    <option value="47">เขตบางนา </option>
+                    <option value="50">เขตบางบอน </option>
+                    <option value="25">เขตบางพลัด </option>
+                    <option value="4">เขตบางรัก </option>
+                    <option value="5">เขตบางเขน </option>
+                    <option value="40">เขตบางแค </option>
+                    <option value="27">เขตบึงกุ่ม </option>
+                    <option value="7">เขตปทุมวัน </option>
+                    <option value="32">เขตประเวศ </option>
+                    <option value="8">เขตป้อมปราบศัตรูพ่าย </option>
+                    <option value="14">เขตพญาไท </option>
+                    <option value="1">เขตพระนคร </option>
+                    <option value="9">เขตพระโขนง </option>
+                    <option value="22">เขตภาษีเจริญ </option>
+                    <option value="10">เขตมีนบุรี </option>
+                    <option value="12">เขตยานนาวา </option>
+                    <option value="37">เขตราชเทวี </option>
+                    <option value="24">เขตราษฎร์บูรณะ </option>
+                    <option value="11">เขตลาดกระบัง </option>
+                    <option value="38">เขตลาดพร้าว </option>
+                    <option value="45">เขตวังทองหลาง </option>
+                    <option value="39">เขตวัฒนา </option>
+                    <option value="34">เขตสวนหลวง </option>
+                    <option value="44">เขตสะพานสูง </option>
+                    <option value="13">เขตสัมพันธวงศ์ </option>
+                    <option value="28">เขตสาทร </option>
+                    <option value="42">เขตสายไหม </option>
+                    <option value="3">เขตหนองจอก </option>
+                    <option value="23">เขตหนองแขม </option>
+                    <option value="41">เขตหลักสี่ </option>
+                    <option value="17">เขตห้วยขวาง </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="search-option col-md-6 col-xs-12 col-lg-6">
+                <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn searchbox-text-icon" type="button">
+                      <i class="fa fa-tags" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <select name="tag" class="form-control searchbox-text searchbox-dropbox">
+                    <option value="0">- เลือกประเภท -</option>
+                    <option value="1">Body building</option>
+                    <option value="2">Weight loss</option>
+                    <option value="3">Cardio</option>
+                    <option value="4">Endurance</option>
+                    <option value="5">Flexibility</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="search-option col-md-6 col-xs-12 col-lg-6" style="position: relative;">
+                <div class="input-group" style="width:70%">
+                  <span class="input-group-btn">
+                    <button class="btn searchbox-text-icon" type="button">
+                      <i class="fa fa-money" aria-hidden="true"></i>
+                    </button>
+                  </span>
+                  <select name="price" class="form-control searchbox-text searchbox-dropbox">
+                    <option value="0">- เลือกราคา -</option>
+                    <option value="1">&lt; 500 baht</option>
+                    <option value="2">500-1000 baht</option>
+                    <option value="3">&gt; 1000 baht</option>
+                  </select>
+                </div>
+                <input type="submit" class="search-button p-2" value="Search">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6"></div>
+              <div class="col-xs-6"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {{#if search.isSearch}} {{> results}} {{else}}
+    <div class="inspire d-flex align-items-center justify-content-center">
+      <div clas="container d-flex justify-content-between">
+        <h1>" Fit like star, Fit with us "</h1>
+        <h4>--
+          <a href="#">STARFIT.com</a> --</h4>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+
+
+{{!-- Recommended section --}} {{!--
+<div class="row" style="margin-top:80px">
+  <div class="container">
+    <div class="service-group">
+      <div class="sg-caption">
+        <h1>New Arrivals</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-xs-4 col-lg-4">
+          <div class="service-box">
+            <div class="service-image"></div>
+            <div class="service-caption">
+              <span>status</span>
+            </div>
+            <div class="service-detail">
+              <div class="service-moredetail"></div>
+              <div class="inline">
+                <div class="service-price"></div>
+                <div class="service-star"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-4 col-lg-4">
+
+        </div>
+        <div class="col-md-4 col-xs-4 col-lg-4">
+
+        </div>
+      </div>
+    </div>
+    <div class="service-group">
+      <div class="sg-caption">
+        <h1>Recommended</h1>
+      </div>
+    </div>
+    <div class="service-group">
+      <div class="sg-caption">
+        <h1>Most Popular</h1>
+      </div>
+    </div>
+  </div>
+</div> --}} {{!-- Sign Up --}} {{!--
+<img class="logo" src="/images/logo_wide.png" /> --}}
+<!-- <h1>Welcome to StarFit</h1><br > -->
+{{!--
+<div style="height: 10px"></div>
+<div class="row">
+  <div class="main">
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6">
+        <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6">
+        <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+      </div>
+    </div>
+    <div class="login-or">
+      <hr class="hr-or">
+      <span class="span-or">or</span>
+    </div>
+
+    <form role="form">
+      <div class="form-group">
+        <label for="inputUsernameEmail">Username or email</label>
+        <input type="text" class="form-control" id="inputUsernameEmail">
+      </div>
+      <div class="form-group">
+        <a class="pull-right" href="#">Forgot password?</a>
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword">
+      </div>
+      <div class="checkbox pull-right">
+        <label>
+          <input type="checkbox"> Remember me </label>
+      </div>
+      <button type="submit" class="btn btn btn-primary">
+        Log In
+      </button>
+    </form>
 
   </div>
-</div>
+
+</div> --}}
 
 
 {{!-- Recommended section --}} {{!--
