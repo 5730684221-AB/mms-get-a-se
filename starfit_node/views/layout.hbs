@@ -12,9 +12,9 @@
   Import materialize.css
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   -->
-  
+
   <!-- font -->
-  <link href="https://fonts.googleapis.com/css?family=Kanit|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One" rel="stylesheet">
   <!-- bss css -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="/css/font-awesome.min.css"> {{!-- image slidershow --}}
   <link rel="stylesheet" href="/css/slick.css">
   <link rel="stylesheet" href="/css/slick-theme.css"> {{!-- image popup --}}
-  <link rel="stylesheet" href="/css/photoswipe.css"> {{!-- custom css --}}
+  <link rel="stylesheet" href="/css/magnific-popup.css"> {{!-- custom css --}}
   <link rel='stylesheet' href='/css/{{style}}.css' />
 
 </head>
@@ -30,12 +30,8 @@
 <body>
   <div class="wrapper">
 
-  {{> navbar}}
-  {{> sign_up}}
-  {{> sign_in}}
-  {{{body}}}
-  {{> footer}}
-</div>
+    {{> navbar}} {{> sign_up}} {{> sign_in}} {{{body}}} {{> footer}}
+  </div>
 
   <!-- bss script -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -47,10 +43,26 @@
 
   <script src="/js/multi-step-modal.js"></script> {{!-- image slidershow --}}
   <script src="/js/slick.min.js"></script> {{!-- image popup --}}
-  <script src="/js/photoswipe.min.js"></script>
-  <script src="/js/photoswipe-ui-default.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
   <script type="text/javascript">
-
+    $('.image-popup-link').magnificPopup({
+      type: 'image',
+    });
+    var calculatePrice = function (price) {
+      var total = 0;
+      var _price = parseInt(price);
+      $('#select-service .form-check-input').each(function(){
+          if($(this).is(':checked')){
+            total+=parseInt($(this).val());
+          }
+      });
+      $('#select-time .form-check-input').each(function(){
+          if($(this).is(':checked')){
+            total += _price;
+          }
+      });
+      $('#total-price').text(total);
+    };
     sendEvent = function (sel, step) {
       $(sel).trigger('next.m.' + step);
     }
@@ -60,6 +72,7 @@
       speed: 300,
       centerMode: true,
       slidesToShow: 1,
+      variableWidth: true,
       responsive: [
         {
           breakpoint: 768,
