@@ -7,6 +7,12 @@
   <meta name="author" content="Get A SE">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <title>{{title}}</title>
+  <!--
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  Import materialize.css
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  -->
+  
   <!-- font -->
   <link href="https://fonts.googleapis.com/css?family=Kanit|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One" rel="stylesheet">
   <!-- bss css -->
@@ -18,12 +24,19 @@
   <link rel="stylesheet" href="/css/slick-theme.css"> {{!-- image popup --}}
   <link rel="stylesheet" href="/css/photoswipe.css"> {{!-- custom css --}}
   <link rel='stylesheet' href='/css/{{style}}.css' />
+
 </head>
 
 <body>
   <div class="wrapper">
-    {{> navbar}} {{> sign_up}} {{> sign_in}} {{{body}}} {{> footer}}
-  </div>
+
+  {{> navbar}}
+  {{> sign_up}}
+  {{> sign_in}}
+  {{{body}}}
+  {{> footer}}
+</div>
+
   <!-- bss script -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
@@ -31,11 +44,13 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
     crossorigin="anonymous"></script>
+
   <script src="/js/multi-step-modal.js"></script> {{!-- image slidershow --}}
   <script src="/js/slick.min.js"></script> {{!-- image popup --}}
   <script src="/js/photoswipe.min.js"></script>
   <script src="/js/photoswipe-ui-default.min.js"></script>
   <script type="text/javascript">
+
     sendEvent = function (sel, step) {
       $(sel).trigger('next.m.' + step);
     }

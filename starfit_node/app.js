@@ -9,7 +9,6 @@ var fs = require('fs');
 var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
-var request = require('request');
 
 var hbs = require('hbs');
 var session = require('express-session');
@@ -24,8 +23,10 @@ var images = require('./routes/images');
 //mongo
 var mongoose = require('mongoose');
 var mongodbip = "localhost:27017";
+
 //singto 192.168.99.100:27017
 //J localhost:27017
+
 if (containerized()) {
     mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
 } else {
