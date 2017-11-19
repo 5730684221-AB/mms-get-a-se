@@ -36,3 +36,6 @@ npm-debug.log
 public/uploads/profiles/*
 public/uploads/service/*
 public/uploads/img/*
+
+!public/uploads/profiles/default-profile.png
+!public/uploads/service/default-service.png

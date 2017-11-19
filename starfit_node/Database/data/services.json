@@ -7,6 +7,7 @@
 	"about":"just running",
 	"place":[4,12],
 	"price":700,
+	"img" : ["default-service"],
 	"status":"available",
 	"reviews":[
 		{
@@ -27,6 +28,7 @@
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[12,13],
 	"price":400,
+	"img" : ["default-service"],
 	"status":"busy",
 	"reviews":[
 		{
@@ -70,6 +72,7 @@
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[12,1],
 	"price":1200,
+	"img" : ["default-service"],
 	"status":"busy",
 	"reviews":[
 		{
@@ -97,6 +100,7 @@
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[1,2],
 	"price":300,
+	"img" : ["default-service"],
 	"status":"busy",
 	"reviews":[
 		{

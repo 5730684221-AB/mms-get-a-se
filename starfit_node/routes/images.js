@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var mongoose = require('mongoose');
 var path = require('path');
 var images = require('../models/images');
+
+var Users = require('../models/users');
+var Services = require('../models/services');
 
 // storage img
 var storageimg = multer.diskStorage({
@@ -52,8 +56,8 @@ router.get('/:_id', function(req, res) {
 	else{
 		var id = null;
 	}
-  //calling the function from index.js class using routes object..
   images.getImageById(id, function(err, images) {
+    console.log(images);
     if (err) {
       throw err;
     }
@@ -67,7 +71,6 @@ router.get('/:_id', function(req, res) {
     }
   });
 });
-
 
 //get profile by user _id
 router.get('/user/:_id', function(req, res) {
@@ -88,16 +91,28 @@ router.get('/user/:_id', function(req, res) {
     }
     else{
       var imgid = user.img;
-      console.log(user);
-      images.getImageById(imgid, function(err, images) {
-        if (err) {
-          throw err;
-        }
-        // res.download(images.path);
-        // res.download(images.path);
-        console.log(__dirname + "/../" + images.path);
-        res.sendFile(path.resolve(__dirname +"/../" + images.path));
-      });
+      if(imgid == "default-profile"){
+          images.getDefPro(function(err, images) {
+          console.log(images);
+          console.log(__dirname +"/../" + images.path);
+          res.sendFile(path.resolve(__dirname +"/../" + images.path));
+        });
+      }
+      else{
+        images.getImageById(imgid, function(err, images) {
+          if (err) {
+            throw err;
+          }
+          if(images === null){
+            res.send("user dont have images")
+          }else {
+            // res.download(images.path);
+            // res.download(images.path);
+            console.log(__dirname + "/../" + images.path);
+            res.sendFile(path.resolve(__dirname +"/../" + images.path));
+          }
+        });
+      }
     }
 	});
 });
@@ -144,6 +159,57 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
               console.log(err);
             }
             res.send(user);
+          });
+        });
+      });
+    }
+	});
+});
+
+//upload profile by user _id
+router.post('/service/:_id', multer({storage : storageser}).any(), function(req, res, next) {
+  var id;
+	//solve ObjectId casting problem
+	if(mongoose.Types.ObjectId.isValid(req.params._id)) {
+		var id = req.params._id;
+	}
+	else{
+		var id = null;
+	}
+	Services.getServiceById(id, (err, service) => {
+		if(err){
+			throw err;
+		}
+    if(user === null){
+      res.send("service not found")
+    }
+    else{ //found service
+      console.log(req.files);
+      console.log(service);
+
+      var numserimg = service.img.length;
+      var path = req.files[0].path;
+      var imageName = req.files[0].originalname;
+      var imagepath = {};
+
+      imagepath['path'] = path;
+      imagepath['originalname'] = imageName;
+
+      images.addImage(imagepath, function(err, pic) { //add picture
+        var imgid = pic._id;
+        service = {
+          //something
+        };
+        Services.updateService(id, service, null, (err, service) => {
+          console.log("update img");
+          if(err){
+            console.log(err);
+          }
+          Services.getUserById(req.params._id, (err, service) => {
+            if(err){
+              console.log(err);
+            }
+            res.send(service);
           });
         });
       });
