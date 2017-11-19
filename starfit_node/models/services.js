@@ -1,14 +1,13 @@
 var mongoose = require('mongoose');
 
 var servicechema = mongoose.Schema ({
-  id : String,
   name: String,
   ttype : Number,
   rating : Number,
   about : String,
   price : Number,
   tname : String,
-  place : Number,
+  place : [Number],
   status : String,
   reviews : [{
     uid : String,
@@ -34,12 +33,17 @@ module.exports.getService = (callback, limit) => {
 
 // Get Service
 module.exports.getServiceById = (id, callback) => {
-	Service.findById(id, callback);
+  Service.findById(id, callback);
 }
 
 // Add Service
 module.exports.addService = (Service, callback) => {
 	Service.create(Service, callback);
+}
+
+module.exports.servicetagToLocation = (tag) => {
+  var location = '';
+  return location;
 }
 
 // Update Service

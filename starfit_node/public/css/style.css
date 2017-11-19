@@ -212,9 +212,22 @@ li.nav-item>a {
 .price-tag{
     float: left;
 }
+
 .rate-tag{
     color:rgb(255, 145, 0);
     float: right;
+}
+
+.service-name{
+    color: white;
+    background: red;
+}
+
+.slick-image{
+    width: 400px;
+    height: 300px;
+    border: 10px solid white;
+    background-position: center center;
 }
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
