@@ -7,6 +7,7 @@ var servicechema = mongoose.Schema ({
   about : String,
   price : Number,
   tname : String,
+  img : [String],
   place : [Number],
   status : String,
   reviews : [{
@@ -46,21 +47,11 @@ module.exports.servicetagToLocation = (tag) => {
   return location;
 }
 
-// Update Service
-// module.exports.updateService = (id, Service, options, callback) => {
-// 	var query = {_id: id};
-// 	var update = {
-// 		title: Service.title,
-// 		genre: Service.genre,
-// 		description: Service.description,
-// 		author: Service.author,
-// 		publisher: Service.publisher,
-// 		pages: Service.pages,
-// 		image_url: Service.image_url,
-// 		buy_url: Service.buy_url
-// 	}
-// 	Service.findOneAndUpdate(query, update, options, callback);
-// }
+//Update Service
+module.exports.updateService = (id, service, options, callback) => {
+	var query = {_id: id};
+	Service.findOneAndUpdate(query, service, options, callback);
+}
 
 // Delete Service
 module.exports.removeService = (id, callback) => {

@@ -28,6 +28,7 @@ router.get('/userid/:_id', (req, res) => {
 		var id = null;
 	}
 	Users.getUserById(id, (err, user) => {
+		console.log(user);
 		if(err){
 			throw err;
 		}
@@ -70,7 +71,7 @@ router.get('/usere/:email', (req, res) => {
 });
 
 //chk email
-router.get('/chk/:email;', (req, res) => {
+router.get('/chk/:email', (req, res) => {
 	Users.getUserByE(req.params.email, (err, user) => {
 		if(err){
 			throw err;
@@ -79,7 +80,7 @@ router.get('/chk/:email;', (req, res) => {
       res.status(200).send("user not found");
     }
     else{
-			res.status(200).send("found user with email " + req.params._id);
+			res.status(200).send("found user with email " + req.params.email);
     }
 	});
 });
