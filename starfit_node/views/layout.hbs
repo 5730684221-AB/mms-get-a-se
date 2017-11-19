@@ -19,19 +19,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css"> {{!-- image slidershow --}}
+  <link rel="stylesheet" href="/css/slick.css">
+  <link rel="stylesheet" href="/css/slick-theme.css"> {{!-- image popup --}}
+  <link rel="stylesheet" href="/css/photoswipe.css"> {{!-- custom css --}}
   <link rel='stylesheet' href='/css/{{style}}.css' />
 
 </head>
 
 <body>
   <div class="wrapper">
+
   {{> navbar}}
   {{> sign_up}}
   {{> sign_in}}
   {{{body}}}
   {{> footer}}
 </div>
+
   <!-- bss script -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
@@ -39,20 +44,43 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
     crossorigin="anonymous"></script>
-  <script src="/js/multi-step-modal.js"></script>
 
-  <!--
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="js/materialize.min.js"></script>
-  -->
+  <script src="/js/multi-step-modal.js"></script> {{!-- image slidershow --}}
+  <script src="/js/slick.min.js"></script> {{!-- image popup --}}
+  <script src="/js/photoswipe.min.js"></script>
+  <script src="/js/photoswipe-ui-default.min.js"></script>
+  <script type="text/javascript">
 
-
-
-
-  <script>
     sendEvent = function (sel, step) {
       $(sel).trigger('next.m.' + step);
     }
+    $('.slick-center').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      centerMode: true,
+      slidesToShow: 1,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 3
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
   </script>
 </body>
 

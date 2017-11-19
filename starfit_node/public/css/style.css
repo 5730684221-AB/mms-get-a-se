@@ -212,9 +212,22 @@ li.nav-item>a {
 .price-tag{
     float: left;
 }
+
 .rate-tag{
     color:rgb(255, 145, 0);
     float: right;
+}
+
+.service-name{
+    color: white;
+    background: red;
+}
+
+.slick-image{
+    width: 400px;
+    height: 300px;
+    border: 10px solid white;
+    background-position: center center;
 }
 
 .center-line{
@@ -222,26 +235,25 @@ li.nav-item>a {
     height: 50px;
     padding: 10px;
     font-size: 1.25em;
-
 }
+
 .circle{
-
-
     margin:auto;
     margin-top:80px;
     border: 1px solid #fff;
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
+
 .btn-under-pic{
   margin:auto;
   margin-top:10px;
   width: 40%;
   text-align:center;
-}
+
 .margin-top-1{
   margin-top:15px;
 }
+  
 .input-box{
     width: 100%;
     background-color: #4CAF50;
@@ -252,6 +264,7 @@ li.nav-item>a {
     border-radius: 4px;
     cursor: pointer;
 }
+
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
     .overlay a {font-size: 20px}
