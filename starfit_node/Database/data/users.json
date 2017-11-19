@@ -1,9 +1,10 @@
 [{
-	"email":"AiThanet@gmail.com",
-	"password":"GQW12d#Rqsr23rgdfWR567IO31IJ12r",
+	"email":"ai.thanet@gmail.com",
+	"password":"Test1234",
 	"fname":"Thanet",
 	"lname":"Sirichanyaphong",
 	"phone":"0812341256",
+	"image":"/images/user.png",
 	"reservations":[
 		{
 		"rid":"12315323",
@@ -22,6 +23,7 @@
 	"fname":"Papon",
 	"lname":"Trongprokorb",
 	"phone":"0811230123",
+	"image":"/images/user.png",
 	"trainer": true,
 	"services":["33232","33233"
 	]

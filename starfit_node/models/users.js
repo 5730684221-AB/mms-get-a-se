@@ -6,6 +6,7 @@ var userchema = mongoose.Schema ({
   fname : String,
   lname : String,
   phone : String,
+  image : String,
   img: String,
   trainer: Boolean,
   reservations :[{
