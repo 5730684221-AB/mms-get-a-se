@@ -4,31 +4,84 @@
       <h1>{{service.name}}</h1>
     </div>
   </div>
-  <div class="container mt-5">
+  <div class="container my-3">
     <div class="service-status">
       <i class="fa fa-circle {{service.status}}" aria-hidden="true"></i> {{service.status}} {{#eq service.status "available"}}
-      <small id="statusHelp" class="form-text text-muted">You can book and checkout this service.</small>
+      <small id="statusHelp" class="form-text text-muted">You can checkout and reserve this service.</small>
       {{/eq}}{{#eq service.status "busy"}}
-      <small id="statusHelp" class="form-text text-muted">You can only book this service.</small>
+      <small id="statusHelp" class="form-text text-muted">You can only reserve this service.</small>
       {{/eq}}
     </div>
-    <div class="service-images">
+    <div class="service-images my-3">
       <div class="slick-center">
-        <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
+        {{#each service.images}}
+        <a class="image-popup-link" href="{{this}}">
+          <div class="slick-image" style="background: url({{this}}) center center / cover;">
           </div>
-          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
-          </div>
-          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
-          </div>
-          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
-          </div>
+        </a>
+        {{/each}}
       </div>
     </div>
-    <div class="service-detail"></div>
-    <div class="service-review">
+    <div class="service-detail p-4">
+      <h3 class="font-weight-bold">{{service.name}}</h3>
+      <p class="font-weight-light">{{service.about}}</p>
+      <p class="font-weight-light">
+        <span class="font-weight-bold">Location</span> {{#each service.location}}
+        <span>{{this}} </span>
+        {{/each}}
+      </p>
+      <form style="position:relative;">
+
+        <p class="font-weight-bold">Select time</p>
+        <div id="select-time" class="pl-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Monday
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Tuesday
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Friday
+            </label>
+          </div>
+        </div>
+
+        <p class="font-weight-bold">Additional services</p>
+        <div id="select-service" class="pl-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="" value="20" onchange="calculatePrice({{service.price}})"> Water
+              <span class="text-red">+20 Baht</span>
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="" value="100" onchange="calculatePrice({{service.price}})"> Food
+              <span class="text-red">+100 Baht</span>
+            </label>
+          </div>
+        </div>
+
+        <p class="font-weight-bold">Price
+          <span class="text-red">{{service.price}}</span> Baht/hr</p>
+        <h2 class="mt-3">Total
+          <span id="total-price" class="text-red">0</span> Baht</h2>
+        <div class="service-btn">
+          <button class="btn checkout-btn my-2 my-sm-0">Checkout</button>
+          <button class="btn reserve-btn my-2 my-sm-0">Reserve</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="service-detail p-4 my-5">
       <div class="review-header">
         <h2>Review</h2>
-        <span class="rate-tag">
+        <span class="text-orange">
           {{#times service.fullstar}}
           <i class="fa fa-star mx-0 px-0" aria-hidden="true"></i>
           {{/times}} {{#times service.halfstar}}
@@ -36,33 +89,38 @@
           {{/times}} {{#times service.emptystar}}
           <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
           {{/times}}
+          <span> ({{service.rating}} / 5)</span>
         </span>
-        <hr> {{#each service.review}}
-        <div class="review">
-          <div class="reviewer-info">
-            <div>
-              <img src="{{this.image}}">
+        <hr>
+        <div class="container">
+          {{#each service.reviews}}
+          <div class="row">
+            <div class="col-xs-2 col-md-2 col-lg-2 d-flex justify-content-center">
+              <div class="d-flex justify-content-center flex-column">
+                <img class="profile-image mx-auto" src="/images/user.png">
+                <a href="/report/{{rev_id}}" class="btn btn-danger report-btn mt-2">Report</a>
+              </div>
             </div>
-            <button class="btn btn-danger">Report</button>
+            <div class="col-xs-10 col-md-10 col-lg-10">
+              <h4 class="font-weight-normal text-secondary my-0">{{this.uid}}</h4>
+              <p>
+                <span class="">
+                  {{#times this.fullstar}}
+                  <i class="fa fa-star mx-0 px-0" aria-hidden="true"></i>
+                  {{/times}} {{#times this.halfstar}}
+                  <i class="fa fa-star-half-o  mx-0 px-0" aria-hidden="true"></i>
+                  {{/times}} {{#times this.emptystar}}
+                  <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
+                  {{/times}}
+                </span>
+              </p>
+              <p class="reviewer-comment">{{this.review}}</p>
+              <p class="reviewer-date">{{this.date}}</p>
+            </div>
           </div>
-          <div class="reviewer-review">
-            <h4>{{this.name}}</h4>
-            <p>
-              <span class="rate-tag">
-                {{#times this.fullstar}}
-                <i class="fa fa-star mx-0 px-0" aria-hidden="true"></i>
-                {{/times}} {{#times this.halfstar}}
-                <i class="fa fa-star-half-o  mx-0 px-0" aria-hidden="true"></i>
-                {{/times}} {{#times this.emptystar}}
-                <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
-                {{/times}}
-              </span>
-            </p>
-            <p class="reviewer-comment">{{this.comment}}</p>
-            <p class="reviewer-date">{{this.date}}</p>
-          </div>
+          <hr>
+          {{/each}}
         </div>
-        {{/each}}
       </div>
     </div>
   </div>
