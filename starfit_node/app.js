@@ -9,7 +9,6 @@ var fs = require('fs');
 var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
-var request = require('request');
 
 var hbs = require('hbs');
 var session = require('express-session');
@@ -23,9 +22,11 @@ var images = require('./routes/images');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "192.168.99.100:27017";
+var mongodbip = "localhost:27017";
+
 //singto 192.168.99.100:27017
 //J localhost:27017
+
 if (containerized()) {
     mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
 } else {
@@ -76,6 +77,11 @@ hbs.registerHelper('times', function(n, block) {
   for(var i = 0; i < n; ++i)
       accum += block.fn(i);
   return accum;
+});
+hbs.registerHelper('eq', function(val, val2, block) {
+  if(val == val2){
+    return block.fn();
+  }
 });
 app.set('view engine', 'hbs');
 

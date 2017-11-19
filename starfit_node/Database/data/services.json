@@ -4,7 +4,7 @@
 	"ttype":3,
 	"rating":"4",
 	"about":"just running",
-	"place":4,
+	"place":[4,12],
 	"price":700,
 	"status":"available",
 	"reviews":[
@@ -22,7 +22,7 @@
 	"ttype":2,
 	"rating":"1.2",
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-	"place":12,
+	"place":[12,13],
 	"price":400,
 	"status":"busy",
 	"reviews":[
@@ -48,7 +48,7 @@
 	"ttype":1,
 	"rating":"0.5",
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-	"place":12,
+	"place":[12,1],
 	"price":1200,
 	"status":"busy",
 	"reviews":[
@@ -73,7 +73,7 @@
 	"ttype":4,
 	"rating":"2.1",
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-	"place":12,
+	"place":[1,2],
 	"price":300,
 	"status":"busy",
 	"reviews":[

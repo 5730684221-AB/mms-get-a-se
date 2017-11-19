@@ -4,20 +4,12 @@ var router = express.Router();
 var Users = require('../models/users');
 var Services = require('../models/services');
 
+/* GET home page. */
+
 var search_test = {
     isSearch : true,
     results : [[{status:'busy',fullstar:4,halfstar:1,emptystar:0},{status:'busy',fullstar:3,halfstar:1,emptystar:1},'c'],[{status:'avaliable',fullstar:5,halfstar:0,emptystar:0},'e','f'],['g']],
     results_count : 7
-};
-
-// middleware function to check for logged-in users
-var sessionChecker = function (req) {
-  if (req.session.user && req.session.id) {
-    //login
-    return true;
-  } else {
-    return false;
-  }
 };
 
 router.get('/', function(req, res, next) {
@@ -36,7 +28,17 @@ router.get('/', function(req, res, next) {
   }
 });
 
-//signup
+// middleware function to check for logged-in users
+var sessionChecker = function (req) {
+  if (req.session.user && req.session.id) {
+    //login
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// signup
 router.post('/signup', function (req, res) {
     // add new user to db
     var email = req.body.email;
@@ -46,6 +48,7 @@ router.post('/signup', function (req, res) {
       fname : req.body.fname,
       lname : req.body.lname,
       phone : req.body.phone
+
     };
     // if(req.body.password !== req.body.confirmPass){
     //   res.status(500).send({error: 'passwords do not match.'});
@@ -143,7 +146,6 @@ router.post('/signin', function (req, res){
     console.log("session ",req.session);
 });
 
-//signout
 router.get('/signout', function (req, res, next) {
   console.log("session ",req.session);
   if (req.session) {
@@ -160,60 +162,6 @@ router.get('/signout', function (req, res, next) {
   }
 });
 
-//update
-router.put('/update', function (req, res){
-  if(sessionChecker(req)){
-    if(req.body.id){
-      var id = req.body.id;
-      user = {};
-      if(req.body.fname){
-        user.fname = req.body.fname;
-      }
-      if(req.body.lname){
-        user.lname = req.body.lname;
-      }
-      if(req.body.phone){
-        user.phone = req.body.phone;
-      }
-      console.log(user);
-      Users.updateUser(id, user, null, (err, user) => {
-        console.log("update");
-        if(err){
-          console.log(err);
-        }
-        res.send(user);
-      });
-    }else{
-      res.end();
-    }
-  } else {
-      console.log("notlogin");
-      res.end();
-  }
-
-  // if(req.body.id){
-  //   var id = req.body.id;
-  //   user = {};
-  //   if(req.body.fname){
-  //     user.fname = req.body.fname;
-  //   }
-  //   if(req.body.lname){
-  //     user.lname = req.body.lname;
-  //   }
-  //   if(req.body.phone){
-  //     user.phone = req.body.phone;
-  //   }
-  //   console.log(user);
-  //   Users.updateUser(id, user, null, (err, user) => {
-  //     if(err){
-  //       console.log(err);
-  //     }
-  //     res.send(user);
-  //   });
-  // }
-});
-
-//search
 router.get('/search',function(req,res,next){
   console.log("query ",req.query);
   var query = {};

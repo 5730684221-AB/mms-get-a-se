@@ -1,8 +1,29 @@
 <div class="main">
-  <div class="service-name">{{service.name}} Test name</div>
-  <div class="container">
-    <div class="service-status"></div>
-    <div class="service-images"></div>
+  <div class="service-name py-2">
+    <div class="container">
+      <h1>{{service.name}}</h1>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <div class="service-status">
+      <i class="fa fa-circle {{service.status}}" aria-hidden="true"></i> {{service.status}} {{#eq service.status "available"}}
+      <small id="statusHelp" class="form-text text-muted">You can book and checkout this service.</small>
+      {{/eq}}{{#eq service.status "busy"}}
+      <small id="statusHelp" class="form-text text-muted">You can only book this service.</small>
+      {{/eq}}
+    </div>
+    <div class="service-images">
+      <div class="slick-center">
+        <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
+          </div>
+          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
+          </div>
+          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
+          </div>
+          <div class="slick-image" style="background: url(/images/index_images/bg1.jpg) center center / cover;">
+          </div>
+      </div>
+    </div>
     <div class="service-detail"></div>
     <div class="service-review">
       <div class="review-header">
@@ -19,7 +40,9 @@
         <hr> {{#each service.review}}
         <div class="review">
           <div class="reviewer-info">
-            <div><img src="{{this.image}}"></div>
+            <div>
+              <img src="{{this.image}}">
+            </div>
             <button class="btn btn-danger">Report</button>
           </div>
           <div class="reviewer-review">
