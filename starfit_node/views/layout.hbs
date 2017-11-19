@@ -14,7 +14,8 @@
   -->
 
   <!-- font -->
-  <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One"
+    rel="stylesheet">
   <!-- bss css -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
@@ -29,7 +30,6 @@
 
 <body>
   <div class="wrapper">
-
     {{> navbar}} {{> sign_up}} {{> sign_in}} {{{body}}} {{> footer}}
   </div>
 
@@ -51,15 +51,15 @@
     var calculatePrice = function (price) {
       var total = 0;
       var _price = parseInt(price);
-      $('#select-service .form-check-input').each(function(){
-          if($(this).is(':checked')){
-            total+=parseInt($(this).val());
-          }
+      $('#select-service .form-check-input').each(function () {
+        if ($(this).is(':checked')) {
+          total += parseInt($(this).val());
+        }
       });
-      $('#select-time .form-check-input').each(function(){
-          if($(this).is(':checked')){
-            total += _price;
-          }
+      $('#select-time .form-check-input').each(function () {
+        if ($(this).is(':checked')) {
+          total += _price;
+        }
       });
       $('#total-price').text(total);
     };
@@ -93,6 +93,11 @@
           }
         }
       ]
+    });
+    $(document).ready(function () {
+      $('#profile-upload-btn').click(function () {
+        $("#profile-upload").click();
+      });
     });
   </script>
 </body>

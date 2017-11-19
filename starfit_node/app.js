@@ -9,16 +9,17 @@ var fs = require('fs');
 var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
+var router = express.Router();
 
 var hbs = require('hbs');
 var session = require('express-session');
 
 //routes
-var index = require('./routes/index');
 var service = require('./routes/service');
 var trainer = require('./routes/trainer');
 var api = require('./routes/api');
 var images = require('./routes/images');
+var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
@@ -99,6 +100,9 @@ app.use('/trainer', trainer);
 app.use('/api', api);
 app.use('/images', images);
 
+app.all('*', function(req, res) {
+  res.redirect("/");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -111,8 +115,9 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  //res.locals.message = err.message;
-  res.locals.message = req.flash('error');
+  // res.locals.message = err.message;
+  // res.locals.message2 = req.flash('error');
+  // res.locals.message3 = req.flash('success');
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
