@@ -3,20 +3,24 @@ var router = express.Router();
 var Services = require('../models/services');
 var Users = require('../models/users');
 
-var sessionChecker = function (req) {
-  if (req.session.user && req.session.id) {
-    //login
-    return true;
-  } else {
-    return false;
+router.use(function (req, res, next) {
+  res.locals.message = {
+    error: req.flash('error'),
+    success: req.flash('success')
   }
-};
+  if (req.session.user) {
+    var fullname = req.session.user.fname + " " + req.session.user.lname;
+    req.session.user.name = fullname;
+  }
+  res.locals.account = req.session.user;
+  next();
+});
 
 /* GET users listing. */
 router.get('/:_id', function (req, res, next) {
   var service_id = req.params._id;
   Services.getServiceById(service_id, (err, service) => {
-    
+
     if (err) {
       console.log("err : ", err);
     }
@@ -32,11 +36,11 @@ router.get('/:_id', function (req, res, next) {
     }
     service.emptystar = 5 - service.fullstar - service.halfstar;
     service.location = new Array;
-    for(var i=0;i<service.place.length;i++){
+    for (var i = 0; i < service.place.length; i++) {
       service.location.push(Services.servicetagToLocation(service.place[i]));
     }
 
-    for(var i=0;i<service.reviews.length;i++){
+    for (var i = 0; i < service.reviews.length; i++) {
       var rate = service.reviews[i].rating;
       service.reviews[i].fullstar = 0;
       service.reviews[i].halfstar = 0;
@@ -50,24 +54,12 @@ router.get('/:_id', function (req, res, next) {
       service.reviews[i].emptystar = 5 - service.reviews[i].fullstar - service.reviews[i].halfstar;
     }
 
-    if (sessionChecker(req)) {
-      var fullname = req.session.user.fname + " " + req.session.user.lname;
-      res.render('service', {
-        title: 'Starfit',
-        style: 'style',
-        service: service,
-        account: {
-          id: req.session.user.id,
-          name: fullname
-        }
-      });
-    } else {
-      res.render('service', {
-        title: 'Starfit',
-        style: 'style',
-        service: service
-      });
-    }
+    res.render('service', {
+      title: 'Starfit',
+      style: 'style',
+      service: service
+    });
+
   });
 
 });

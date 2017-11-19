@@ -1,67 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var router = require('./route');
 
 var Users = require('../models/users');
 var Services = require('../models/services');
 
 /* GET home page. */
-
-var search_test = {
-  isSearch: true,
-  results: [
-    [{
-      status: 'busy',
-      fullstar: 4,
-      halfstar: 1,
-      emptystar: 0
-    }, {
-      status: 'busy',
-      fullstar: 3,
-      halfstar: 1,
-      emptystar: 1
-    }, 'c'],
-    [{
-      status: 'avaliable',
-      fullstar: 5,
-      halfstar: 0,
-      emptystar: 0
-    }, 'e', 'f'],
-    ['g']
-  ],
-  results_count: 7
-};
-
-router.get('/', function (req, res, next) {
-  console.log("req.session = ", req.session);
-  console.log("req.sid = ", req.session.id);
-  console.log("req user = ",req.session.user);
-  // console.log("userdata = ", req.session.user);
-  var error = req.flash("error");
-  var success = req.flash("success");
-  var message = {
-    error: error,
-    success: success
-  }
-  console.log("err = ", message);
-  if (sessionChecker(req)) {
-    var fullname = req.session.user.fname + " " + req.session.user.lname;
-    res.render('index', {
-      title: 'Starfit ',
-      message: message,
-      style: 'style',
-      account: {
-        id: req.session.user.id,
-        name: fullname
-      }
-    });
-  } else {
-    res.render('index', {
-      title: 'Starfit',
-      style: 'style',
-      message: message
-    });
-  }
-});
 
 // middleware function to check for logged-in users
 var sessionChecker = function (req) {
@@ -72,6 +14,17 @@ var sessionChecker = function (req) {
     return false;
   }
 };
+
+router.get('/', function (req, res, next) {
+  console.log("req.session = ", req.session);
+  console.log("req.sid = ", req.session.id);
+  console.log("res locals = ", res.locals);
+
+  res.render('index', {
+    title: 'Starfit',
+    style: 'style'
+  });
+});
 
 // signup
 router.post('/signup', function (req, res) {
@@ -114,7 +67,7 @@ router.post('/signup', function (req, res) {
           fname: user.fname,
           lname: user.lname,
           phone: user.phone,
-          img: user.img,
+          image: user.image,
           trainer: user.trainer,
           reservations: user.reservations,
           login: true
@@ -165,7 +118,7 @@ router.post('/signin', function (req, res) {
         fname: user.fname,
         lname: user.lname,
         phone: user.phone,
-        img: user.img,
+        image: user.image,
         trainer: user.trainer,
         reservations: user.reservations,
         login: true
@@ -173,7 +126,6 @@ router.post('/signin', function (req, res) {
       console.log("userdata = ", userdata);
       req.flash('success', "Login is successful.");
       req.session.user = userdata;
-      // res.render('index', { title: 'Index/login', style: 'style', account:{isLogin:true,id:1,name:"Name1"}});
       res.redirect('/');
     }
   });
@@ -193,6 +145,25 @@ router.get('/signout', function (req, res, next) {
         // return res.send("log out complete");
       }
     });
+  }
+});
+
+router.get('/profile/:id', function (req, res, next) {
+  var profile_id = req.params.id;
+  if (req.session.user) {
+    if (req.session.user.id === profile_id) {
+      var fullname = req.session.user.fname + " " + req.session.user.lname;
+      res.render('profile', {
+        title: 'Starfit ',
+        style: 'style'
+      });
+    } else {
+      req.flash('error', "You don't have permission.");
+      res.redirect("/");
+    }
+  } else {
+    req.flash('error', "Please login.");
+    res.redirect("/");
   }
 });
 
@@ -273,9 +244,6 @@ router.get('/search', function (req, res, next) {
         ret.results.push(newArray);
       }
     }
-
-
-
     console.log("newArray ", newArray);
     if ((result.length % 3) > 0) {
       ret.results.push(newArray);
@@ -285,24 +253,11 @@ router.get('/search', function (req, res, next) {
     ret.results_count = result.length;
     console.log('ret ', ret);
     //res.status(200).send(ret);
-    if (sessionChecker(req)) {
-      var fullname = req.session.user.fname + " " + req.session.user.lname;
-      res.render('index', {
-        title: 'Starfit ',
-        style: 'style',
-        search: ret,
-        account: {
-          id: req.session.user.id,
-          name: fullname
-        }
-      });
-    } else {
-      res.render('index', {
-        title: 'Starfit',
-        style: 'style',
-        search: ret
-      });
-    }
+    res.render('index', {
+      title: 'Starfit',
+      style: 'style',
+      search: ret
+    });
   });
 });
 

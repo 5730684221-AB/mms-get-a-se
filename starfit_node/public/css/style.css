@@ -270,6 +270,15 @@ li.nav-item>a {
     background-position: center center;
 }
 
+a.image-popup-link:hover {
+    color:white;
+    border: none;
+}
+a.image-popup-link:focus {
+    color:white;
+    border: none;
+}
+
 .service-detail{
     border: 1px solid #808080;
 }
@@ -291,7 +300,7 @@ li.nav-item>a {
 .btn-under-pic{
   margin:auto;
   margin-top:10px;
-  width: 40%;
+  width: 60%;
   text-align:center;
 }
 .margin-top-1{
