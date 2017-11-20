@@ -54,6 +54,18 @@ h6 {
     flex-direction: column;
 }
 
+.profile-image-nav{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.profile-image{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
 a.signup-button {
     color: white;
     background: red;
@@ -70,6 +82,24 @@ a.signup-button:hover {
 
 a.signin-button {
     color: red;
+}
+
+.checkout-btn {
+    cursor: pointer;
+    color: white;
+    background: red;
+}
+
+.reserve-btn {
+    cursor: pointer;
+    color: red;
+    border: 1px solid red;
+}
+
+.service-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }
 
 a.trainer-button{
@@ -132,7 +162,7 @@ li.nav-item>a {
     width: 100%;
     background: url(/images/index_images/bg1.jpg) center center / cover;
     background-position: center center;
-    
+
 }
 
 .search-box{
@@ -212,9 +242,80 @@ li.nav-item>a {
 .price-tag{
     float: left;
 }
+
 .rate-tag{
     color:rgb(255, 145, 0);
     float: right;
+}
+
+.text-orange{
+    color:rgb(255, 145, 0);
+}
+
+.report-btn{
+    font-size: 12px;
+    border-radius: 0;
+    padding: 2px;
+}
+
+.service-name{
+    color: white;
+    background: red;
+}
+
+.slick-image{
+    width: 500px;
+    height: 300px;
+    border: 10px solid white;
+    background-position: center center;
+}
+
+a.image-popup-link:hover {
+    color:white;
+    border: none;
+}
+a.image-popup-link:focus {
+    color:white;
+    border: none;
+}
+
+.service-detail{
+    border: 1px solid #808080;
+}
+
+.center-line{
+    margin: auto;
+    height: 50px;
+    padding: 10px;
+    font-size: 1.25em;
+}
+
+.circle{
+    margin:auto;
+    margin-top:80px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.btn-under-pic{
+  margin:auto;
+  margin-top:10px;
+  width: 60%;
+  text-align:center;
+}
+.margin-top-1{
+  margin-top:15px;
+}
+  
+.input-box{
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */

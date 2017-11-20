@@ -9,20 +9,25 @@ var fs = require('fs');
 var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
+var router = express.Router();
 
 var hbs = require('hbs');
 var session = require('express-session');
 
 //routes
-var index = require('./routes/index');
 var service = require('./routes/service');
 var trainer = require('./routes/trainer');
 var api = require('./routes/api');
 var images = require('./routes/images');
+var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "localhost:27017";
+var mongodbip = "192.168.99.100:27017";
+
+//singto 192.168.99.100:27017
+//J localhost:27017
+
 if (containerized()) {
     mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
 } else {
@@ -74,6 +79,11 @@ hbs.registerHelper('times', function(n, block) {
       accum += block.fn(i);
   return accum;
 });
+hbs.registerHelper('eq', function(val, val2, block) {
+  if(val == val2){
+    return block.fn();
+  }
+});
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -90,6 +100,9 @@ app.use('/trainer', trainer);
 app.use('/api', api);
 app.use('/images', images);
 
+app.all('*', function(req, res) {
+  res.redirect("/");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -102,8 +115,9 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  //res.locals.message = err.message;
-  res.locals.message = req.flash('error');
+  // res.locals.message = err.message;
+  // res.locals.message2 = req.flash('error');
+  // res.locals.message3 = req.flash('success');
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page

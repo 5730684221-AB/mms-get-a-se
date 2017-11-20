@@ -7,24 +7,32 @@
   <meta name="author" content="Get A SE">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <title>{{title}}</title>
+  <!--
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  Import materialize.css
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  -->
+
   <!-- font -->
-  <link href="https://fonts.googleapis.com/css?family=Kanit|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500|Open+Sans|Bitter:400,700|Josefin+Slab:300|Lobster|Fugaz+One"
+    rel="stylesheet">
   <!-- bss css -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css"> {{!-- image slidershow --}}
+  <link rel="stylesheet" href="/css/slick.css">
+  <link rel="stylesheet" href="/css/slick-theme.css"> {{!-- image popup --}}
+  <link rel="stylesheet" href="/css/magnific-popup.css"> {{!-- custom css --}}
   <link rel='stylesheet' href='/css/{{style}}.css' />
+
 </head>
 
 <body>
   <div class="wrapper">
-  {{> navbar}} 
-  {{> sign_up}} 
-  {{> sign_in}}
-  {{{body}}}
-  {{> footer}}
-</div>
+    {{> navbar}} {{> sign_up}} {{> sign_in}} {{{body}}} {{> footer}}
+  </div>
+
   <!-- bss script -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
@@ -32,11 +40,65 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
     crossorigin="anonymous"></script>
-  <script src="/js/multi-step-modal.js"></script>
-  <script>
+
+  <script src="/js/multi-step-modal.js"></script> {{!-- image slidershow --}}
+  <script src="/js/slick.min.js"></script> {{!-- image popup --}}
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script type="text/javascript">
+    $('.image-popup-link').magnificPopup({
+      type: 'image',
+    });
+    var calculatePrice = function (price) {
+      var total = 0;
+      var _price = parseInt(price);
+      $('#select-service .form-check-input').each(function () {
+        if ($(this).is(':checked')) {
+          total += parseInt($(this).val());
+        }
+      });
+      $('#select-time .form-check-input').each(function () {
+        if ($(this).is(':checked')) {
+          total += _price;
+        }
+      });
+      $('#total-price').text(total);
+    };
     sendEvent = function (sel, step) {
       $(sel).trigger('next.m.' + step);
     }
+    $('.slick-center').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      centerMode: true,
+      slidesToShow: 1,
+      variableWidth: true,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 3
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            arrows: false,
+            centerMode: true,
+            centerPadding: '40px',
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+    $(document).ready(function () {
+      $('#profile-upload-btn').click(function () {
+        $("#profile-upload").click();
+      });
+    });
   </script>
 </body>
 
