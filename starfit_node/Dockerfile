@@ -8,5 +8,6 @@ RUN cd /app; \
 EXPOSE 3000
 
 WORKDIR /app
+VOLUME /app
 
 CMD ["npm","start"]  

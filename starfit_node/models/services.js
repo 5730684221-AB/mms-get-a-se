@@ -8,13 +8,23 @@ var servicechema = mongoose.Schema ({
   about : String,
   price : Number,
   tname : String,
-  img : [String],
   place : [Number],
-  status : String,
+  timeSlots : [{
+    day : String,
+    time : [Number],
+    avialable : Boolean
+  }],
+  imgs : [String],
+  addServ : [{
+    name : String,
+    price : Number
+  }],
   reviews : [{
     uid : String,
     sid : String,
     rev_id : String,
+    rating : Number,
+    time: Date,
     review : String,
     rating : Number,
     reports :[{

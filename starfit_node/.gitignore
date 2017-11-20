@@ -39,3 +39,6 @@ public/uploads/img/*
 
 !public/uploads/profiles/default-profile.png
 !public/uploads/service/default-service.png
+
+#linking instead of building
+docker-compose.override.yml

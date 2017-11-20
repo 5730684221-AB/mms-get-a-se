@@ -211,6 +211,7 @@ router.post('/update', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   console.log("query ", req.query);
   var query = {};
+
   if (req.query.searchfor !== '') query.name = {
     "$regex": req.query.searchfor,
     "$options": "i"
@@ -272,8 +273,18 @@ router.get('/search', function (req, res, next) {
       if (rate > 0) {
         result[i].halfstar = 1;
       }
+      result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;      
       result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
+            //calculating availability
+      result[i].status = "busy";
+      for(var j=0;j<result[i].timeSlots.length;j++){
+        if(result[i].timeSlots[j].available) {
+         result[i].status = "available";
+          break;
+          }
+        }
     }
+
 
     //search result calculator
     for (var i = 0; i < result.length; i++) {
