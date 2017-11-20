@@ -12,7 +12,7 @@ var imageSchema = mongoose.Schema({
     required: true
   }
 },
- { collection : 'images' });
+ { collection : 'image' });
 
 
 var Image = module.exports = mongoose.model('files', imageSchema);
@@ -24,16 +24,15 @@ module.exports.getImages = function(callback, limit) {
 
 
 module.exports.getImageById = function(id, callback) {
-  Image.findById(id, callback);
+  Image.findOne({ '_id': id }, callback);
 }
 
-module.exports.getImageByE = (id, callback) => {
-	User.findOne({ 'id': id }, callback);
+module.exports.getDefPro = (callback) => {
+	Image.findOne({ 'default': "defprofile"}, callback);
 }
 
-module.exports.getImageById = function(id, callback) {
-  Image.findById(id, callback);
-
+module.exports.getDefSer = (callback) => {
+	Image.findOne({ 'default': "defservice" }, callback);
 }
 
 module.exports.addImage = function(image, callback) {
