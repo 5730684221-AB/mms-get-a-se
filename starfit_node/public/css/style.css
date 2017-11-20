@@ -228,6 +228,17 @@ li.nav-item>a {
 #result-card, #result-card:hover{
     text-decoration: none;
 }
+#add-service {
+    color:#FFF;
+    font-size: 2em;
+}
+#my-service {
+
+    color:red;
+    font-size: 1.5em;
+}
+
+
 
 .card-title{
     color: black;
@@ -303,21 +314,27 @@ a.image-popup-link:focus {
   width: 60%;
   text-align:center;
 }
-.margin-top-1{
-  margin-top:15px;
-}
-  
-.input-box{
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
+
+.btn-groups .button {
+    background-color: #F5F5F5;
+    color: black;
+    padding: 50px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
     cursor: pointer;
+    border-style: dashed;
+    border-color: #D3D3D3;
 }
 
+.btn-groups .button:hover {
+    background-color: #DCDCDC;
+}
+.head-form{
+  text-indent:50px;
+  font-size: 1.5em;
+
+}
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
     .overlay a {font-size: 20px}
