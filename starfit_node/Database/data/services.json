@@ -8,7 +8,22 @@
 	"place":[4,12],
 	"price":700,
 	"img" : ["default-service"],
-	"status":"available",
+	"timeSlots" : [{
+		"day" : "Monday",
+		"time" : [12,13],
+		"available" : true
+	  },{
+		"day" : "Tuesday",
+		"time" : [12,13],
+		"available" : true
+	  }],
+	  "addServ":[{
+		  "name":"water",
+		  "price":20
+	  },{
+		"name":"food",
+		"price":50
+	  }],
 	"reviews":[
 		{
 		"uid":"26362177",
@@ -29,7 +44,15 @@
 	"place":[12,13],
 	"price":400,
 	"img" : ["default-service"],
-	"status":"busy",
+	"timeSlots" : [{
+		"day" : "Monday",
+		"time" : [12,13],
+		"available" : true
+	  },{
+		"day" : "Tuesday",
+		"time" : [12,13],
+		"available" : true
+	  }],
 	"reviews":[
 		{
 		"uid":"26362177",
@@ -73,7 +96,15 @@
 	"place":[12,1],
 	"price":1200,
 	"img" : ["default-service"],
-	"status":"busy",
+	"timeSlots" : [{
+		"day" : "Monday",
+		"time" : [12,13],
+		"available" : true
+	  },{
+		"day" : "Tuesday",
+		"time" : [12,13],
+		"available" : true
+	  }],
 	"reviews":[
 		{
 		"uid":"26362177",
@@ -101,7 +132,15 @@
 	"place":[1,2],
 	"price":300,
 	"img" : ["default-service"],
-	"status":"busy",
+	"timeSlots" : [{
+		"day" : "Monday",
+		"time" : [12,13],
+		"available" : true
+	  },{
+		"day" : "Tuesday",
+		"time" : [12,13],
+		"available" : true
+	  }],
 	"reviews":[
 		{
 		"uid":"26362177",

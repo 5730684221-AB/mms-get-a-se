@@ -232,16 +232,16 @@ router.get('/search', function (req, res, next) {
       if (rate > 0) {
         result[i].halfstar = 1;
       }
-      result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;
-      //calculating availability
-      result[i].available = false;
+      result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;      
+      result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
+            //calculating availability
+      result[i].status = "busy";
       for(var j=0;j<result[i].timeSlots.length;j++){
         if(result[i].timeSlots[j].available) {
-         result[i].available = true;
+         result[i].status = "available";
           break;
-        }
           }
-      result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
+        }
     }
 
 

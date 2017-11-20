@@ -8,7 +8,7 @@ var servicechema = mongoose.Schema ({
   about : String,
   price : Number,
   tname : String,
-  place : [String],
+  place : [Number],
   timeSlots : [{
     day : String,
     time : [Number],
