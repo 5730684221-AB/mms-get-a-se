@@ -166,7 +166,7 @@ router.get('/search',function(req,res,next){
   console.log("query ",req.query);
   var query = {};
   if (req.query.searchfor !== '') query.name = { "$regex": req.query.searchfor, "$options": "i" };
-  if (req.query.location !== '0') query.place =req.query.location;
+  if (req.query.location !== '0') query.place = req.query.location;
   if (req.query.tag !== '0') query.ttype= req.query.tag;
   switch(req.query.price){
     case '0':break;
@@ -216,7 +216,16 @@ router.get('/search',function(req,res,next){
         result[i].halfstar=1;
       }
       result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;
+      //calculating availability
+      result[i].available = false;
+      for(var j=0;j<result[i].timeSlots.length;j++){
+        if(result[i].timeSlots[j].available) {
+         result[i].available = true;
+          break;
+        }
+          }
     }
+
 
     //search result calculator
     for(var i=0;i<result.length;i++){

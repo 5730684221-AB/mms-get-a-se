@@ -1,19 +1,29 @@
 var mongoose = require('mongoose');
 
 var servicechema = mongoose.Schema ({
-  id : String,
   name: String,
   ttype : Number,
   rating : Number,
   about : String,
   price : Number,
   tname : String,
-  place : Number,
-  status : String,
+  place : [String],
+  timeSlots : [{
+    day : String,
+    time : [Number],
+    avialable : Boolean
+  }],
+  imgs : [String],
+  addServ : [{
+    name : String,
+    price : Number
+  }],
   reviews : [{
     uid : String,
     sid : String,
     rev_id : String,
+    rating : Number,
+    time: Date,
     review : String,
     reports :[{
       rpid : String,
