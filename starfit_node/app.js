@@ -84,6 +84,19 @@ hbs.registerHelper('eq', function(val, val2, block) {
     return block.fn();
   }
 });
+hbs.registerHelper("math", function(lvalue, operator, rvalue, options) {
+  lvalue = parseFloat(lvalue);
+  rvalue = parseFloat(rvalue);
+      
+  return {
+      "+": lvalue + rvalue,
+      "-": lvalue - rvalue,
+      "*": lvalue * rvalue,
+      "/": lvalue / rvalue,
+      "%": lvalue % rvalue
+  }[operator];
+});
+
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public

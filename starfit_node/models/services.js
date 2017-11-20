@@ -9,10 +9,11 @@ var servicechema = mongoose.Schema ({
   price : Number,
   tname : String,
   place : [Number],
+  status : String,
   timeSlots : [{
     day : String,
     time : [Number],
-    avialable : Boolean
+    available : Boolean
   }],
   imgs : [String],
   addServ : [{

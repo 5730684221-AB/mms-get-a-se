@@ -34,37 +34,26 @@
 
         <p class="font-weight-bold">Select time</p>
         <div id="select-time" class="pl-3">
+          {{#each service.timeSlots}}
+          {{#if this.available}}
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Monday
+              <input class="form-check-input" type="checkbox" name="" value="{{math this.time.[1] "-" this.time.[0]}}" onchange="calculatePrice({{../service.price}})"> {{this.day}} {{this.time.[0]}}.00-{{this.time.[1]}}.00
             </label>
           </div>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Tuesday
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="option1" onchange="calculatePrice({{service.price}})"> Friday
-            </label>
-          </div>
+          {{/if}}
+          {{/each}}
         </div>
-
         <p class="font-weight-bold">Additional services</p>
         <div id="select-service" class="pl-3">
+          {{#each service.addServ}}
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="20" onchange="calculatePrice({{service.price}})"> Water
-              <span class="text-red">+20 Baht</span>
+              <input class="form-check-input" type="checkbox" name="" value="{{this.price}}" onchange="calculatePrice({{../service.price}})"> {{this.name}}
+              <span class="text-red">+{{this.price}} Baht</span>
             </label>
           </div>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="100" onchange="calculatePrice({{service.price}})"> Food
-              <span class="text-red">+100 Baht</span>
-            </label>
-          </div>
+          {{/each}}
         </div>
 
         <p class="font-weight-bold">Price

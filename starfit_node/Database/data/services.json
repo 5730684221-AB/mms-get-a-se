@@ -3,20 +3,26 @@
 	"name":"RUN",
 	"images":["/images/index_images/bg1.jpg","/images/index_images/bg1_old.jpg","/images/index_images/bg1.jpg"],
 	"ttype":3,
-	"rating":"4",
+	"rating":4,
 	"about":"just running",
 	"place":[4,12],
 	"price":700,
 	"img" : ["default-service"],
+	"status":"available",
 	"timeSlots" : [{
 		"day" : "Monday",
-		"time" : [12,13],
+		"time" : [9,13],
 		"available" : true
 	  },{
 		"day" : "Tuesday",
-		"time" : [12,13],
+		"time" : [10,14],
 		"available" : true
-	  }],
+		},
+		{
+			"day" : "Tuesday",
+			"time" : [1,3],
+			"available" : true
+			}],
 	  "addServ":[{
 		  "name":"water",
 		  "price":20
@@ -39,18 +45,19 @@
 	"name":"service2",
 	"images":["/images/index_images/bg1.jpg","/images/index_images/bg1_old.jpg","/images/index_images/bg1.jpg"],
 	"ttype":2,
-	"rating":"1.2",
+	"rating":1.2,
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[12,13],
 	"price":400,
 	"img" : ["default-service"],
+	"status":"available",
 	"timeSlots" : [{
 		"day" : "Monday",
-		"time" : [12,13],
+		"time" : [12,15],
 		"available" : true
 	  },{
 		"day" : "Tuesday",
-		"time" : [12,13],
+		"time" : [11,13],
 		"available" : true
 	  }],
 	"reviews":[
@@ -91,19 +98,20 @@
 	"name":"service3",
 	"images":["/images/index_images/bg1.jpg","/images/index_images/bg1_old.jpg","/images/index_images/bg1.jpg"],
 	"ttype":1,
-	"rating":"0.5",
+	"rating":0.5,
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[12,1],
 	"price":1200,
 	"img" : ["default-service"],
+	"status":"busy",
 	"timeSlots" : [{
 		"day" : "Monday",
-		"time" : [12,13],
-		"available" : true
+		"time" : [12,14],
+		"available" : false
 	  },{
 		"day" : "Tuesday",
 		"time" : [12,13],
-		"available" : true
+		"available" : false
 	  }],
 	"reviews":[
 		{
@@ -127,19 +135,20 @@
 	"name":"service4",
 	"images":["/images/index_images/bg1.jpg","/images/index_images/bg1_old.jpg","/images/index_images/bg1.jpg"],
 	"ttype":4,
-	"rating":"2.1",
+	"rating":2.1,
 	"about":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 	"place":[1,2],
 	"price":300,
 	"img" : ["default-service"],
+	"status":"available",
 	"timeSlots" : [{
 		"day" : "Monday",
-		"time" : [12,13],
+		"time" : [10,13],
 		"available" : true
 	  },{
 		"day" : "Tuesday",
-		"time" : [12,13],
-		"available" : true
+		"time" : [9,12],
+		"available" : false
 	  }],
 	"reviews":[
 		{
