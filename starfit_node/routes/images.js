@@ -151,6 +151,8 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
         };
         Users.updateUser(id, user, null, (err, user) => {
           console.log("update img");
+          req.session.user.image = imgid;
+          req.flash('success', "Update is successful.");
           res.redirect("/");
           if(err){
             console.log(err);
