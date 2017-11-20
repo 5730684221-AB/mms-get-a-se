@@ -7,7 +7,7 @@ var Services = require('../models/services');
 
 //-------------------- User -----------------------//
 
-/* GET users listing. */
+//get users listing
 router.get('/users', (req, res) => {
 	Users.getUser((err, users) => {
 		if(err){
@@ -17,6 +17,7 @@ router.get('/users', (req, res) => {
 	});
 });
 
+//get user by _id
 router.get('/userid/:_id', (req, res) => {
 	var id;
 	//solve ObjectId casting problem
@@ -27,6 +28,7 @@ router.get('/userid/:_id', (req, res) => {
 		var id = null;
 	}
 	Users.getUserById(id, (err, user) => {
+		console.log(user);
 		if(err){
 			throw err;
 		}
@@ -47,8 +49,8 @@ router.get('/userid/:_id', (req, res) => {
 });
 
 //get user by email
-router.get('/usere/:_id', (req, res) => {
-	Users.getUserByE(req.params._id, (err, user) => {
+router.get('/usere/:email', (req, res) => {
+	Users.getUserByE(req.params.email, (err, user) => {
 		if(err){
 			throw err;
 		}
@@ -69,8 +71,8 @@ router.get('/usere/:_id', (req, res) => {
 });
 
 //chk email
-router.get('/chk/:_id', (req, res) => {
-	Users.getUserByE(req.params._id, (err, user) => {
+router.get('/chk/:email', (req, res) => {
+	Users.getUserByE(req.params.email, (err, user) => {
 		if(err){
 			throw err;
 		}
@@ -78,13 +80,14 @@ router.get('/chk/:_id', (req, res) => {
       res.status(200).send("user not found");
     }
     else{
-			res.status(200).send("found user with email " + req.params._id);
+			res.status(200).send("found user with email " + req.params.email);
     }
 	});
 });
 
 //-------------------- Service -----------------------//
 
+//get services listing
 router.get('/services', (req, res) => {
 	Services.getService((err, services) => {
 		if(err){

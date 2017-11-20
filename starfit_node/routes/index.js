@@ -1,4 +1,5 @@
-var router = require('./route');
+var express = require('express');
+var router = express.Router();
 
 var Users = require('../models/users');
 var Services = require('../models/services');
@@ -159,8 +160,48 @@ router.get('/profile/:id', function (req, res, next) {
       });
     } else {
       req.flash('error', "You don't have permission.");
-      res.redirect("/");
+      res.render('index', {
+        title: 'Starfit',
+        style: 'style'
+      });
     }
+  } else {
+    req.flash('error', "Please login.");
+    res.render('index', {
+      title: 'Starfit',
+      style: 'style'
+    });
+  }
+});
+
+//update
+router.post('/update', function (req, res, next) {
+  if (sessionChecker(req)) {
+    var id = req.session.user.id;
+    updateUser = {};
+    if (req.body.fname) {
+      updateUser.fname = req.body.fname;
+    }
+    if (req.body.lname) {
+      updateUser.lname = req.body.lname;
+    }
+    if (req.body.phone) {
+      updateUser.phone = req.body.phone;
+    }
+    console.log("update user = ",updateUser);
+    Users.updateUser(id, updateUser, null, (err, user) => {
+      console.log("update");
+      if (err) {
+        console.log(err);
+        req.flash('error', "Something error.");
+      }
+      req.session.user.fname = updateUser.fname;
+      req.session.user.lname = updateUser.lname;
+      req.session.user.phone = updateUser.phone;
+      console.log("ession router = ",req.session.user);
+      req.flash('success', "Update is successful.");
+      res.redirect("/");
+    });
   } else {
     req.flash('error', "Please login.");
     res.redirect("/");

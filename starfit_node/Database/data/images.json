@@ -1,0 +1,12 @@
+[
+    {
+        "path": "public\\uploads\\profiles\\default-profile.png",
+        "originalname": "default-profile.png",
+        "default" : "defprofile"
+    },
+    {
+        "path": "public\\uploads\\services\\default-service.png",
+        "originalname": "default-service.png",
+        "default" : "defservice"
+    }
+]
