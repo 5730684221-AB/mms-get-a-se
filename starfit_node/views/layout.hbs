@@ -58,7 +58,7 @@
       });
       $('#select-time .form-check-input').each(function () {
         if ($(this).is(':checked')) {
-          total += _price;
+          total += (_price*parseInt($(this).val()));
         }
       });
       $('#total-price').text(total);
