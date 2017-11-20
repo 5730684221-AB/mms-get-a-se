@@ -101,6 +101,7 @@ app.use('/api', api);
 app.use('/images', images);
 
 app.all('*', function(req, res) {
+  req.flash("err","Incorrect url");
   res.redirect("/");
 });
 
