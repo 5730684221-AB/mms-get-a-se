@@ -58,7 +58,7 @@
       });
       $('#select-time .form-check-input').each(function () {
         if ($(this).is(':checked')) {
-          total += (_price*parseInt($(this).val()));
+          total += (_price * parseInt($(this).val()));
         }
       });
       $('#total-price').text(total);
@@ -97,6 +97,16 @@
     $(document).ready(function () {
       $('#profile-upload-btn').click(function () {
         $("#profile-upload").click();
+      });
+      $("#profile-upload").on("change", function () {
+        if (this.files && this.files[0]) {
+          console.log("if");
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('#profile-image').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
       });
     });
   </script>

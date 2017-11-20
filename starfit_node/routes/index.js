@@ -75,7 +75,6 @@ router.post('/signup', function (req, res) {
         console.log("userdata = ", userdata);
         req.session.user = userdata;
         res.redirect('/');
-
       });
     } else {
       console.log("Email is already in use");
