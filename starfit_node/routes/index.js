@@ -8,7 +8,7 @@ var Services = require('../models/services');
 
 // middleware function to check for logged-in users
 var sessionChecker = function (req) {
-  if (req.session.user && req.session.id) {
+  if (req.session.user) {
     //login
     return true;
   } else {
@@ -18,7 +18,6 @@ var sessionChecker = function (req) {
 
 router.get('/', function (req, res, next) {
   console.log("req.session = ", req.session);
-  console.log("req.sid = ", req.session.id);
   console.log("res locals = ", res.locals);
 
   res.render('index', {
@@ -137,15 +136,9 @@ router.get('/signout', function (req, res, next) {
   console.log("session ", req.session);
   if (req.session) {
     // delete session object
-    req.session.destroy(function (err) {
-      if (err) {
-        return next(err);
-      } else {
-        return res.redirect('/');
-        console.log("session ", req.session);
-        // return res.send("log out complete");
-      }
-    });
+    req.session = null
+    res.redirect('/');
+    console.log("session ", req.session);
   }
 });
 
@@ -204,7 +197,7 @@ router.post('/update', function (req, res, next) {
     });
   } else {
     req.flash('error', "Please login.");
-    res.redirect("/");
+    // res.redirect("/");
   }
 });
 

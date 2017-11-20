@@ -12,7 +12,7 @@ var flash = require('connect-flash');
 var router = express.Router();
 
 var hbs = require('hbs');
-var session = require('express-session');
+var cookieSession = require('cookie-session')
 
 //routes
 var service = require('./routes/service');
@@ -23,7 +23,7 @@ var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "localhost:27017";
+var mongodbip = "192.168.99.100:27017";
 
 //singto 192.168.99.100:27017
 //J localhost:27017
@@ -34,7 +34,7 @@ if (containerized()) {
     mongoose.connect('mongodb://'+mongodbip+'/db', { useMongoClient: true });
 }
 
-//
+//db
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -45,27 +45,23 @@ db.once('open', function() {
 var app = express();
 
 //session
-app.set('trust proxy', 1) // trust first proxy
-var genuuid = function(){
-  return uuid.v1();
-};
-var sess = {
-  genid: function(req) {
-    return genuuid(); // use UUIDs for session IDs
-  },
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 60000,
-  }
-};
-
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+  maxAge: 2 * 60 * 60 * 1000 // 24 hours
+}));
+app.use(function (req, res, next) {
+  req.sessionOptions.maxAge = req.session.maxAge || req.sessionOptions.maxAge
+  next()
+});
+app.use(function (req, res, next) {
+  req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
+  next()
+});
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true // serve secure cookies
 }
-app.use(session(sess))
 
 //flash message
 app.use(flash());
