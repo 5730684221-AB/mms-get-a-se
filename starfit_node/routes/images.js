@@ -135,8 +135,8 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
       res.send("user not found")
     }
     else{ //found user
-      console.log(req.files);
-      console.log(user._id);
+      console.log("req.files",req.files);
+      console.log("user id",user._id);
       var path = req.files[0].path;
       var imageName = req.files[0].originalname;
       var imagepath = {};
@@ -151,6 +151,7 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
         };
         Users.updateUser(id, user, null, (err, user) => {
           console.log("update img");
+          res.redirect("/");
           if(err){
             console.log(err);
           }
@@ -158,7 +159,7 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
             if(err){
               console.log(err);
             }
-            res.send(user);
+            console.log(user);
           });
         });
       });

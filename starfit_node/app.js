@@ -113,7 +113,7 @@ app.use(function (req, res, next) {
       req.session.user.name = fullname;
   }
   app.locals.account = req.session.user;
-  console.log("app local account = ",req.session.user);
+  console.log("app local account = ",app.locals.account );
   next();
 });
 
