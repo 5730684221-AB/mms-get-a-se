@@ -90,7 +90,7 @@ router.get('/user/:_id', function(req, res) {
       res.send("user not found")
     }
     else{
-      var imgid = user.img;
+      var imgid = user.image;
       if(imgid == "default-profile"){
           images.getDefPro(function(err, images) {
           console.log(images);
@@ -147,7 +147,7 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
       images.addImage(imagepath, function(err, pic) { //add picture
         var imgid = pic._id;
         user = {
-          img : imgid
+          image : imgid
         };
         Users.updateUser(id, user, null, (err, user) => {
           console.log("update img");

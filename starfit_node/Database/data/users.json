@@ -5,7 +5,7 @@
 		"fname":"Thanet",
 		"lname":"Sirichanyaphong",
 		"phone":"0812341256",
-		"img" : "default-profile",
+		"image" : "default-profile",
 		"reservations":[
 			{
 			"rid":"12315323",
@@ -24,7 +24,7 @@
 		"fname":"Papon",
 		"lname":"Trongprokorb",
 		"phone":"0811230123",
-		"img" : "default-profile",
+		"image" : "default-profile",
 		"trainer": true,
 		"services":[
 			"33232",

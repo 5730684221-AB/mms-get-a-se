@@ -83,7 +83,7 @@ hbs.registerHelper('eq', function(val, val2, block) {
 hbs.registerHelper("math", function(lvalue, operator, rvalue, options) {
   lvalue = parseFloat(lvalue);
   rvalue = parseFloat(rvalue);
-      
+
   return {
       "+": lvalue + rvalue,
       "-": lvalue - rvalue,
