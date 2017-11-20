@@ -23,7 +23,7 @@ var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "192.168.99.100:27017";
+var mongodbip = "localhost:27017";
 
 //singto 192.168.99.100:27017
 //J localhost:27017
@@ -94,15 +94,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  app.locals.message = {
+      error: req.flash('error'),
+      success: req.flash('success')
+  }
+  if (req.session.user) {
+      var fullname = req.session.user.fname + " " + req.session.user.lname;
+      req.session.user.name = fullname;
+  }
+  app.locals.account = req.session.user;
+  console.log("app local account = ",req.session.user);
+  next();
+});
+
 app.use('/', index);
 app.use('/service', service);
 app.use('/trainer', trainer);
 app.use('/api', api);
 app.use('/images', images);
 
-app.all('*', function(req, res) {
-  res.redirect("/");
-});
+// app.all('*', function(req, res) {
+//   console.log("redirect all");
+//   res.redirect("/");
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

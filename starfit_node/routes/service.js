@@ -3,18 +3,18 @@ var router = express.Router();
 var Services = require('../models/services');
 var Users = require('../models/users');
 
-router.use(function (req, res, next) {
-  res.locals.message = {
-    error: req.flash('error'),
-    success: req.flash('success')
-  }
-  if (req.session.user) {
-    var fullname = req.session.user.fname + " " + req.session.user.lname;
-    req.session.user.name = fullname;
-  }
-  res.locals.account = req.session.user;
-  next();
-});
+// router.use(function (req, res, next) {
+//   res.locals.message = {
+//     error: req.flash('error'),
+//     success: req.flash('success')
+//   }
+//   if (req.session.user) {
+//     var fullname = req.session.user.fname + " " + req.session.user.lname;
+//     req.session.user.name = fullname;
+//   }
+//   res.locals.account = req.session.user;
+//   next();
+// });
 
 /* GET users listing. */
 router.get('/:_id', function (req, res, next) {
