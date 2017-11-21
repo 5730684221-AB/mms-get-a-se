@@ -1,0 +1,45 @@
+<div class="service-name py-2">
+    <div class="container">
+        <h2 class="py-1 my-0">Reservation : {{reservation.rid}}</h2>
+    </div>
+</div>
+
+<div class="container my-4">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <p class="m-0">Service</p>
+            <p class="pl-4 m-0">
+                <a href="service/{{reservation.sid}}">{{reservation.sname}}</a>
+            </p>
+        </li>
+        <li class="list-group-item">
+            <p class="m-0">Date</p>
+            <p class="pl-4 m-0">
+                {{reservation.timestamp}}
+            </p>
+        </li>
+        <li class="list-group-item">
+            <p class="m-0">Total Price</p>
+            <p class="pl-4 m-0">
+                <span class="text-red">{{reservation.price}} </span>
+                baht
+            </p>
+        </li>
+        <li class="list-group-item">
+            <p class="m-0">Status</p>
+            {{#if reservation.isPaid}}
+            <p class="available p-0 pl-4 m-0">
+                Paid
+            </p>
+            {{else}}
+            <p class="text-red p-0 pl-4 m-0">
+                Not Paid
+            </p>
+            <p class="pl-4 mt-0">
+                <a href="/checkout/{{reservation.rid}}">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Click to pay</a>
+            </p>
+            {{/if}}
+        </li>
+    </ul>
+</div>

@@ -12,11 +12,14 @@ var userchema = mongoose.Schema ({
   reservations :[{
       rid : String ,
       sid : String ,
+      sname : String,
       timestamp :  String,
       tname : String,
       uname : String,
       price : Number,
-      paymethod : String
+      isPaid: Boolean,
+      isReview : Boolean,
+      paymethod : String   
   }]
 },
  { collection : 'user' });
