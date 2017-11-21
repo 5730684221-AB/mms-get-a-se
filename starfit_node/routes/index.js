@@ -4,9 +4,17 @@ var router = express.Router();
 var Users = require('../models/users');
 var Services = require('../models/services');
 
-/* GET home page. */
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'starfit.automail@gmail.com',
+    pass: 'STAR123FIT'
+  }
+});
 
-// middleware function to check for logged-in users
+const hostname = 'http://localhost:3000';
+
 var sessionChecker = function (req) {
   if (req.session.user) {
     //login
@@ -16,6 +24,7 @@ var sessionChecker = function (req) {
   }
 };
 
+//home
 router.get('/', function (req, res, next) {
   console.log("req.session = ", req.session);
   console.log("res locals = ", res.locals);
@@ -26,8 +35,8 @@ router.get('/', function (req, res, next) {
   });
 });
 
-// signup
-router.post('/signup', function (req, res) {
+//user signup
+router.post('/signup', function (req, res, next) {
   // add new user to db
   var email = req.body.email.toLowerCase();
   var newuser = {
@@ -38,10 +47,6 @@ router.post('/signup', function (req, res) {
     phone: req.body.phone
 
   };
-  // if(req.body.password !== req.body.confirmPass){
-  //   res.status(500).send({error: 'passwords do not match.'});
-  //   console.log("passwords do not match");
-  // }
   Users.getUserByE(email, (err, user) => {
     if (err) {
       console.log(err);
@@ -86,8 +91,8 @@ router.post('/signup', function (req, res) {
   });
 });
 
-//login
-router.post('/signin', function (req, res) {
+//user login
+router.post('/signin', function (req, res, next) {
   var email = req.body.email.toLowerCase(),
     password = req.body.password;
   //find one in db
@@ -131,6 +136,7 @@ router.post('/signin', function (req, res) {
   console.log("session ", req.session);
 });
 
+//user signout
 router.get('/signout', function (req, res, next) {
   console.log("session ", req.session);
   if (req.session) {
@@ -141,6 +147,7 @@ router.get('/signout', function (req, res, next) {
   }
 });
 
+//user profile
 router.get('/profile/:id', function (req, res, next) {
   var profile_id = req.params.id;
   if (req.session.user) {
@@ -166,7 +173,7 @@ router.get('/profile/:id', function (req, res, next) {
   }
 });
 
-//update
+//update user profile
 router.post('/update', function (req, res, next) {
   if (sessionChecker(req)) {
     var id = req.session.user.id;
@@ -190,7 +197,7 @@ router.post('/update', function (req, res, next) {
       req.session.user.fname = updateUser.fname;
       req.session.user.lname = updateUser.lname;
       req.session.user.phone = updateUser.phone;
-      console.log("ession router = ",req.session.user);
+      console.log("session router = ",req.session.user);
       req.flash('success', "Update is successful.");
       res.redirect("/");
     });
@@ -200,6 +207,119 @@ router.post('/update', function (req, res, next) {
   }
 });
 
+//forgot password
+router.post('/reset', function (req, res, next) {
+  var email = req.body.email.toLowerCase();
+  //find one in db
+  Users.getUserByE(email, (err, user) => {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      //no user
+      req.flash('error', "Incorrect email");
+      res.redirect("/");
+    } else {
+      //find user
+      var resetsecret = Date.now();
+      var fullname = user.fname + " " + user.lname;
+      var userid = user.id;
+      var updateUser = {
+        secret : resetsecret
+      };
+      var reseturi = hostname+'/reset/'+userid+'/'+resetsecret;
+      Users.updateUser(userid, updateUser, null, (err, user) => {
+        console.log("update");
+        if (err) {
+          console.log(err);
+          req.flash('error', "Something error.");
+        }
+        /*--------email--------*/
+        var mail = {
+          from: '"🌟 STARFIT.com 🌟" <starfit.automail@gmail.com>',
+          to: email,
+          subject: 'STARFIT Password reset for '+ fullname,
+          text: 'Hello, ' + fullname + ', Your password reset url is: '+ reseturi,
+          html: 'Hello, <b>' + fullname + '</b>, Your password reset url is: '+ reseturi
+        }
+
+        transporter.sendMail(mail);       
+        console.log("updateUser = ", updateUser);
+        req.flash('success', "Password reset have been sent to your email");
+        res.redirect('/');
+      });
+    }
+  });
+});
+
+//get new pw page
+router.get('/reset/:id/:resetsecret', function (req, res, next) {
+  var uid = req.params.id;
+  var resetsecret = req.params.resetsecret;
+  console.log('uid ', uid);
+  console.log('resetsecret ', resetsecret);
+  if(resetsecret == null){
+    res.redirect("/");
+    return;
+  }
+  Users.getUserById(uid, (err, user) => {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      res.redirect("/");
+      return;
+    } else if (user.secret != resetsecret) {
+      res.redirect("/");
+      return;
+    } else {
+      //correct secret render new password page
+      req.flash('success', "Render new PW page");
+      res.redirect("/");
+    }
+  });
+});
+
+//reset pw
+router.post('/reset/:id/:resetsecret', function (req, res, next) {
+  var id = req.params.id;
+  var resetsecret = req.params.resetsecret;
+  var password = req.body.password;
+  if(resetsecret == null){
+    res.redirect("/");
+    return;
+  }
+  Users.getUserById(id, (err, user) => {
+    if (err) {
+      console.log(err);
+    }
+    if (!user) {
+      res.redirect("/");
+      return;
+    } else if (user.secret != resetsecret) {
+      res.redirect("/");
+      return;
+    } else {
+      //correct secret update new password
+      updateUser = {
+        password : password,
+        secret : null
+      };
+      Users.updateUser(id, updateUser, null, (err, user) => {
+        console.log("update");
+        if (err) {
+          console.log(err);
+          req.flash('error', "Something error.");
+        }
+        req.flash('success', "Password reset is successful.");
+        res.redirect("/");
+      });
+    }
+  });
+
+});
+
+//search service profile
 router.get('/search', function (req, res, next) {
   console.log("query ", req.query);
   var query = {};

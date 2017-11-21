@@ -23,7 +23,7 @@ var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "localhost:27017";
+var mongodbip = "192.168.99.100:27017";
 
 //singto 192.168.99.100:27017
 //J localhost:27017
