@@ -432,6 +432,37 @@ router.get('/reservation', function (req, res, next) {
   });
 });
 
+router.get('/reservation/:rid', function (req, res, next) {
+  var rid = req.params.rid;
+  if (!rid) {
+    req.flash("error", "Something error!");
+    res.redirect('/');
+  } else {
+    var reservations = req.session.user.reservations;
+    var reservation = {};
+    for(var i=0;i<reservations.length;i++){
+      if(reservations[i].rid == rid){
+        reservation = reservations[i]
+      }
+    }
+    console.log("reservation == ",reservation);
+    res.render('reserve', {
+      title: 'Starfit : My Reservation',
+      style: 'style',
+      reservation: reservation
+    });
+  }
+});
+
+//review
+router.get('/review/:sid', function (req, res, next) {
+  var sid = req.params.sid;
+  res.render('review', {
+    title: 'Starfit : Review',
+    style: 'style'
+  });
+});
+
 router.post('/checkout', function (req, res, next) {
   res.send(req.body);
 });

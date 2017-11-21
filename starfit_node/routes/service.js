@@ -63,7 +63,7 @@ router.post('/:sid/pay', function (req, res, next) {
           } else {
               console.log("create payment response")
               console.log(payment);
-              for(let i = 0;i < payment.links.length;i++){
+              for(var i = 0;i < payment.links.length;i++){
                 if(payment.links[i].rel === 'approval_url'){
                   res.redirect(payment.links[i].href);
                 }
@@ -113,7 +113,10 @@ router.get('/cancel', (req, res) => {
 router.get('/:_id', function (req, res, next) {
   var service_id = req.params._id;
   Services.getServiceById(service_id, (err, service) => {
-
+    if(!service){
+      req.flash('error', "Service is not found.");
+      return res.redirect("/");
+    } 
     if (err) {
       console.log("err : ", err);
     }

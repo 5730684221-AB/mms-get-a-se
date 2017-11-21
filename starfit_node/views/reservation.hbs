@@ -11,6 +11,7 @@
       <a class="btn btn-danger" href="/reservation">My Reservation</a>
     </div>
   </div>
+  {{#if account.reservations}}
   <table class="table table-hover mx-auto my-4">
     <thead>
       <tr>
@@ -22,24 +23,29 @@
       </tr>
     </thead>
     <tbody>
+      {{#each account.reservations}}
       <tr>
-        <th scope="row">1</th>
+        <th scope="row">{{math @index "+" 1}}</th>
         <td>
-          <a href="/reservation/{{reserve.rid}}">{{reserve.id}} Test ID</a>
+          <a href="/reservation/{{this.rid}}">{{this.rid}}</a>
         </td>
         <td>
-          <a href="/service/{{reserve.sid}}">{{reserve.id}} Test ID</a>
+          <a href="/service/{{this.sid}}">{{this.sname}}</a>
         </td>
-        {{#if reserve.isPaid}}
-        <td>Paid</td>
+        {{#if this.isPaid}}
+        <td class="available">Paid</td>
         {{else}}
         <td class="text-red">Not Paid</td>
-        {{/if}} {{#if reserve.isPaid}} {{#if reserve.isReview}}
-        <a href="/review/{{reserve.sid}}">
-          <i class="fa fa-commenting" aria-hidden="true"></i>
-          </i> Click to pay</a>
-        {{else}}
+        {{/if}} {{#if this.isPaid}} {{#if this.isReview}}
+        <td>
           <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Thank you for your comment.
+        </td>
+        {{else}}
+        <td>
+          <a href="/review/{{this.sid}}">
+            <i class="fa fa-commenting" aria-hidden="true"></i>
+            </i> Click to review</a>
+        </td>
         {{/if}} {{else}}
         <td>
           <a href="/checkout/{{reserve.rid}}">
@@ -47,7 +53,10 @@
         </td>
         {{/if}}
       </tr>
-      
+      {{/each}}
     </tbody>
   </table>
+  {{else}}
+  <h3 class="text-center my-5">You have not reservation history</h3>
+  {{/if}}
 </div>
