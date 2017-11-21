@@ -30,29 +30,28 @@
         <span>{{this}} </span>
         {{/each}}
       </p>
-      <form style="position:relative;">
+      <form action="" method="POST" style="position:relative;">
         {{#eq service.status "available"}}
         <p class="font-weight-bold">Select time</p>
         <div id="select-time" class="pl-3">
-          {{#each ../service.timeSlots}}
-          {{#if this.available}}
+          {{#each ../service.timeSlots}} {{#if this.available}}
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="{{math this.time.[1] "-" this.time.[0]}}" onchange="calculatePrice({{../../service.price}})"> {{this.day}} {{this.time.[0]}}.00-{{this.time.[1]}}.00
+              <input class="form-check-input" type="checkbox" name="" value="{{math this.time.[1] " - " this.time.[0]}}" onchange="calculatePrice({{../../service.price}})"> {{this.day}} {{this.time.[0]}}.00-{{this.time.[1]}}.00
             </label>
           </div>
-          {{/if}}
-          {{/each}}
+          {{/if}} {{/each}}
         </div>
-        {{/eq}}
-        {{#if service.addServ}}
+        {{/eq}} {{#if service.addServ}}
         <p class="font-weight-bold">Additional services</p>
         <div id="select-service" class="pl-3">
           {{#each service.addServ}}
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="{{this.price}}" onchange="calculatePrice({{../service.price}})"> {{this.name}}
+              <input id="addserv" class="form-check-input" type="checkbox" name="" value="{{this.price}}" onchange="calculatePrice({{../service.price}})"> {{this.name}}
               <span class="text-red">+{{this.price}} Baht</span>
+              Qty :
+              <input id="qty" style="width:40px" type="number" value="1" name="" onchange="calculatePrice({{../service.price}})" min="1" max="99">
             </label>
           </div>
           {{/each}}
@@ -64,7 +63,7 @@
         <h2 class="mt-3">Total
           <span id="total-price" class="text-red">0</span> Baht</h2>
         <div class="service-btn">
-          <button class="btn checkout-btn my-2 my-sm-0">Checkout</button>
+          <button type="submit" class="btn checkout-btn my-2 my-sm-0">Checkout</button>
           <button class="btn reserve-btn my-2 my-sm-0">Reserve</button>
         </div>
       </form>
@@ -110,8 +109,7 @@
               <p class="reviewer-date">{{this.date}}</p>
             </div>
           </div>
-          <hr>
-          {{/each}}
+          <hr> {{/each}}
         </div>
       </div>
     </div>
