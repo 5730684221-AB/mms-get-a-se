@@ -24,28 +24,30 @@
     <tbody>
       <tr>
         <th scope="row">1</th>
-        <td><a href="/reservation/{{reserve.rid}}">{{reserve.id}} Test ID</a></td>
-        <td><a href="/service/{{reserve.sid}}">{{reserve.id}} Test ID</a></td>
+        <td>
+          <a href="/reservation/{{reserve.rid}}">{{reserve.id}} Test ID</a>
+        </td>
+        <td>
+          <a href="/service/{{reserve.sid}}">{{reserve.id}} Test ID</a>
+        </td>
         {{#if reserve.isPaid}}
         <td>Paid</td>
         {{else}}
-        <td><a href="/checkout/{{reserve.rid}}"></a></td>
+        <td class="text-red">Not Paid</td>
+        {{/if}} {{#if reserve.isPaid}} {{#if reserve.isReview}}
+        <a href="/review/{{reserve.sid}}">
+          <i class="fa fa-commenting" aria-hidden="true"></i>
+          </i> Click to pay</a>
+        {{else}}
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Thank you for your comment.
+        {{/if}} {{else}}
+        <td>
+          <a href="/checkout/{{reserve.rid}}">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Click to pay</a>
+        </td>
         {{/if}}
-        <td>@mdo</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-        <td>@mdo</td>
-      </tr>
+      
     </tbody>
   </table>
 </div>

@@ -432,4 +432,12 @@ router.get('/reservation', function (req, res, next) {
   });
 });
 
+router.post('/checkout', function (req, res, next) {
+  res.send(req.body);
+});
+
+router.post('/checkout2', function (req, res, next) {
+  res.send(req.body);
+});
+
 module.exports = router;
