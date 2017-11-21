@@ -8,12 +8,12 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'starfit.automail@gmail.com',
-    pass: 'STAR123FIT'
+    user: process.env.NODEMAILUNAME,
+    pass: process.env.NODEMAILPASS
   }
 });
 
-const hostname = 'http://localhost:3000';
+const hostname = process.env.HOSTNAME;
 
 var sessionChecker = function (req) {
   if (req.session.user) {

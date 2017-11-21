@@ -10,6 +10,7 @@ var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
 var router = express.Router();
+var dotenv = require('dotenv').config()
 
 var hbs = require('hbs');
 var cookieSession = require('cookie-session')
@@ -23,7 +24,7 @@ var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "localhost:27017";
+var mongodbip = process.env.DB_HOST;
 
 //singto 192.168.99.100:27017
 //J localhost:27017
