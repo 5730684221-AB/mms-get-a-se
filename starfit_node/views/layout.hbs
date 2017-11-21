@@ -49,13 +49,17 @@
       type: 'image',
     });
     var calculatePrice = function (price) {
+      console.log("call price");
       var total = 0;
       var _price = parseInt(price);
-      $('#select-service .form-check-input').each(function () {
-        if ($(this).is(':checked')) {
-          total += parseInt($(this).val());
+      $('#select-service .form-check').each(function () {
+        var qty = $(this).find("#qty").first().val();
+        var addserv = $(this).find("#addserv").first();
+        if (addserv.is(':checked')) {
+          total += (addserv.val()*qty);
         }
       });
+
       $('#select-time .form-check-input').each(function () {
         if ($(this).is(':checked')) {
           total += (_price * parseInt($(this).val()));

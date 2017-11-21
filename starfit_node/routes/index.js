@@ -148,9 +148,9 @@ router.get('/signout', function (req, res, next) {
 });
 
 //user profile
-router.get('/profile/:id', function (req, res, next) {
-  var profile_id = req.params.id;
+router.get('/profile', function (req, res, next) {
   if (req.session.user) {
+    var profile_id = req.session.user.id;
     if (req.session.user.id === profile_id) {
       var fullname = req.session.user.fname + " " + req.session.user.lname;
       res.render('profile', {
@@ -181,7 +181,7 @@ router.post('/update', function (req, res, next) {
     if (req.body.phone) {
       updateUser.phone = req.body.phone;
     }
-    console.log("update user = ",updateUser);
+    console.log("update user = ", updateUser);
     Users.updateUser(id, updateUser, null, (err, user) => {
       console.log("update");
       if (err) {
@@ -191,7 +191,7 @@ router.post('/update', function (req, res, next) {
       req.session.user.fname = updateUser.fname;
       req.session.user.lname = updateUser.lname;
       req.session.user.phone = updateUser.phone;
-      console.log("session router = ",req.session.user);
+      console.log("session router = ", req.session.user);
       req.flash('success', "Update is successful.");
       res.redirect("/");
     });
@@ -219,9 +219,9 @@ router.post('/reset', function (req, res, next) {
       var fullname = user.fname + " " + user.lname;
       var userid = user.id;
       var updateUser = {
-        secret : resetsecret
+        secret: resetsecret
       };
-      var reseturi = hostname+'/reset/'+userid+'/'+resetsecret;
+      var reseturi = hostname + '/reset/' + userid + '/' + resetsecret;
       Users.updateUser(userid, updateUser, null, (err, user) => {
         console.log("update");
         if (err) {
@@ -232,12 +232,12 @@ router.post('/reset', function (req, res, next) {
         var mail = {
           from: '"🌟 STARFIT.com 🌟" <starfit.automail@gmail.com>',
           to: email,
-          subject: 'STARFIT Password reset for '+ fullname,
-          text: 'Hello, ' + fullname + ', Your password reset url is: '+ reseturi,
-          html: 'Hello, <b>' + fullname + '</b>, Your password reset url is: '+ reseturi
+          subject: 'STARFIT Password reset for ' + fullname,
+          text: 'Hello, ' + fullname + ', Your password reset url is: ' + reseturi,
+          html: 'Hello, <b>' + fullname + '</b>, Your password reset url is: ' + reseturi
         }
 
-        transporter.sendMail(mail);       
+        transporter.sendMail(mail);
         console.log("updateUser = ", updateUser);
         req.flash('success', "Password reset have been sent to your email");
         res.redirect('/');
@@ -252,7 +252,7 @@ router.get('/reset/:id/:resetsecret', function (req, res, next) {
   var resetsecret = req.params.resetsecret;
   console.log('uid ', uid);
   console.log('resetsecret ', resetsecret);
-  if(resetsecret == null){
+  if (resetsecret == null) {
     res.redirect("/");
     return;
   }
@@ -269,7 +269,12 @@ router.get('/reset/:id/:resetsecret', function (req, res, next) {
       return;
     } else {
       //correct secret render new password page
-      res.render("reset",{title: 'Starfit : Reset Password',style: 'style',id:uid,reset:resetsecret});
+      res.render("reset", {
+        title: 'Starfit : Reset Password',
+        style: 'style',
+        id: uid,
+        reset: resetsecret
+      });
     }
   });
 });
@@ -279,7 +284,7 @@ router.post('/reset/:id/:resetsecret', function (req, res, next) {
   var id = req.params.id;
   var resetsecret = req.params.resetsecret;
   var password = req.body.password;
-  if(resetsecret == null){
+  if (resetsecret == null) {
     res.redirect("/");
     return;
   }
@@ -296,8 +301,8 @@ router.post('/reset/:id/:resetsecret', function (req, res, next) {
     } else {
       //correct secret update new password
       updateUser = {
-        password : password,
-        secret : null
+        password: password,
+        secret: null
       };
       Users.updateUser(id, updateUser, null, (err, user) => {
         console.log("update");
@@ -379,16 +384,16 @@ router.get('/search', function (req, res, next) {
       if (rate > 0) {
         result[i].halfstar = 1;
       }
-      result[i].emptystar = 5-result[i].fullstar-result[i].halfstar;      
       result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
-            //calculating availability
+      result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
+      //calculating availability
       result[i].status = "busy";
-      for(var j=0;j<result[i].timeSlots.length;j++){
-        if(result[i].timeSlots[j].available) {
-         result[i].status = "available";
+      for (var j = 0; j < result[i].timeSlots.length; j++) {
+        if (result[i].timeSlots[j].available) {
+          result[i].status = "available";
           break;
-          }
         }
+      }
     }
 
 
@@ -416,6 +421,14 @@ router.get('/search', function (req, res, next) {
       style: 'style',
       search: ret
     });
+  });
+});
+
+//my reservation
+router.get('/reservation', function (req, res, next) {
+  res.render('reservation', {
+    title: 'Starfit : My Reservation',
+    style: 'style'
   });
 });
 
