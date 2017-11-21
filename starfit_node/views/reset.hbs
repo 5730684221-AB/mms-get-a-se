@@ -1,22 +1,25 @@
-<div class="container d-flex justify-content-center">
-    <form action="/newpass" method="POST">
+<div class="container border rounded d-flex justify-content-center align-items-center my-auto p-4">
+    <form action="/reset/{{id}}/{{reset}}" method="POST">
         <div class="form-group">
-            <input id="password" type="password" class="form-control" name="password" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+            <h2>Please input your new password</h2>
+        </div>
+        <div class="form-group">
+            <input id="resetPassword" type="password" class="form-control" name="password" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
                 title="Must contain at least one number and one uppercase and lowercase letter, and between 8-20 characters">
         </div>
         <div class="form-group">
-            <input id="confirmPass" type="password" class="form-control" name="confirmPass" placeholder="Confirm password" oninput="check()"
+            <input id="confirmResetPass" type="password" class="form-control" name="confirmPass" placeholder="Confirm password" oninput="check()"
                 required>
         </div>
-        <div class="form-group">
+        <div class="form-group d-flex justify-content-center">
             <input type="submit" class="btn btn-danger" value="Reset Password" onclick="check()">
             <script language='javascript' type='text/javascript'>
                 function check() {
-                    if (document.getElementById('confirmPass').value != document.getElementById('password').value) {
-                        document.getElementById('confirmPass').setCustomValidity('Password Must be Matching.');
+                    if (document.getElementById('confirmResetPass').value != document.getElementById('resetPassword').value) {
+                        document.getElementById('confirmResetPass').setCustomValidity('Password Must be Matching.');
                     } else {
                         // input is valid -- reset the error message
-                        document.getElementById('confirmPass').setCustomValidity('');
+                        document.getElementById('confirmResetPass').setCustomValidity('');
                     }
                 }
             </script>

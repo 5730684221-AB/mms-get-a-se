@@ -270,12 +270,12 @@ router.get('/reset/:id/:resetsecret', function (req, res, next) {
       res.redirect("/");
       return;
     } else if (user.secret != resetsecret) {
+      req.flash('error', "You don't have permission");
       res.redirect("/");
       return;
     } else {
       //correct secret render new password page
-      req.flash('success', "Render new PW page");
-      res.redirect("/");
+      res.render("reset",{title: 'Starfit : Reset Password',style: 'style',id:uid,reset:resetsecret});
     }
   });
 });
