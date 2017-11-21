@@ -100,8 +100,8 @@ router.get('/:sid/success', (req, res) => {
     } else {
         console.log(JSON.stringify(payment));
         res.send('Success');
+        // update db render recept?
     }
-    // update db
   });
 });
 
