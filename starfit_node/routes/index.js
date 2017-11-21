@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-const hostname = process.env.HOSTNAME;
+const hostname = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost:3000';
 
 var sessionChecker = function (req) {
   if (req.session.user) {
