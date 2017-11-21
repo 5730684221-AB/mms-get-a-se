@@ -31,19 +31,21 @@
         {{/each}}
       </p>
       <form style="position:relative;">
-
+        {{#eq service.status "available"}}
         <p class="font-weight-bold">Select time</p>
         <div id="select-time" class="pl-3">
-          {{#each service.timeSlots}}
+          {{#each ../service.timeSlots}}
           {{#if this.available}}
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" name="" value="{{math this.time.[1] "-" this.time.[0]}}" onchange="calculatePrice({{../service.price}})"> {{this.day}} {{this.time.[0]}}.00-{{this.time.[1]}}.00
+              <input class="form-check-input" type="checkbox" name="" value="{{math this.time.[1] "-" this.time.[0]}}" onchange="calculatePrice({{../../service.price}})"> {{this.day}} {{this.time.[0]}}.00-{{this.time.[1]}}.00
             </label>
           </div>
           {{/if}}
           {{/each}}
         </div>
+        {{/eq}}
+        {{#if service.addServ}}
         <p class="font-weight-bold">Additional services</p>
         <div id="select-service" class="pl-3">
           {{#each service.addServ}}
@@ -55,6 +57,7 @@
           </div>
           {{/each}}
         </div>
+        {{/if}}
 
         <p class="font-weight-bold">Price
           <span class="text-red">{{service.price}}</span> Baht/hr</p>
