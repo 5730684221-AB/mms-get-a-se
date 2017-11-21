@@ -4,9 +4,6 @@ var router = express.Router();
 var Users = require('../models/users');
 var Services = require('../models/services');
 
-/* GET home page. */
-
-// middleware function to check for logged-in users
 var sessionChecker = function (req) {
   if (req.session.user) {
     //login
@@ -26,8 +23,8 @@ router.get('/', function (req, res, next) {
   });
 });
 
-// signup
-router.post('/signup', function (req, res) {
+//user signup
+router.post('/signup', function (req, res, next) {
   // add new user to db
   var email = req.body.email.toLowerCase();
   var newuser = {
@@ -38,10 +35,6 @@ router.post('/signup', function (req, res) {
     phone: req.body.phone
 
   };
-  // if(req.body.password !== req.body.confirmPass){
-  //   res.status(500).send({error: 'passwords do not match.'});
-  //   console.log("passwords do not match");
-  // }
   Users.getUserByE(email, (err, user) => {
     if (err) {
       console.log(err);
@@ -86,8 +79,8 @@ router.post('/signup', function (req, res) {
   });
 });
 
-//login
-router.post('/signin', function (req, res) {
+//user login
+router.post('/signin', function (req, res, next) {
   var email = req.body.email.toLowerCase(),
     password = req.body.password;
   //find one in db
@@ -131,6 +124,7 @@ router.post('/signin', function (req, res) {
   console.log("session ", req.session);
 });
 
+//user signout
 router.get('/signout', function (req, res, next) {
   console.log("session ", req.session);
   if (req.session) {
@@ -141,6 +135,7 @@ router.get('/signout', function (req, res, next) {
   }
 });
 
+//user profile
 router.get('/profile/:id', function (req, res, next) {
   var profile_id = req.params.id;
   if (req.session.user) {
@@ -166,7 +161,7 @@ router.get('/profile/:id', function (req, res, next) {
   }
 });
 
-//update
+//update user profile
 router.post('/update', function (req, res, next) {
   if (sessionChecker(req)) {
     var id = req.session.user.id;
@@ -200,6 +195,7 @@ router.post('/update', function (req, res, next) {
   }
 });
 
+//search service profile
 router.get('/search', function (req, res, next) {
   console.log("query ", req.query);
   var query = {};
