@@ -9,23 +9,28 @@
     <div class="btn-group" role="group" aria-label="Basic example">
       <a class="btn btn-danger" href="/profile">My Profile</a>
       <a class="btn btn-danger" href="/reservation">My Reservation</a>
-      <a class="btn btn-danger" href="/mycheckout">My Checkout History</a>
     </div>
   </div>
   <table class="table table-hover mx-auto my-4">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Reservation Id</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">Username</th>
+        <th scope="col">Reservation ID</th>
+        <th scope="col">Service ID</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
+        <td><a href="/reservation/{{reserve.rid}}">{{reserve.id}} Test ID</a></td>
+        <td><a href="/service/{{reserve.sid}}">{{reserve.id}} Test ID</a></td>
+        {{#if reserve.isPaid}}
+        <td>Paid</td>
+        {{else}}
+        <td><a href="/checkout/{{reserve.rid}}"></a></td>
+        {{/if}}
         <td>@mdo</td>
       </tr>
       <tr>
@@ -33,11 +38,13 @@
         <td>Jacob</td>
         <td>Thornton</td>
         <td>@fat</td>
+        <td>@mdo</td>
       </tr>
       <tr>
         <th scope="row">3</th>
         <td colspan="2">Larry the Bird</td>
         <td>@twitter</td>
+        <td>@mdo</td>
       </tr>
     </tbody>
   </table>
