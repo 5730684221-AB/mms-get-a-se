@@ -30,7 +30,7 @@
         <span>{{this}} </span>
         {{/each}}
       </p>
-      <form action="/checkout" method="POST" style="position:relative;">
+      <form action="./pay" method="POST" style="position:relative;">
         <input type="text" style="display:none;" name="sid" value="{{service.id}}">
         <input type="text" style="display:none;" name="price" value="{{service.price}}">
         {{#eq service.status "available"}}

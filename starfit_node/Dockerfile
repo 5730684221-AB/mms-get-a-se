@@ -1,4 +1,4 @@
-from node:4
+from node:latest
 
 ADD . /app
 

@@ -14,9 +14,17 @@ var userchema = mongoose.Schema ({
       sid : String ,
       timestamp :  String,
       tname : String,
-      uname : String,
       price : Number,
-      paymethod : String
+      paymethod : String,
+      items : [{
+        name : String,
+        sku : String,
+        hour : Number,
+        price : Number,
+        currency: String,
+        quantity: Number
+      }],
+      paid : Boolean
   }]
 },
  { collection : 'user' });

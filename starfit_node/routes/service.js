@@ -17,19 +17,61 @@ var sessionChecker = function (req) {
 //payment
 const hostname = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost:3000';
 
-router.post('/:sid/pay', function (req, res, next) {
+router.post('/pay', function (req, res, next) {
   if (true) { //sessionChecker(req)
-    // var uid = req.session.user.id;
-    var service_id = req.params.id;
+    var uid = req.session.user.id
+    var body = req.body;
+    var service_id = req.body.sid;
+    var service_price_h = req.body.price;
+    var items = [{}];
+    var count = 0;
+    var totprice = 0;
+    for (var key in body) {
+      if (body.hasOwnProperty(key)) {
+        // console.log(key + " -> " + body[key]);
+        if(key.startsWith("times")){
+          items[count] = { 
+            name : key.substring(6),
+            sku : "service",
+            // hour : body[key],
+            price : body[key]*service_price_h,
+            currency: "THB",
+            quantity: 1
+          }
+          totprice +=body[key]*service_price_h;
+          count++;
+        }
+        if(key.startsWith("add")){
+          items[count] = { 
+            name : key.substring(4),
+            sku : "service",
+            price : body[key],
+            currency: "THB",
+          }
+        }
+        if(key.startsWith("qty")){
+          // console.log(items[count]);
+          if(items[count] && items[count].name) {
+            items[count].quantity = parseInt(body[key]);
+            // console.log("add");
+            totprice += body[key]*items[count].price;
+            count++;
+          }
+        }
+      }
+    }
+    // console.log("items =",items);
+    // console.log("tot =",totprice);
     Services.getServiceById(service_id, (err, service) => {
       if (err) {
         console.log("err : ", err);
       }else {
-        console.log(service)
-        var service_name = service.name; //req.body...
-        var service_price = service.price;
+        // console.log(service)
+        var service_name = service.name;
         var service_about = service.about;
-        var success_url = hostname + '/service/' + service_id + '/success';
+        var service_trainer = service.tname
+        var rid = "res"+Date.now();
+        var success_url = hostname + '/service/' + rid + '/success';
         var cancel_url = hostname + '/service/cancel';
         var create_payment_json = {
           "intent": "sale",
@@ -42,26 +84,44 @@ router.post('/:sid/pay', function (req, res, next) {
           },
           "transactions": [{
               "item_list": {
-                  "items": [{
-                      "name": service_name,
-                      "sku": "service",
-                      "price": service_price,
-                      "currency": "THB",
-                      "quantity": 1
-                  }]
+                  "items": items
               },
               "amount": {
                   "currency": "THB",
-                  "total": service_price
+                  "total": totprice
               },
               "description": service_about
           }]
         };
+        req.session.payment = {
+          rid: rid,
+          totprice : totprice
+        };
+        var newreservation = {
+          rid : rid ,
+          sid : service_id ,
+          timestamp :  Date.now(),
+          tname : service_trainer,
+          price : totprice,
+          paymethod : "PayPal",
+          items : items,
+          paid : false
+        }
+        updateUser = {
+          $push :{reservations : newreservation}
+        };
+        Users.updateUser(uid, updateUser, null, (err, user) => {
+          // console.log("update");
+          if (err) {
+            console.log(err);
+          }
+
+        });
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
               throw error;
           } else {
-              console.log("create payment response")
+              console.log("create payment response = ")
               console.log(payment);
               for(let i = 0;i < payment.links.length;i++){
                 if(payment.links[i].rel === 'approval_url'){
@@ -78,9 +138,11 @@ router.post('/:sid/pay', function (req, res, next) {
   }
 });
 
-router.get('/:sid/success', (req, res) => {
-  var service_id = req.params.id;
-  var price = "25";
+router.get('/:rid/success', (req, res, next) => {
+  var reserveid = req.params.rid;
+  var uid = req.session.user.id;
+  // console.log("req.session =",req.session);
+  const price = req.session.payment.totprice;
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
 
@@ -93,20 +155,59 @@ router.get('/:sid/success', (req, res) => {
         }
     }]
   };
+  // confirm
   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
     if (error) {
         console.log(error.response);
         throw error;
-    } else {
-        console.log(JSON.stringify(payment));
-        res.send('Success');
-        // update db render recept?
+    } 
+    else {
+      //update reserve status
+      console.log(JSON.stringify(payment));
+      var query = {
+        _id : uid,
+        "reservations.rid" : reserveid
+      }
+      var update = {$set :{'reservations.$.paid' : true}};
+      Users.update(query,update,null, (err, user) => {
+        console.log("update reserve status");
+        if (err) {
+          console.log(err);
+          req.flash('error', "Something error.");
+        }
+      });
+      Users.getUserById(uid, (err, user) => {
+        if (err) {
+          console.log(err);
+        } else {
+          //update session
+          req.session.user = null;
+          var userdata = {
+            id: user._id,
+            email: user.email,
+            fname: user.fname,
+            lname: user.lname,
+            phone: user.phone,
+            image: user.image,
+            trainer: user.trainer,
+            reservations: user.reservations,
+            login: true
+          };
+          console.log("userdata = ", userdata);
+          req.flash('success', "Payment successful.");
+          req.session.user = userdata;
+          res.redirect('/');
+        }
+      });
     }
   });
 });
 
+
+
 router.get('/cancel', (req, res) => {
-  res.render("sth went wrong");
+  req.flash('error', "Something error.");
+  res.redirect('/');
 });
 
 //get service page
