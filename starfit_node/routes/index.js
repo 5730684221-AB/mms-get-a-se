@@ -154,22 +154,16 @@ router.get('/profile/:id', function (req, res, next) {
     if (req.session.user.id === profile_id) {
       var fullname = req.session.user.fname + " " + req.session.user.lname;
       res.render('profile', {
-        title: 'Starfit ',
+        title: 'Starfit : My Profile',
         style: 'style'
       });
     } else {
       req.flash('error', "You don't have permission.");
-      res.render('index', {
-        title: 'Starfit',
-        style: 'style'
-      });
+      res.redirect('/');
     }
   } else {
     req.flash('error', "Please login.");
-    res.render('index', {
-      title: 'Starfit',
-      style: 'style'
-    });
+    res.redirect('/');
   }
 });
 
