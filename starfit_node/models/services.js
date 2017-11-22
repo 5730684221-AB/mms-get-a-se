@@ -14,8 +14,7 @@ var servicechema = mongoose.Schema ({
     id : String,
     day : String,
     time : [Number],
-    available : Boolean,
-    id : String
+    available : Boolean
   }],
   imgs : [String],
   addServ : [{
