@@ -465,6 +465,71 @@ router.get('/review/:sid', function (req, res, next) {
   });
 });
 
+router.post('/review/',function(req,res,next){
+  var uid = req.session.user.id;
+  var rid = req.query.reservationid;
+  var sid = req.query.serviceid;
+  console.log(rid);
+  console.log(sid);
+  Users.getUserById(uid,function(err,user){
+    if (err) {
+      console.log(err);
+    }
+    if(!user){
+      console.log("user is null");
+      res.redirect('/');
+    }
+    console.log(user);
+    user.reservations.forEach(reservation => {
+      if(reservation.id ===rid){
+        if(reservation.isPaid){
+        var now = Date.now();
+        var rev_id = "rev"+now;
+        var rating = req.body.rating;
+        var comment = req.body.rating;
+        var review = {
+          uid: uid,
+          sid: sid,
+          rev_id: rev_id,
+          rating: rating,
+          review: comment,
+          time: now
+        }
+        Services.getServiceById(sid,function(err,service){
+          if(err){
+            console.log(err);
+          }
+          var totRating = service.rating*service.reviews.length;
+          totRating += rating;
+          totRating = totRating/(service.reviews.length + 1);
+          var update = {
+            rating: totRating,
+            $push: {reviews:review}
+          };
+          Services.updateService(sid,update,null,function(err,raw){
+            if(err){
+              console.log(err);
+            }
+            console.log("review added");
+            console.log(raw);
+          });
+        });
+  
+        Users.updateUser(uid,{isReview : true},null,function(err,raw){
+          if(err){
+            console.log(err);
+          }
+        });
+        req.flash("success","review successful");
+        return res.redirect('/service/'+sid);
+      }
+    }
+    });
+    });
+    
+  
+});
+
 router.post('/checkout', function (req, res, next) {
   res.send(req.body);
 });
