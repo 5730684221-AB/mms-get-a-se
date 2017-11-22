@@ -386,14 +386,6 @@ router.get('/search', function (req, res, next) {
       }
       result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
       result[i].emptystar = 5 - result[i].fullstar - result[i].halfstar;
-      //calculating availability
-      result[i].status = "busy";
-      for (var j = 0; j < result[i].timeSlots.length; j++) {
-        if (result[i].timeSlots[j].available) {
-          result[i].status = "available";
-          break;
-        }
-      }
     }
 
 
@@ -466,10 +458,6 @@ router.get('/review/:sid', function (req, res, next) {
 });
 
 router.post('/checkout', function (req, res, next) {
-  res.send(req.body);
-});
-
-router.post('/checkout2', function (req, res, next) {
   res.send(req.body);
 });
 

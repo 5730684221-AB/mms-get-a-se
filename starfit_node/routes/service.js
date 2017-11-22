@@ -264,4 +264,112 @@ router.get('/:_id', function (req, res, next) {
 });
 
 
+//service reservation
+router.post('/reserve', function (req, res, next) {
+  var uid = req.session.user.id;
+  console.log(uid);
+  var reservation = {};
+  var now = Date.now();
+  reservation.rid = Date.parse(now);
+  reservation.timestamp = now.toString();
+  reservation.sid = req.body.sid;
+  var keys = Object.keys(req.body);
+  var items = [];
+  var totalPrice = 0;
+  var timeSlots = [];
+  //parsing key-value
+  for(var i=0;i<keys.length;i++){
+    var a = keys[i].split("-");
+    if(a.length<=1)continue;
+    var item = {};
+    //service times
+    if(a[0].trim() === "times"){
+      //timeslot in serv
+      var timeSlot = a[1]+"-"+a[2]+"-"+a[3];
+      console.log(timeSlot);
+      timeSlots.push(timeSlot);
+      //items in res
+      item.name = keys[i];
+      item.sku = "service";
+      item.price = req.body.price;
+      item.currency = "THB";
+      item.quantity = req.body[keys[i]];
+      totalPrice += item.price*item.quantity;
+      items.push(item);
+      }
+      //additional services
+      else if(a[0] === "add"){
+      item.name = a[1];
+      item.sku = "service";
+      item.price = req.body[keys[i]];
+      item.currency = "THB";
+      items.push(item);
+      }else if(a[0] === "qty"){
+     items.forEach(function(item){
+       if(item.name === a[1]){
+         item.quantity = req.body[keys[i]];
+         totalPrice += item.price*item.quantity;
+        }
+       });
+       //others
+      }else continue;
+    }
+  console.log("items");
+  console.log(items);
+  var service = Services.getServiceById(reservation.sid,function(err,service){
+    if(err){
+      console.error('err ', err);
+      req.flash('error', "An error occurred.");
+      return res.redirect('/service/'+reservation.sid);
+    }
+    if(service.length <=0){
+      console.log("service not found")
+      req.flash('error', "Service not found.");
+      return res.redirect('/service/'+reservation.sid);
+    }
+    reservation.sname = service.name;
+    reservation.tname = service.tname;
+    var status = "busy";
+    service.timeSlots.forEach(function(timeSlot){
+      console.log(timeSlot.id);
+      timeSlots.forEach(function(slot){
+        console.log(slot);
+        if(timeSlot.id === slot){
+          timeSlot.available = false;
+        }
+        if(timeSlot.available)status = "available";
+      });
+      console.log(timeSlot);
+    });
+
+    var updateQuery = {
+      $set : {timeSlots : service.timeSlots},
+      status : status
+    }
+    console.log("update query is ");
+    console.log(updateQuery);
+    Services.updateService(service.id,updateQuery,null,function(err,raw){
+      console.log("update service");
+      if (err) {
+        console.log(err);
+        req.flash('error', "Something error.");
+      }
+      console.log(raw);
+    });
+  });
+
+  reservation.items = items;
+  reservation.isPaid = false;
+  reservation.isReview = false;
+  console.log(reservation);
+  Users.updateUser(uid, {$push :{reservations: reservation} }, null, (err, user) => {
+        console.log("update");
+        if (err) {
+          console.log(err);
+        }
+  });
+  req.flash("success","reservation successful");
+  res.redirect("/service/"+reservation.sid);
+});
+
 module.exports = router;
