@@ -465,10 +465,10 @@ router.get('/review/:sid', function (req, res, next) {
   });
 });
 
-router.post('/review/',function(req,res,next){
+router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
-  var rid = req.query.reservationid;
-  var sid = req.query.serviceid;
+  var rid = req.query.rid;
+  var sid = req.query.sid;
   console.log(rid);
   console.log(sid);
   Users.getUserById(uid,function(err,user){
