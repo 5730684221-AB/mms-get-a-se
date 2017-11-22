@@ -596,22 +596,42 @@ router.get('/reservation/cancel/:rid', function (req, res, next) { //reservation
             "timeSlots.id" : timeslotid
           }
           var tupdate = {$set :{'timeSlots.$.available': true}};
-        }
-        Services.update(tquery,tupdate,null, (err, services) => {
-          if (err) {
-            console.log(err);
-            req.flash('error', "Something error.");
-          }
-          var query = {
-            $pull :{reservations : {rid: rid}}
-          };
-          Users.updateUser(uid,query,null,function(err,raw){
-            if(err){
+          Services.update(tquery,tupdate,null, (err, services) => {
+            if (err) {
               console.log(err);
+              req.flash('error', "Something error.");
             }
-            // console.log(raw);
-            req.flash('success', "Your booking is cancelled");
-            res.redirect('/');
+          });
+        }
+        var query = {
+          $pull :{reservations : {rid: rid}}
+        };
+        Users.updateUser(uid,query,null,function(err,raw){
+          if(err){
+            console.log(err);
+          }
+          // console.log(raw);
+
+          Users.getUserById(uid, (err, user) => {
+            if (err) {
+              console.log(err);
+            } else {
+              //update session
+              var userdata = {
+                id: user._id,
+                email: user.email,
+                fname: user.fname,
+                lname: user.lname,
+                phone: user.phone,
+                image: user.image,
+                trainer: user.trainer,
+                reservations: user.reservations,
+                login: true
+              };
+              req.session.user = userdata;
+              req.flash('success', "Your booking is cancelled");
+              res.redirect('/');
+            }
           });
         });
       }
