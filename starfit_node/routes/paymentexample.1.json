@@ -1,151 +1,54 @@
-[{
-    "_id": "5a156d975405dec3f2f8336e",
-    "sid": "33232",
-    "name": "RUN",
-    "ttype": 3,
-    "rating": 4,
-    "about": "just running",
-    "price": 700,
-    "img": ["default-service"],
-    "status": "available",
-    "reviews": [{
-        "uid": "26362177",
-        "sid": "33232",
-        "rev_id": "221",
-        "review": "good.",
-        "rating": 4.2,
-        "reports": []
-    }],
-    "addServ": [{
-        "name": "water",
-        "price": 20
-    }, {
-        "name": "food",
-        "price": 50
-    }],
-    "imgs": [],
-    "timeSlots": [{
-        "day": "Monday",
-        "available": true,
-        "id": "Monday-9-13",
-        "time": [9, 13]
-    }, {
-        "day": "Tuesday",
-        "available": true,
-        "id": "Tuesday-10-14",
-        "time": [10, 14]
-    }, {
-        "day": "Tuesday",
-        "available": true,
-        "id": "Tuesday-1-3",
-        "time": [1, 3]
-    }],
-    "place": [4, 12],
-    "images": ["/images/index_images/bg1.jpg", "/images/index_images/bg1_old.jpg", "/images/index_images/bg1.jpg"]
-}, {
-    "_id": "5a156d975405dec3f2f8336f",
-    "sid": "33233",
-    "name": "service2",
-    "ttype": 2,
-    "rating": 1.2,
-    "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-    "price": 400,
-    "img": ["default-service"],
-    "status": "available",
-    "reviews": [{
-        "uid": "26362177",
-        "sid": "33232",
-        "rev_id": "221",
-        "review": "meh, better than his *&^#! last.",
-        "rating": 1.2,
-        "reports": []
-    }, {
-        "uid": "26362177",
-        "sid": "33232",
-        "rev_id": "111",
-        "review": "very good",
-        "rating": 4.2,
-        "reports": []
-    }],
-    "addServ": [],
-    "imgs": [],
-    "timeSlots": [{
-        "day": "Monday",
-        "available": true,
-        "id": "Monday-12-15",
-        "time": [12, 15]
-    }, {
-        "day": "Tuesday",
-        "available": true,
-        "id": "Tuesday-11-13",
-        "time": [11, 13]
-    }],
-    "place": [12, 13],
-    "images": ["/images/index_images/bg1.jpg", "/images/index_images/bg1_old.jpg", "/images/index_images/bg1.jpg"]
-}, {
-    "_id": "5a156d975405dec3f2f83370",
-    "sid": "33234",
-    "name": "service3",
-    "ttype": 1,
-    "rating": 0.5,
-    "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-    "price": 1200,
-    "img": ["default-service"],
-    "status": "busy",
-    "reviews": [{
-        "uid": "26362177",
-        "sid": "33232",
-        "rev_id": "221",
-        "review": "meh, better than his *&^#! last.",
-        "rating": 4.2,
-        "reports": []
-    }],
-    "addServ": [],
-    "imgs": [],
-    "timeSlots": [{
-        "day": "Monday",
-        "available": false,
-        "id": "Monday-12-14",
-        "time": [12, 14]
-    }, {
-        "day": "Tuesday",
-        "available": false,
-        "id": "Tuesday-12-13",
-        "time": [12, 13]
-    }],
-    "place": [12, 1],
-    "images": ["/images/index_images/bg1.jpg", "/images/index_images/bg1_old.jpg", "/images/index_images/bg1.jpg"]
-}, {
-    "_id": "5a156d975405dec3f2f83371",
-    "sid": "33235",
-    "name": "service4",
-    "ttype": 4,
-    "rating": 2.1,
-    "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
-    "price": 300,
-    "img": ["default-service"],
-    "status": "available",
-    "reviews": [{
-        "uid": "26362177",
-        "sid": "33232",
-        "rev_id": "221",
-        "review": "meh, better than his *&^#! last.",
-        "rating": 4.2,
-        "reports": []
-    }],
-    "addServ": [],
-    "imgs": [],
-    "timeSlots": [{
-        "day": "Monday",
-        "available": true,
-        "id": "Monday-10-13",
-        "time": [10, 13]
-    }, {
-        "day": "Tuesday",
-        "available": false,
-        "id": "Tuesday-9-12",
-        "time": [9, 12]
-    }],
-    "place": [1, 2],
-    "images": ["/images/index_images/bg1.jpg", "/images/index_images/bg1_old.jpg", "/images/index_images/bg1.jpg"]
-}]
+{
+    "_id": "5a146ec6c17ba67be4a1a37b",
+    "email": "singto123@hotmail.com",
+    "password": "Tt9740123",
+    "fname": "Singto1123",
+    "lname": "saasda",
+    "phone": "0829740123",
+    "__v": 0,
+    "reservations": [{
+        "paid": false,
+        "paymethod": "PayPal",
+        "price": 7130,
+        "timestamp": "1511288526439",
+        "sid": "5a144ab444db97b2d5e745c7",
+        "rid": "res1511288526439",
+        "_id": "5a146ecec17ba67be4a1a37c",
+        "items": [{
+            "quantity": 1,
+            "currency": "THB",
+            "price": 2800,
+            "sku": "service",
+            "name": "Monday-9-13",
+            "_id": "5a146ecec17ba67be4a1a381"
+        }, {
+            "quantity": 1,
+            "currency": "THB",
+            "price": 2800,
+            "sku": "service",
+            "name": "Tuesday-10-14",
+            "_id": "5a146ecec17ba67be4a1a380"
+        }, {
+            "quantity": 1,
+            "currency": "THB",
+            "price": 1400,
+            "sku": "service",
+            "name": "Tuesday-1-3",
+            "_id": "5a146ecec17ba67be4a1a37f"
+        }, {
+            "quantity": 4,
+            "currency": "THB",
+            "price": 20,
+            "sku": "service",
+            "name": "water",
+            "_id": "5a146ecec17ba67be4a1a37e"
+        }, {
+            "quantity": 1,
+            "currency": "THB",
+            "price": 50,
+            "sku": "service",
+            "name": "food",
+            "_id": "5a146ecec17ba67be4a1a37d"
+        }]
+    }]
+}
