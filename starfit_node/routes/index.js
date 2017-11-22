@@ -433,6 +433,85 @@ router.get('/reservation', function (req, res, next) {
   });
 });
 
+//pay my reservation
+router.post('/reservation/pay/:rid', function (req, res, next) {
+  if (true) {
+    var uid = "5a15940fe39965768b2944ef"; //req.session.user.id
+    var rid = req.params.rid
+    var query = {
+      "_id" : uid,
+    }
+    Users.findOne(query, (err, user) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        var reservations = user.reservations;
+        var i;
+        for (var i = 0; i < reservations.length; i++) {
+          if(reservations[i].rid === rid) {
+            var reservation = reservations[i];
+            console.log("reservation",reservation);
+            // var rid = "res"+Date.now();
+            // var success_url = hostname + '/service/' + rid + '/success';
+            // var cancel_url = hostname + '/service/cancel';
+            // var items = reservation.items;
+            // var total = reservation.price;
+            // console.log(reservation.items)
+            // console.log(reservation.price)
+
+            // var create_payment_json = {
+            //   "intent": "sale",
+            //   "payer": {
+            //       "payment_method": "paypal"
+            //   },
+            //   "redirect_urls": {
+            //       "return_url": success_url,
+            //       "cancel_url": cancel_url
+            //   },
+            //   "transactions": [{
+            //       "item_list": {
+            //           "items": reservation.items
+            //       },
+            //       "amount": {
+            //           "currency": "THB",
+            //           "total": reservation.price
+            //       },
+            //       "description": "STARFIT BOOKING"
+            //   }]
+            // };
+
+            // console.log("create_payment_json",create_payment_json)
+            // res.send(create_payment_json);
+            
+            // req.session.payment = {
+            //   rid: rid,
+            //   totprice : totprice
+            // };
+    
+            // paypal.payment.create(create_payment_json, function (error, payment) {
+            //   if (error) {
+            //       throw error;
+            //   } else {
+            //     console.log("create payment response = ")
+            //     console.log(payment);
+            //     for(var i = 0;i < payment.links.length;i++){
+            //       if(payment.links[i].rel === 'approval_url'){
+            //         res.redirect(payment.links[i].href);
+            //       }
+            //     }
+            //   }
+            // });
+          }
+        }
+      }
+    });
+  } else {
+    req.flash('error', "Please login.");
+    res.redirect("/");
+  }
+});
+
 router.get('/reservation/:rid', function (req, res, next) {
   var rid = req.params.rid;
   if (!rid) {
