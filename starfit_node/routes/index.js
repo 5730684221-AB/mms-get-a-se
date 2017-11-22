@@ -442,7 +442,9 @@ router.get('/reservation/:rid', function (req, res, next) {
     var reservation = {};
     for(var i=0;i<reservations.length;i++){
       if(reservations[i].rid == rid){
-        reservation = reservations[i]
+        reservation = reservations[i];
+        var date =  new Date(parseInt(reservation.timestamp));
+        reservation.date = date;
       }
     }
     console.log("reservation == ",reservation);

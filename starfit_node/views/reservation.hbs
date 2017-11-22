@@ -20,12 +20,14 @@
         <th scope="col">Service ID</th>
         <th scope="col">Status</th>
         <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {{#each account.reservations}}
       <tr>
-        <th scope="row">{{math @index "+" 1}}</th>
+        <th scope="row">{{math @index "+" 1}}
+        </th>
         <td>
           <a href="/reservation/{{this.rid}}">{{this.rid}}</a>
         </td>
@@ -52,6 +54,11 @@
             <i class="fa fa-shopping-cart" aria-hidden="true"></i> Click to pay</a>
         </td>
         {{/if}}
+        <td>{{#unless this.isPaid}}
+          <a class="text-dark" href="/delete/{{this.rid}}/{{this.sid}}">
+            <i class="text-red fa fa-times" aria-hidden="true"></i>
+          </a>
+          {{/unless}}</td>
       </tr>
       {{/each}}
     </tbody>
