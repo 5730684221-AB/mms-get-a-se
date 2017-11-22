@@ -684,6 +684,7 @@ router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
   var rid = req.params.rid;
   var sid = req.params.sid;
+  var uname = req.session.user.fname+" "+req.session.user.lname;
   console.log(req.body);
   console.log(rid);
   console.log(sid);
@@ -708,6 +709,7 @@ router.post('/review/:sid/:rid',function(req,res,next){
         console.log(comment);
         var review = {
           uid: uid,
+          uname: uname,
           sid: sid,
           rev_id: rev_id,
           rating: rating,
