@@ -378,7 +378,7 @@ router.get('/search', function (req, res, next) {
       var rate = result[i].rating;
       result[i].fullstar = 0;
       result[i].halfstar = 0;
-      while (rate > 1) {
+      while (rate >= 1) {
         rate--;
         result[i].fullstar++;
       }
@@ -433,85 +433,6 @@ router.get('/reservation', function (req, res, next) {
   });
 });
 
-//pay my reservation
-router.post('/reservation/pay/:rid', function (req, res, next) {
-  if (true) {
-    var uid = "5a15940fe39965768b2944ef"; //req.session.user.id
-    var rid = req.params.rid
-    var query = {
-      "_id" : uid,
-    }
-    Users.findOne(query, (err, user) => {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        var reservations = user.reservations;
-        var i;
-        for (var i = 0; i < reservations.length; i++) {
-          if(reservations[i].rid === rid) {
-            var reservation = reservations[i];
-            console.log("reservation",reservation);
-            // var rid = "res"+Date.now();
-            // var success_url = hostname + '/service/' + rid + '/success';
-            // var cancel_url = hostname + '/service/cancel';
-            // var items = reservation.items;
-            // var total = reservation.price;
-            // console.log(reservation.items)
-            // console.log(reservation.price)
-
-            // var create_payment_json = {
-            //   "intent": "sale",
-            //   "payer": {
-            //       "payment_method": "paypal"
-            //   },
-            //   "redirect_urls": {
-            //       "return_url": success_url,
-            //       "cancel_url": cancel_url
-            //   },
-            //   "transactions": [{
-            //       "item_list": {
-            //           "items": reservation.items
-            //       },
-            //       "amount": {
-            //           "currency": "THB",
-            //           "total": reservation.price
-            //       },
-            //       "description": "STARFIT BOOKING"
-            //   }]
-            // };
-
-            // console.log("create_payment_json",create_payment_json)
-            // res.send(create_payment_json);
-            
-            // req.session.payment = {
-            //   rid: rid,
-            //   totprice : totprice
-            // };
-    
-            // paypal.payment.create(create_payment_json, function (error, payment) {
-            //   if (error) {
-            //       throw error;
-            //   } else {
-            //     console.log("create payment response = ")
-            //     console.log(payment);
-            //     for(var i = 0;i < payment.links.length;i++){
-            //       if(payment.links[i].rel === 'approval_url'){
-            //         res.redirect(payment.links[i].href);
-            //       }
-            //     }
-            //   }
-            // });
-          }
-        }
-      }
-    });
-  } else {
-    req.flash('error', "Please login.");
-    res.redirect("/");
-  }
-});
-
 router.get('/reservation/:rid', function (req, res, next) {
   var rid = req.params.rid;
   if (!rid) {
@@ -533,30 +454,6 @@ router.get('/reservation/:rid', function (req, res, next) {
       reservation: reservation
     });
   }
-});
-
-//review
-router.get('/review/:sid/:rid', function (req, res, next) {
-  var sid = req.params.sid;
-  var rid = req.params.rid;
-  res.render('review', {
-    title: 'Starfit : Review',
-    style: 'style',
-    rid: rid,
-    sid: sid
-  });
-});
-
-router.post('/review/:sid/:rid', function (req, res, next) {
-  var sid = req.params.sid;
-  var rid = req.params.rid;
-  req.session
-  res.render('review', {
-    title: 'Starfit : Review',
-    style: 'style',
-    rid: rid,
-    sid: sid
-  });
 });
 
 router.get('/report/:sid/:rev_id', function (req, res, next) {
@@ -583,6 +480,18 @@ router.get('/report/:sid/:rev_id', function (req, res, next) {
   });
 });
 
+//review
+router.get('/review/:sid/:rid', function (req, res, next) {
+  var sid = req.params.sid;
+  var rid = req.params.rid;
+  res.render('review', {
+    title: 'Starfit : Review',
+    style: 'style',
+    rid: rid,
+    sid: sid
+  });
+});
+
 router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
   var rid = req.params.rid;
@@ -605,7 +514,7 @@ router.post('/review/:sid/:rid',function(req,res,next){
         if(reservation.isPaid){
         var now = Date.now();
         var rev_id = "rev"+now;
-        var rating = req.body.rate;
+        var rating = parseFloat(req.body.rate);
         console.log(rating);
         var comment = req.body.comment;
         console.log(comment);
@@ -637,16 +546,21 @@ router.post('/review/:sid/:rid',function(req,res,next){
             }
             console.log("review added");
             console.log(raw);
+            reservation.isReview = true;
+            Users.updateUser(uid,user,null,function(err,raw){
+              if(err){
+                console.log(err);
+              }
+              for(var i=0;i<req.session.user.reservations.length;i++){
+                if(req.session.user.reservations[i].rid == rid){
+                  req.session.user.reservations[i].isReview = true;
+                }
+              }
+              req.flash("success","review successful");
+              res.redirect('/service/'+sid);
+            });
           });
         });
-        reservation.isReview = true;
-        Users.updateUser(uid,user,null,function(err,raw){
-          if(err){
-            console.log(err);
-          }
-        });
-        req.flash("success","review successful");
-        res.redirect('/service/'+sid);
       }
       return review;
     }

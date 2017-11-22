@@ -422,7 +422,7 @@ router.get('/:_id', function (req, res, next) {
     var rate = service.rating;
     service.fullstar = 0;
     service.halfstar = 0;
-    while (rate > 1) {
+    while (rate >= 1) {
       rate--;
       service.fullstar++;
     }
@@ -439,7 +439,7 @@ router.get('/:_id', function (req, res, next) {
       var rate = service.reviews[i].rating;
       service.reviews[i].fullstar = 0;
       service.reviews[i].halfstar = 0;
-      while (rate > 1) {
+      while (rate >= 1) {
         rate--;
         service.reviews[i].fullstar++;
       }
@@ -448,6 +448,8 @@ router.get('/:_id', function (req, res, next) {
       }
       service.reviews[i].emptystar = 5 - service.reviews[i].fullstar - service.reviews[i].halfstar;
     }
+
+    service.rating_round = parseFloat(service.rating).toFixed(2);
 
     res.render('service', {
       title: 'Starfit',
