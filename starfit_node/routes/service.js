@@ -34,9 +34,9 @@ router.post('/pay', function (req, res, next) {
             name : key.substring(6),
             sku : "service",
             // hour : body[key],
-            price : body[key]*service_price_h,
+            price : service_price_h,
             currency: "THB",
-            quantity: 1
+            quantity: body[key]
           }
           totprice +=body[key]*service_price_h;
           count++;
