@@ -31,34 +31,34 @@ router.post('/pay', function (req, res, next) {
     for (var key in body) {
       if (body.hasOwnProperty(key)) {
         // console.log(key + " -> " + body[key]);
-        if(key.startsWith("times")){
+        if (key.startsWith("times")) {
           var a = (key).split("-");
-          items[count] = { 
-            name : key.substring(6),
-            sku : "service",
+          items[count] = {
+            name: key.substring(6),
+            sku: "service",
             // hour : body[key],
-            price : service_price_h,
+            price: service_price_h,
             currency: "THB",
             quantity: body[key]
           };
           timeSlots[count] = key.substring(6);
-          totprice +=body[key]*service_price_h;
+          totprice += body[key] * service_price_h;
           count++;
         }
-        if(key.startsWith("add")){
-          items[count] = { 
-            name : key.substring(4),
-            sku : "service",
-            price : body[key],
+        if (key.startsWith("add")) {
+          items[count] = {
+            name: key.substring(4),
+            sku: "service",
+            price: body[key],
             currency: "THB",
           }
         }
-        if(key.startsWith("qty")){
+        if (key.startsWith("qty")) {
           // console.log(items[count]);
-          if(items[count] && items[count].name) {
+          if (items[count] && items[count].name) {
             items[count].quantity = parseInt(body[key]);
             // console.log("add");
-            totprice += body[key]*items[count].price;
+            totprice += body[key] * items[count].price;
             count++;
           }
         }
@@ -70,52 +70,54 @@ router.post('/pay', function (req, res, next) {
     Services.getServiceById(service_id, (err, service) => {
       if (err) {
         console.log("err : ", err);
-      }else {
+      } else {
         var service_name = service.name;
         var service_about = service.about;
         var service_trainer = service.tname
-        var rid = "res"+Date.now();
+        var rid = "res" + Date.now();
         var success_url = hostname + '/service/' + rid + '/success';
         var cancel_url = hostname + '/service/cancel';
         var create_payment_json = {
           "intent": "sale",
           "payer": {
-              "payment_method": "paypal"
+            "payment_method": "paypal"
           },
           "redirect_urls": {
-              "return_url": success_url,
-              "cancel_url": cancel_url
+            "return_url": success_url,
+            "cancel_url": cancel_url
           },
           "transactions": [{
-              "item_list": {
-                  "items": items
-              },
-              "amount": {
-                  "currency": "THB",
-                  "total": totprice
-              },
-              "description": service_about
+            "item_list": {
+              "items": items
+            },
+            "amount": {
+              "currency": "THB",
+              "total": totprice
+            },
+            "description": service_about
           }]
         };
-        
+
         var status = "busy";
-        service.timeSlots.forEach(function(timeSlot){
+        service.timeSlots.forEach(function (timeSlot) {
           console.log(timeSlot.id);
-          timeSlots.forEach(function(slot){
+          timeSlots.forEach(function (slot) {
             console.log(slot);
-            if(timeSlot.id === slot){
+            if (timeSlot.id === slot) {
               timeSlot.available = false;
             }
-            if(timeSlot.available)status = "available";
+            if (timeSlot.available) status = "available";
           });
           console.log(timeSlot);
         });
-    
+
         var updateQuery = {
-          $set : {timeSlots : service.timeSlots},
-          status : status
+          $set: {
+            timeSlots: service.timeSlots
+          },
+          status: status
         }
-        Services.updateService(service_id,updateQuery,null,function(err,raw){
+        Services.updateService(service_id, updateQuery, null, function (err, raw) {
           console.log("update service");
           if (err) {
             console.log(err);
@@ -126,21 +128,23 @@ router.post('/pay', function (req, res, next) {
 
         req.session.payment = {
           rid: rid,
-          totprice : totprice
+          totprice: totprice
         };
         var newreservation = {
-          rid : rid ,
-          sid : service_id ,
-          sname : service_name,
-          timestamp :  Date.now(),
-          tname : service_trainer,
-          price : totprice,
-          paymethod : "PayPal",
-          isPaid : false,
-          items : items
+          rid: rid,
+          sid: service_id,
+          sname: service_name,
+          timestamp: Date.now(),
+          tname: service_trainer,
+          price: totprice,
+          paymethod: "PayPal",
+          isPaid: false,
+          items: items
         }
         updateUser = {
-          $push :{reservations : newreservation}
+          $push: {
+            reservations: newreservation
+          }
         };
         Users.updateUser(uid, updateUser, null, (err, user) => {
           // console.log("update");
@@ -171,12 +175,12 @@ router.post('/pay', function (req, res, next) {
 
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
-              throw error;
+            throw error;
           } else {
             console.log("create payment response = ")
             console.log(payment);
-            for(var i = 0;i < payment.links.length;i++){
-              if(payment.links[i].rel === 'approval_url'){
+            for (var i = 0; i < payment.links.length; i++) {
+              if (payment.links[i].rel === 'approval_url') {
                 res.redirect(payment.links[i].href);
               }
             }
@@ -201,27 +205,30 @@ router.get('/:rid/success', (req, res, next) => {
   const execute_payment_json = {
     "payer_id": payerId,
     "transactions": [{
-        "amount": {
-            "currency": "THB",
-            "total": price
-        }
+      "amount": {
+        "currency": "THB",
+        "total": price
+      }
     }]
   };
   // confirm
   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
     if (error) {
-        console.log(error.response);
-        throw error;
-    } 
-    else {
+      console.log(error.response);
+      throw error;
+    } else {
       //update reserve status
       console.log(JSON.stringify(payment));
       var query = {
-        _id : uid,
-        "reservations.rid" : reserveid
+        _id: uid,
+        "reservations.rid": reserveid
       }
-      var update = {$set :{'reservations.$.isPaid' : true}};
-      Users.update(query,update,null, (err, user) => {
+      var update = {
+        $set: {
+          'reservations.$.isPaid': true
+        }
+      };
+      Users.update(query, update, null, (err, user) => {
         console.log("update reserve status");
         if (err) {
           console.log(err);
@@ -275,14 +282,14 @@ router.post('/reserve', function (req, res, next) {
   var totalPrice = 0;
   var timeSlots = [];
   //parsing key-value
-  for(var i=0;i<keys.length;i++){
+  for (var i = 0; i < keys.length; i++) {
     var a = keys[i].split("-");
-    if(a.length<=1)continue;
+    if (a.length <= 1) continue;
     var item = {};
     //service times
-    if(a[0].trim() === "times"){
+    if (a[0].trim() === "times") {
       //timeslot in serv
-      var timeSlot = a[1]+"-"+a[2]+"-"+a[3];
+      var timeSlot = a[1] + "-" + a[2] + "-" + a[3];
       console.log(timeSlot);
       timeSlots.push(timeSlot);
       //items in res
@@ -291,61 +298,63 @@ router.post('/reserve', function (req, res, next) {
       item.price = req.body.price;
       item.currency = "THB";
       item.quantity = req.body[keys[i]];
-      totalPrice += item.price*item.quantity;
+      totalPrice += item.price * item.quantity;
       items.push(item);
-      }
-      //additional services
-      else if(a[0] === "add"){
+    }
+    //additional services
+    else if (a[0] === "add") {
       item.name = a[1];
       item.sku = "service";
       item.price = req.body[keys[i]];
       item.currency = "THB";
       items.push(item);
-      }else if(a[0] === "qty"){
-     items.forEach(function(item){
-       if(item.name === a[1]){
-         item.quantity = req.body[keys[i]];
-         totalPrice += item.price*item.quantity;
+    } else if (a[0] === "qty") {
+      items.forEach(function (item) {
+        if (item.name === a[1]) {
+          item.quantity = req.body[keys[i]];
+          totalPrice += item.price * item.quantity;
         }
-       });
-       //others
-      }else continue;
-    }
+      });
+      //others
+    } else continue;
+  }
   console.log("items");
   console.log(items);
-  var service = Services.getServiceById(reservation.sid,function(err,service){
-    if(err){
+  var service = Services.getServiceById(reservation.sid, function (err, service) {
+    if (err) {
       console.error('err ', err);
       req.flash('error', "An error occurred.");
-      return res.redirect('/service/'+reservation.sid);
+      return res.redirect('/service/' + reservation.sid);
     }
-    if(service.length <=0){
+    if (service.length <= 0) {
       console.log("service not found")
       req.flash('error', "Service not found.");
-      return res.redirect('/service/'+reservation.sid);
+      return res.redirect('/service/' + reservation.sid);
     }
     reservation.sname = service.name;
     reservation.tname = service.tname;
     var status = "busy";
-    service.timeSlots.forEach(function(timeSlot){
+    service.timeSlots.forEach(function (timeSlot) {
       console.log(timeSlot.id);
-      timeSlots.forEach(function(slot){
+      timeSlots.forEach(function (slot) {
         console.log(slot);
-        if(timeSlot.id === slot){
+        if (timeSlot.id === slot) {
           timeSlot.available = false;
         }
-        if(timeSlot.available)status = "available";
+        if (timeSlot.available) status = "available";
       });
       console.log(timeSlot);
     });
 
     var updateQuery = {
-      $set : {timeSlots : service.timeSlots},
-      status : status
+      $set: {
+        timeSlots: service.timeSlots
+      },
+      status: status
     }
     console.log("update query is ");
     console.log(updateQuery);
-    Services.updateService(service.id,updateQuery,null,function(err,raw){
+    Services.updateService(service.id, updateQuery, null, function (err, raw) {
       console.log("update service");
       if (err) {
         console.log(err);
@@ -359,24 +368,26 @@ router.post('/reserve', function (req, res, next) {
   reservation.isPaid = false;
   reservation.isReview = false;
   console.log(reservation);
-  Users.updateUser(uid, {$push :{reservations: reservation} }, null, (err, user) => {
-        console.log("update");
-        if (err) {
-          console.log(err);
-        }
+  Users.updateUser(uid, {
+    $push: {
+      reservations: reservation
+    }
+  }, null, (err, user) => {
+    console.log("update");
+    if (err) {
+      console.log(err);
+    }
   });
-  req.flash("success","reservation successful");
-  res.redirect("/service/"+reservation.sid);
 });
 
 //get service page
 router.get('/:_id', function (req, res, next) {
   var service_id = req.params._id;
   Services.getServiceById(service_id, (err, service) => {
-    if(!service){
+    if (!service) {
       req.flash('error', "Service is not found.");
       return res.redirect("/");
-    } 
+    }
     if (err) {
       console.log("err : ", err);
     }

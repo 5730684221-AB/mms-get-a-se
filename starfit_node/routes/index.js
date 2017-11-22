@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var paypal = require('paypal-rest-sdk');
 
 var Users = require('../models/users');
 var Services = require('../models/services');
@@ -438,16 +439,14 @@ router.get('/reservation/:rid', function (req, res, next) {
     req.flash("error", "Something error!");
     res.redirect('/');
   } else {
-    var reservations = req.session.user.reservations;
-    var reservation = {};
-    for(var i=0;i<reservations.length;i++){
-      if(reservations[i].rid == rid){
+    for (var i = 0; i < reservations.length; i++) {
+      if (reservations[i].rid == rid) {
         reservation = reservations[i];
-        var date =  new Date(parseInt(reservation.timestamp));
+        var date = new Date(parseInt(reservation.timestamp));
         reservation.date = date;
       }
     }
-    console.log("reservation == ",reservation);
+    console.log("reservation == ", reservation);
     res.render('reserve', {
       title: 'Starfit : My Reservation',
       style: 'style',
@@ -457,11 +456,50 @@ router.get('/reservation/:rid', function (req, res, next) {
 });
 
 //review
-router.get('/review/:sid', function (req, res, next) {
+router.get('/review/:sid/:rid', function (req, res, next) {
   var sid = req.params.sid;
+  var rid = req.params.rid;
   res.render('review', {
     title: 'Starfit : Review',
-    style: 'style'
+    style: 'style',
+    rid: rid,
+    sid: sid
+  });
+});
+
+router.post('/review/:sid/:rid', function (req, res, next) {
+  var sid = req.params.sid;
+  var rid = req.params.rid;
+  req.session
+  res.render('review', {
+    title: 'Starfit : Review',
+    style: 'style',
+    rid: rid,
+    sid: sid
+  });
+});
+
+router.get('/report/:sid/:rev_id', function (req, res, next) {
+  var sid = req.params.sid;
+  var rev_id = req.params.rev_id;
+  Services.getServiceById(sid, (err, service) => {
+    for (var i = 0; i < service.reviews.length; i++) {
+      if (service.reviews[i].rev_id == rev_id) {
+        service.reviews[i].isReport = true;
+      }
+      console.log("Reviews = ",service.reviews);
+    }
+    Services.updateService(sid, service, null, (err, service) => {
+      if (err) {
+        console.log("Report Error!");
+        req.flash('error', 'Can not report review');
+        res.redirect('/');
+      } else {
+        console.log("Report success service = ",service);
+        req.flash('success', 'Report is successful.');
+        res.redirect('/');
+      }
+    });
   });
 });
 
