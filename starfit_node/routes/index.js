@@ -526,6 +526,7 @@ router.get('/reservation/pay/:rid', function (req, res, next) {
   }
 });
 
+//get reservation page
 router.get('/reservation/:rid', function (req, res, next) {
   var rid = req.params.rid;
   if (!rid) {
@@ -548,6 +549,76 @@ router.get('/reservation/:rid', function (req, res, next) {
     });
   }
 });
+
+
+//cancel reservation
+router.get('/cancel', function (req, res, next) { //reservation/cancel/:rid
+  if (true) { //sessionChecker(req)
+    var uid = req.session.user.id; //req.session.user.id
+    var rid = req.params.rid; //req.params.rid
+    var query = {
+      "_id" : uid,
+    }
+    Users.getUserById(uid, (err, user) => {
+      if (err) {
+        console.log(err);
+      }
+      if(!user) {
+        //user not found
+      }
+      else{
+        // console.log("user",user);
+        var reservations = user.reservations;
+        var reservation = {};
+        for (var i = 0; i < reservations.length; i++) {
+          if(reservations[i].rid === rid) {
+            reservation = reservations[i];
+          }
+        }
+        //change status in service
+        var serviceid = reservation.sid;
+        var squery = {
+          _id : serviceid
+        }
+        var supdate = {$set :{'status' : true}};
+        Services.update(squery,supdate,null, (err, user) => {
+          console.log("update reserve status");
+          if (err) {
+            console.log(err);
+            req.flash('error', "Something error.");
+            
+          }
+        });
+        var items = reservation.item;
+        for(var i = 0 ; i<items.length; i++) {
+          var timeslotid = items[i].name;
+          var tquery = {
+            _id : serviceid,
+            "timeSlots.rid" : timeslotid
+          }
+          var tupdate = {$set :{'available' : true}};
+          Services.update(tquery,tupdate,null, (err, user) => {
+            console.log("update reserve status");
+            if (err) {
+              console.log(err);
+              req.flash('error', "Something error.");
+            }
+          });
+        }
+
+        
+
+
+      }
+    });
+
+    //delete reservation from user
+    
+  } else {
+    req.flash('error', "Please login.");
+    res.redirect("/");
+  }
+  });
 
 router.get('/report/:sid/:rev_id', function (req, res, next) {
   var sid = req.params.sid;
@@ -584,6 +655,7 @@ router.get('/review/:sid/:rid', function (req, res, next) {
     sid: sid
   });
 });
+
 
 router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
@@ -667,8 +739,5 @@ router.post('/checkout', function (req, res, next) {
   res.send(req.body);
 });
 
-router.post('/checkout2', function (req, res, next) {
-  res.send(req.body);
-});
 
 module.exports = router;
