@@ -434,7 +434,7 @@ router.get('/reservation', function (req, res, next) {
 });
 
 //pay my reservation
-router.post('/reservation/pay/:rid', function (req, res, next) {
+router.get('/reservation/pay/:rid', function (req, res, next) {
   if (sessionChecker(req)) {
     var uid = req.session.user.id; //req.session.user.id
     var rid = req.params.rid; //req.params.rid
