@@ -11,6 +11,7 @@ var servicechema = mongoose.Schema ({
   place : [Number],
   status : String,
   timeSlots : [{
+    id : String,
     day : String,
     time : [Number],
     available : Boolean
