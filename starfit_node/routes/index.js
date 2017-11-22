@@ -457,18 +457,22 @@ router.get('/reservation/:rid', function (req, res, next) {
 });
 
 //review
-router.get('/review/:sid', function (req, res, next) {
+router.get('/review/:sid/:rid', function (req, res, next) {
   var sid = req.params.sid;
+  var rid = req.params.rid;
   res.render('review', {
     title: 'Starfit : Review',
-    style: 'style'
+    style: 'style',
+    rid: rid,
+    sid:sid
   });
 });
 
 router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
-  var rid = req.query.rid;
-  var sid = req.query.sid;
+  var rid = req.params.rid;
+  var sid = req.params.sid;
+  console.log(req.body);
   console.log(rid);
   console.log(sid);
   Users.getUserById(uid,function(err,user){
@@ -479,14 +483,17 @@ router.post('/review/:sid/:rid',function(req,res,next){
       console.log("user is null");
       res.redirect('/');
     }
-    console.log(user);
     user.reservations.forEach(reservation => {
-      if(reservation.id ===rid){
+      console.log(reservation);
+      if(reservation.rid === rid){
+        console.log("matched");
         if(reservation.isPaid){
         var now = Date.now();
         var rev_id = "rev"+now;
-        var rating = req.body.rating;
-        var comment = req.body.rating;
+        var rating = req.body.rate;
+        console.log(rating);
+        var comment = req.body.comment;
+        console.log(comment);
         var review = {
           uid: uid,
           sid: sid,
@@ -496,12 +503,15 @@ router.post('/review/:sid/:rid',function(req,res,next){
           time: now
         }
         Services.getServiceById(sid,function(err,service){
+          console.log(service);
           if(err){
             console.log(err);
           }
-          var totRating = service.rating*service.reviews.length;
+          console.log(service.rating);
+          var totRating = service.rating;
+          totRating *= service.reviews.length;
           totRating += rating;
-          totRating = totRating/(service.reviews.length + 1);
+          totRating /= (service.reviews.length + 1);
           var update = {
             rating: totRating,
             $push: {reviews:review}
@@ -514,15 +524,16 @@ router.post('/review/:sid/:rid',function(req,res,next){
             console.log(raw);
           });
         });
-  
-        Users.updateUser(uid,{isReview : true},null,function(err,raw){
+        reservation.isReview = true;
+        Users.updateUser(uid,user,null,function(err,raw){
           if(err){
             console.log(err);
           }
         });
         req.flash("success","review successful");
-        return res.redirect('/service/'+sid);
+        res.redirect('/service/'+sid);
       }
+      return review;
     }
     });
     });
