@@ -62,11 +62,9 @@ router.post('/signup', function (req, res, next) {
           res.redirect("/");
           console.log("signup error");
         }
-
         req.session.user = user;
         console.log(user);
         req.flash('success', "Signup successful.");
-
         var userdata = {
           id: user._id,
           email: user.email,
@@ -552,8 +550,8 @@ router.get('/reservation/:rid', function (req, res, next) {
 
 
 //cancel reservation
-router.get('/cancel', function (req, res, next) { //reservation/cancel/:rid
-  if (true) { //sessionChecker(req)
+router.get('/reservation/cancel/:rid', function (req, res, next) { //reservation/cancel/:rid
+  if (sessionChecker(req)) { //sessionChecker(req)
     var uid = req.session.user.id; //req.session.user.id
     var rid = req.params.rid; //req.params.rid
     var query = {
@@ -567,7 +565,7 @@ router.get('/cancel', function (req, res, next) { //reservation/cancel/:rid
         //user not found
       }
       else{
-        // console.log("user",user);
+        console.log("user",user);
         var reservations = user.reservations;
         var reservation = {};
         for (var i = 0; i < reservations.length; i++) {
@@ -580,43 +578,48 @@ router.get('/cancel', function (req, res, next) { //reservation/cancel/:rid
         var squery = {
           _id : serviceid
         }
-        var supdate = {$set :{'status' : true}};
+        var supdate = {$set :{'status' : "available"}};
         Services.update(squery,supdate,null, (err, user) => {
           console.log("update reserve status");
           if (err) {
             console.log(err);
-            req.flash('error', "Something error.");
-            
           }
         });
-        var items = reservation.item;
+        var items = reservation.items;
+        // console.log("reservation = " ,reservation);
+        console.log("items = " ,items);
         for(var i = 0 ; i<items.length; i++) {
-          var timeslotid = items[i].name;
+          var timeslotid = items[i].name.substring(6);
+          console.log("timeslotid = " ,timeslotid);
           var tquery = {
             _id : serviceid,
-            "timeSlots.rid" : timeslotid
+            "timeSlots.id" : timeslotid
           }
-          var tupdate = {$set :{'available' : true}};
-          Services.update(tquery,tupdate,null, (err, user) => {
-            console.log("update reserve status");
-            if (err) {
-              console.log(err);
-              req.flash('error', "Something error.");
-            }
-          });
+          var tupdate = {$set :{'timeSlots.$.available': true}};
         }
-
-        
-
-
+        Services.update(tquery,tupdate,null, (err, services) => {
+          if (err) {
+            console.log(err);
+            req.flash('error', "Something error.");
+          }
+          var query = {
+            $pull :{reservations : {rid: rid}}
+          };
+          Users.updateUser(uid,query,null,function(err,raw){
+            if(err){
+              console.log(err);
+            }
+            // console.log(raw);
+            req.flash('success', "Your booking is cancelled");
+            res.redirect('/');
+          });
+        });
       }
-    });
-
-    //delete reservation from user
-    
+    });    
   } else {
     req.flash('error', "Please login.");
     res.redirect("/");
+    return;
   }
   });
 
