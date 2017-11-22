@@ -17,8 +17,9 @@ var sessionChecker = function (req) {
 //payment
 const hostname = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost:3000';
 
+//pay
 router.post('/pay', function (req, res, next) {
-  if (true) { //sessionChecker(req)
+  if (sessionChecker(req)) {
     var uid = req.session.user.id
     var body = req.body;
     var service_id = req.body.sid;
@@ -100,15 +101,15 @@ router.post('/pay', function (req, res, next) {
         
         var status = "busy";
         service.timeSlots.forEach(function(timeSlot){
-          console.log(timeSlot.id);
+          // console.log(timeSlot.id);
           timeSlots.forEach(function(slot){
-            console.log(slot);
+            // console.log(slot);
             if(timeSlot.id === slot){
               timeSlot.available = false;
             }
             if(timeSlot.available)status = "available";
           });
-          console.log(timeSlot);
+          // console.log(timeSlot);
         });
     
         var updateQuery = {
@@ -116,12 +117,12 @@ router.post('/pay', function (req, res, next) {
           status : status
         }
         Services.updateService(service_id,updateQuery,null,function(err,raw){
-          console.log("update service");
+          // console.log("update service");
           if (err) {
             console.log(err);
             req.flash('error', "Something error.");
           }
-          console.log(raw);
+          // console.log(raw);
         });
 
         req.session.payment = {
@@ -129,6 +130,7 @@ router.post('/pay', function (req, res, next) {
           totprice : totprice
         };
         var newreservation = {
+          isReview: false,
           rid : rid ,
           sid : service_id ,
           sname : service_name,
@@ -153,6 +155,7 @@ router.post('/pay', function (req, res, next) {
               console.log(err);
             } else {
               //update session
+              console.log("user after",user )
               var userdata = {
                 id: user._id,
                 email: user.email,
@@ -226,30 +229,33 @@ router.get('/:rid/success', (req, res, next) => {
         if (err) {
           console.log(err);
           req.flash('error', "Something error.");
+          
         }
-      });
-      Users.getUserById(uid, (err, user) => {
-        if (err) {
-          console.log(err);
-        } else {
-          //update session
-          req.session.user = null;
-          req.session.payment = null;
-          var userdata = {
-            id: user._id,
-            email: user.email,
-            fname: user.fname,
-            lname: user.lname,
-            phone: user.phone,
-            image: user.image,
-            trainer: user.trainer,
-            reservations: user.reservations,
-            login: true
-          };
-          console.log("userdata = ", userdata);
-          req.flash('success', "Payment successful.");
-          req.session.user = userdata;
-          res.redirect('/');
+        else{
+          Users.getUserById(uid, (err, user) => {
+            if (err) {
+              console.log(err);
+            } else {
+              //update session
+              req.session.user = null;
+              req.session.payment = null;
+              var userdata = {
+                id: user._id,
+                email: user.email,
+                fname: user.fname,
+                lname: user.lname,
+                phone: user.phone,
+                image: user.image,
+                trainer: user.trainer,
+                reservations: user.reservations,
+                login: true
+              };
+              console.log("userdata = ", userdata);
+              req.flash('success', "Payment successful.");
+              req.session.user = userdata;
+              res.redirect('/');
+            }
+          });
         }
       });
     }
@@ -311,8 +317,8 @@ router.post('/reserve', function (req, res, next) {
        //others
       }else continue;
     }
-  console.log("items");
-  console.log(items);
+  // console.log("items");
+  // console.log(items);
   var service = Services.getServiceById(reservation.sid,function(err,service){
     if(err){
       console.error('err ', err);
@@ -328,49 +334,74 @@ router.post('/reserve', function (req, res, next) {
     reservation.tname = service.tname;
     var status = "busy";
     service.timeSlots.forEach(function(timeSlot){
-      console.log(timeSlot.id);
+      // console.log(timeSlot.id);
       timeSlots.forEach(function(slot){
-        console.log(slot);
+        // console.log(slot);
         if(timeSlot.id === slot){
           timeSlot.available = false;
         }
         if(timeSlot.available)status = "available";
       });
-      console.log(timeSlot);
+      // console.log(timeSlot);
     });
 
     var updateQuery = {
       $set : {timeSlots : service.timeSlots},
       status : status
     }
-    console.log("update query is ");
-    console.log(updateQuery);
+    // console.log("update query is ");
+    // console.log(updateQuery);
     Services.updateService(service.id,updateQuery,null,function(err,raw){
       console.log("update service");
       if (err) {
         console.log(err);
         req.flash('error', "Something error.");
       }
-      console.log(raw);
-    });
-  });
-
-  reservation.items = items;
-  reservation.isPaid = false;
-  reservation.isReview = false;
-  console.log(reservation);
-  Users.updateUser(uid, {$push :{reservations: reservation} }, null, (err, user) => {
+      // console.log(raw);
+      reservation.price = totalPrice;
+      reservation.paymethod = "PayPal";
+      reservation.sid = reservation.sid;
+      reservation.rid = "res"+Date.now();
+      reservation.items = items;
+      reservation.isPaid = false;
+      reservation.isReview = false;
+      console.log("reservation",reservation );
+      Users.updateUser(uid, {$push :{reservations: reservation} }, null, (err, user) => {
         console.log("update");
         if (err) {
           console.log(err);
         }
+        Users.getUserById(uid, (err, user) => {
+          if (err) {
+            console.log(err);
+          } else {
+            //update session
+            req.session.user = null;
+            req.session.payment = null;
+            var userdata = {
+              id: user._id,
+              email: user.email,
+              fname: user.fname,
+              lname: user.lname,
+              phone: user.phone,
+              image: user.image,
+              trainer: user.trainer,
+              reservations: user.reservations,
+              login: true
+            };
+            req.session.user = userdata;
+            req.flash("success","reservation successful");
+            res.redirect("/service/"+reservation.sid);
+          }
+        });
+      });
+    });
   });
-  req.flash("success","reservation successful");
-  res.redirect("/service/"+reservation.sid);
 });
 
 //get service page
 router.get('/:_id', function (req, res, next) {
+  console.log("req.session.user", req.session.user);
   var service_id = req.params._id;
   Services.getServiceById(service_id, (err, service) => {
     if(!service){
