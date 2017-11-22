@@ -41,5 +41,37 @@
             </p>
             {{/if}}
         </li>
+        <li class="list-group-item">
+            <p class="m-0 mb-2">List</p>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each reservation.items}}
+                    <tr>
+                        <th>{{math @index "+" 1}}</th>
+                        <td>{{this.name}}</td>
+                        <td>{{this.price}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td>{{math this.price "*" this.quantity}}</td>
+                    </tr>
+                    {{/each}}
+                    <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Total</strong></td>
+                        <td><span class="text-red">{{reservation.price}}</span> Baht</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
     </ul>
 </div>
