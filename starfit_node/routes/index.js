@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var paypal = require('paypal-rest-sdk');
 
 var Users = require('../models/users');
 var Services = require('../models/services');
@@ -434,9 +435,9 @@ router.get('/reservation', function (req, res, next) {
 
 //pay my reservation
 router.post('/reservation/pay/:rid', function (req, res, next) {
-  if (true) {
-    var uid = "5a15940fe39965768b2944ef"; //req.session.user.id
-    var rid = req.params.rid
+  if (sessionChecker(req)) {
+    var uid = req.session.user.id; //req.session.user.id
+    var rid = req.params.rid; //req.params.rid
     var query = {
       "_id" : uid,
     }
@@ -444,65 +445,79 @@ router.post('/reservation/pay/:rid', function (req, res, next) {
       if (err) {
         console.log(err);
       }
-      else {
+      if(!user) {
+        //user not found
+      }
+      else{
+        // console.log("user",user);
         var reservations = user.reservations;
-        var i;
+        var reservation = {};
         for (var i = 0; i < reservations.length; i++) {
           if(reservations[i].rid === rid) {
-            var reservation = reservations[i];
-            console.log("reservation",reservation);
-            // var rid = "res"+Date.now();
-            // var success_url = hostname + '/service/' + rid + '/success';
-            // var cancel_url = hostname + '/service/cancel';
-            // var items = reservation.items;
-            // var total = reservation.price;
-            // console.log(reservation.items)
-            // console.log(reservation.price)
-
-            // var create_payment_json = {
-            //   "intent": "sale",
-            //   "payer": {
-            //       "payment_method": "paypal"
-            //   },
-            //   "redirect_urls": {
-            //       "return_url": success_url,
-            //       "cancel_url": cancel_url
-            //   },
-            //   "transactions": [{
-            //       "item_list": {
-            //           "items": reservation.items
-            //       },
-            //       "amount": {
-            //           "currency": "THB",
-            //           "total": reservation.price
-            //       },
-            //       "description": "STARFIT BOOKING"
-            //   }]
-            // };
-
-            // console.log("create_payment_json",create_payment_json)
-            // res.send(create_payment_json);
-            
-            // req.session.payment = {
-            //   rid: rid,
-            //   totprice : totprice
-            // };
-    
-            // paypal.payment.create(create_payment_json, function (error, payment) {
-            //   if (error) {
-            //       throw error;
-            //   } else {
-            //     console.log("create payment response = ")
-            //     console.log(payment);
-            //     for(var i = 0;i < payment.links.length;i++){
-            //       if(payment.links[i].rel === 'approval_url'){
-            //         res.redirect(payment.links[i].href);
-            //       }
-            //     }
-            //   }
-            // });
+            reservation = reservations[i];
           }
         }
+        // console.log("reservation ",reservation);
+        var success_url = hostname + '/service/' + rid + '/success';
+        var cancel_url = hostname + '/service/cancel';
+        var itemsdb = reservation.items;
+        var total = reservation.price;
+        var items = [{}];
+        // console.log(itemsdb);
+        // console.log(total);
+
+        for (var i = 0; i < itemsdb.length; i++) {
+          var itemdb = itemsdb[i];
+          items[i].name = itemdb.name;
+          items[i].sku = itemdb.sku;
+          items[i].price = itemdb.price;
+          items[i].currency = itemdb.currency;
+          items[i].quantity = itemdb.quantity;
+        }
+        console.log(items);
+
+        var create_payment_json = {
+          "intent": "sale",
+          "payer": {
+              "payment_method": "paypal"
+          },
+          "redirect_urls": {
+              "return_url": success_url,
+              "cancel_url": cancel_url
+          },
+          "transactions": [{
+              "item_list": {
+                  "items": items
+              },
+              "amount": {
+                  "currency": "THB",
+                  "total": total
+              },
+              "description": "STARFIT BOOKING"
+          }]
+        };
+
+        console.log("create_payment_json",create_payment_json)
+        // res.send(create_payment_json);
+        
+        req.session.payment = {
+          rid: rid,
+          totprice : total
+        };
+
+        paypal.payment.create(create_payment_json, function (error, payment) {
+          if (error) {
+              throw error;
+          } else {
+            console.log("create payment response = ")
+            console.log(payment);
+            for(var i = 0;i < payment.links.length;i++){
+              if(payment.links[i].rel === 'approval_url'){
+                res.redirect(payment.links[i].href);
+              }
+            }
+          }
+        });
       }
     });
   } else {
