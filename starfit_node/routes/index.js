@@ -439,6 +439,7 @@ router.get('/reservation/:rid', function (req, res, next) {
     req.flash("error", "Something error!");
     res.redirect('/');
   } else {
+    var reservations = req.session.user.reservations;
     for (var i = 0; i < reservations.length; i++) {
       if (reservations[i].rid == rid) {
         reservation = reservations[i];
