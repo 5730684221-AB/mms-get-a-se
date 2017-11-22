@@ -23,6 +23,7 @@ var servicechema = mongoose.Schema ({
   }],
   reviews : [{
     uid : String,
+    uname : String,
     sid : String,
     rev_id : String,
     rating : Number,
