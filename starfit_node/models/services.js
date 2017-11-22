@@ -30,12 +30,7 @@ var servicechema = mongoose.Schema ({
     time: Date,
     review : String,
     rating : Number,
-    reports :[{
-      rpid : String,
-      uid : String,
-      type : String,
-      comment : String,
-    }]
+    isReport : Boolean
   }],
 },
  { collection : 'service' });

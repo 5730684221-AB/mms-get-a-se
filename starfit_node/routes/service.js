@@ -32,13 +32,14 @@ router.post('/pay', function (req, res, next) {
     for (var key in body) {
       if (body.hasOwnProperty(key)) {
         // console.log(key + " -> " + body[key]);
+
         if(key.startsWith("times")){
           var a = (key).split("-");
           items[count] = { 
             name : key.substring(6),
             sku : "service",
             // hour : body[key],
-            price : service_price_h,
+            price: service_price_h,
             currency: "THB",
             quantity: body[key]
           };
@@ -46,20 +47,20 @@ router.post('/pay', function (req, res, next) {
           totprice +=body[key]*service_price_h;
           count++;
         }
-        if(key.startsWith("add")){
-          items[count] = { 
-            name : key.substring(4),
-            sku : "service",
-            price : body[key],
+        if (key.startsWith("add")) {
+          items[count] = {
+            name: key.substring(4),
+            sku: "service",
+            price: body[key],
             currency: "THB",
           }
         }
-        if(key.startsWith("qty")){
+        if (key.startsWith("qty")) {
           // console.log(items[count]);
-          if(items[count] && items[count].name) {
+          if (items[count] && items[count].name) {
             items[count].quantity = parseInt(body[key]);
             // console.log("add");
-            totprice += body[key]*items[count].price;
+            totprice += body[key] * items[count].price;
             count++;
           }
         }
@@ -75,27 +76,27 @@ router.post('/pay', function (req, res, next) {
         var service_name = service.name;
         var service_about = service.about;
         var service_trainer = service.tname
-        var rid = "res"+Date.now();
+        var rid = "res" + Date.now();
         var success_url = hostname + '/service/' + rid + '/success';
         var cancel_url = hostname + '/service/cancel';
         var create_payment_json = {
           "intent": "sale",
           "payer": {
-              "payment_method": "paypal"
+            "payment_method": "paypal"
           },
           "redirect_urls": {
-              "return_url": success_url,
-              "cancel_url": cancel_url
+            "return_url": success_url,
+            "cancel_url": cancel_url
           },
           "transactions": [{
-              "item_list": {
-                  "items": items
-              },
-              "amount": {
-                  "currency": "THB",
-                  "total": totprice
-              },
-              "description": service_about
+            "item_list": {
+              "items": items
+            },
+            "amount": {
+              "currency": "THB",
+              "total": totprice
+            },
+            "description": service_about
           }]
         };
         
@@ -127,7 +128,7 @@ router.post('/pay', function (req, res, next) {
 
         req.session.payment = {
           rid: rid,
-          totprice : totprice
+          totprice: totprice
         };
         var newreservation = {
           isReview: false,
@@ -142,7 +143,9 @@ router.post('/pay', function (req, res, next) {
           items : items
         }
         updateUser = {
-          $push :{reservations : newreservation}
+          $push: {
+            reservations: newreservation
+          }
         };
         Users.updateUser(uid, updateUser, null, (err, user) => {
           // console.log("update");
@@ -174,10 +177,11 @@ router.post('/pay', function (req, res, next) {
 
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
-              throw error;
+            throw error;
           } else {
             console.log("create payment response = ")
             console.log(payment);
+
             for(var i = 0;i < payment.links.length;i++){
               if(payment.links[i].rel === 'approval_url'){
                 res.redirect(payment.links[i].href);
@@ -204,27 +208,30 @@ router.get('/:rid/success', (req, res, next) => {
   const execute_payment_json = {
     "payer_id": payerId,
     "transactions": [{
-        "amount": {
-            "currency": "THB",
-            "total": price
-        }
+      "amount": {
+        "currency": "THB",
+        "total": price
+      }
     }]
   };
   // confirm
   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
     if (error) {
-        console.log(error.response);
-        throw error;
-    } 
-    else {
+      console.log(error.response);
+      throw error;
+    } else {
       //update reserve status
       console.log(JSON.stringify(payment));
       var query = {
-        _id : uid,
-        "reservations.rid" : reserveid
+        _id: uid,
+        "reservations.rid": reserveid
       }
-      var update = {$set :{'reservations.$.isPaid' : true}};
-      Users.update(query,update,null, (err, user) => {
+      var update = {
+        $set: {
+          'reservations.$.isPaid': true
+        }
+      };
+      Users.update(query, update, null, (err, user) => {
         console.log("update reserve status");
         if (err) {
           console.log(err);
@@ -281,6 +288,7 @@ router.post('/reserve', function (req, res, next) {
   var totalPrice = 0;
   var timeSlots = [];
   //parsing key-value
+
   for(var i=0;i<keys.length;i++){
     var a = keys[i].split("-");
     if(a.length<=1)continue;
@@ -404,17 +412,17 @@ router.get('/:_id', function (req, res, next) {
   console.log("req.session.user", req.session.user);
   var service_id = req.params._id;
   Services.getServiceById(service_id, (err, service) => {
-    if(!service){
+    if (!service) {
       req.flash('error', "Service is not found.");
       return res.redirect("/");
-    } 
+    }
     if (err) {
       console.log("err : ", err);
     }
     var rate = service.rating;
     service.fullstar = 0;
     service.halfstar = 0;
-    while (rate > 1) {
+    while (rate >= 1) {
       rate--;
       service.fullstar++;
     }
@@ -431,7 +439,7 @@ router.get('/:_id', function (req, res, next) {
       var rate = service.reviews[i].rating;
       service.reviews[i].fullstar = 0;
       service.reviews[i].halfstar = 0;
-      while (rate > 1) {
+      while (rate >= 1) {
         rate--;
         service.reviews[i].fullstar++;
       }
@@ -440,6 +448,8 @@ router.get('/:_id', function (req, res, next) {
       }
       service.reviews[i].emptystar = 5 - service.reviews[i].fullstar - service.reviews[i].halfstar;
     }
+
+    service.rating_round = parseFloat(service.rating).toFixed(2);
 
     res.render('service', {
       title: 'Starfit',
