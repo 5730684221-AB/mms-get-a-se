@@ -65,8 +65,10 @@
         <h2 class="mt-3">Total
           <span id="total-price" class="text-red">0</span> Baht</h2>
         <div class="service-btn">
+          {{#eq service.status "available"}}
           <button type="submit" class="btn checkout-btn my-2 my-sm-0">Checkout</button>
           <button type="submit" formaction="/service/reserve" class="btn reserve-btn my-2 my-sm-0">Reserve</button>
+          {{/eq}}
         </div>
       </form>
     </div>
@@ -82,7 +84,7 @@
           {{/times}} {{#times service.emptystar}}
           <i class="fa fa-star-o mx-0 px-0" aria-hidden="true"></i>
           {{/times}}
-          <span> ({{service.rating}} / 5)</span>
+          <span> ({{service.rating_round}} / 5)</span>
         </span>
         <hr>
         <div class="container">
