@@ -503,6 +503,79 @@ router.get('/report/:sid/:rev_id', function (req, res, next) {
   });
 });
 
+router.post('/review/:sid/:rid',function(req,res,next){
+  var uid = req.session.user.id;
+  var rid = req.params.rid;
+  var sid = req.params.sid;
+  console.log(req.body);
+  console.log(rid);
+  console.log(sid);
+  Users.getUserById(uid,function(err,user){
+    if (err) {
+      console.log(err);
+    }
+    if(!user){
+      console.log("user is null");
+      res.redirect('/');
+    }
+    user.reservations.forEach(reservation => {
+      console.log(reservation);
+      if(reservation.rid === rid){
+        console.log("matched");
+        if(reservation.isPaid){
+        var now = Date.now();
+        var rev_id = "rev"+now;
+        var rating = req.body.rate;
+        console.log(rating);
+        var comment = req.body.comment;
+        console.log(comment);
+        var review = {
+          uid: uid,
+          sid: sid,
+          rev_id: rev_id,
+          rating: rating,
+          review: comment,
+          time: now
+        }
+        Services.getServiceById(sid,function(err,service){
+          console.log(service);
+          if(err){
+            console.log(err);
+          }
+          console.log(service.rating);
+          var totRating = service.rating;
+          totRating *= service.reviews.length;
+          totRating += rating;
+          totRating /= (service.reviews.length + 1);
+          var update = {
+            rating: totRating,
+            $push: {reviews:review}
+          };
+          Services.updateService(sid,update,null,function(err,raw){
+            if(err){
+              console.log(err);
+            }
+            console.log("review added");
+            console.log(raw);
+          });
+        });
+        reservation.isReview = true;
+        Users.updateUser(uid,user,null,function(err,raw){
+          if(err){
+            console.log(err);
+          }
+        });
+        req.flash("success","review successful");
+        res.redirect('/service/'+sid);
+      }
+      return review;
+    }
+    });
+    });
+    
+  
+});
+
 router.post('/checkout', function (req, res, next) {
   res.send(req.body);
 });
