@@ -547,42 +547,6 @@ router.get('/review/:sid/:rid', function (req, res, next) {
   });
 });
 
-router.post('/review/:sid/:rid', function (req, res, next) {
-  var sid = req.params.sid;
-  var rid = req.params.rid;
-  req.session
-  res.render('review', {
-    title: 'Starfit : Review',
-    style: 'style',
-    rid: rid,
-    sid: sid
-  });
-});
-
-router.get('/report/:sid/:rev_id', function (req, res, next) {
-  var sid = req.params.sid;
-  var rev_id = req.params.rev_id;
-  Services.getServiceById(sid, (err, service) => {
-    for (var i = 0; i < service.reviews.length; i++) {
-      if (service.reviews[i].rev_id == rev_id) {
-        service.reviews[i].isReport = true;
-      }
-      console.log("Reviews = ",service.reviews);
-    }
-    Services.updateService(sid, service, null, (err, service) => {
-      if (err) {
-        console.log("Report Error!");
-        req.flash('error', 'Can not report review');
-        res.redirect('/');
-      } else {
-        console.log("Report success service = ",service);
-        req.flash('success', 'Report is successful.');
-        res.redirect('/');
-      }
-    });
-  });
-});
-
 router.post('/review/:sid/:rid',function(req,res,next){
   var uid = req.session.user.id;
   var rid = req.params.rid;
@@ -605,7 +569,7 @@ router.post('/review/:sid/:rid',function(req,res,next){
         if(reservation.isPaid){
         var now = Date.now();
         var rev_id = "rev"+now;
-        var rating = req.body.rate;
+        var rating = Number(req.body.rate);
         console.log(rating);
         var comment = req.body.comment;
         console.log(comment);
@@ -662,6 +626,21 @@ router.post('/checkout', function (req, res, next) {
 
 router.post('/checkout2', function (req, res, next) {
   res.send(req.body);
+});
+
+router.get('/delete/:rid/:sid',function(req,res,next){
+  var uid = req.session.user.id;
+  var revid = req.params.rid;
+  var query = {
+    $pull :{reservations : {rid: revid}}
+  };
+  Users.updateUser(uid,query,null,function(err,raw){
+    if(err){
+      console.log(err);
+    }
+    console.log(raw);
+    res.redirect('/');
+  });
 });
 
 module.exports = router;
