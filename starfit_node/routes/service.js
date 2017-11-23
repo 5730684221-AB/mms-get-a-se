@@ -100,17 +100,20 @@ router.post('/pay', function (req, res, next) {
           }]
         };
         
-        var status = "busy";
         service.timeSlots.forEach(function(timeSlot){
-          // console.log(timeSlot.id);
           timeSlots.forEach(function(slot){
-            // console.log(slot);
             if(timeSlot.id === slot){
+              console.log("status1 ========== ",status);
               timeSlot.available = false;
             }
-            if(timeSlot.available)status = "available";
           });
-          // console.log(timeSlot);
+        });
+    
+        var status = "busy";
+        service.timeSlots.forEach(function(timeSlot){
+          if(timeSlot.available){
+            status = "available"
+          }
         });
     
         var updateQuery = {
@@ -276,6 +279,7 @@ router.get('/cancel', (req, res) => {
 
 //service reservation
 router.post('/reserve', function (req, res, next) {
+  if(sessionChecker(req)){
   var uid = req.session.user.id;
   console.log(uid);
   var reservation = {};
@@ -340,17 +344,22 @@ router.post('/reserve', function (req, res, next) {
     }
     reservation.sname = service.name;
     reservation.tname = service.tname;
-    var status = "busy";
+
+    
     service.timeSlots.forEach(function(timeSlot){
-      // console.log(timeSlot.id);
       timeSlots.forEach(function(slot){
-        // console.log(slot);
         if(timeSlot.id === slot){
+          console.log("status1 ========== ",status);
           timeSlot.available = false;
         }
-        if(timeSlot.available)status = "available";
       });
-      // console.log(timeSlot);
+    });
+
+    var status = "busy";
+    service.timeSlots.forEach(function(timeSlot){
+      if(timeSlot.available){
+        status = "available"
+      }
     });
 
     var updateQuery = {
@@ -405,6 +414,10 @@ router.post('/reserve', function (req, res, next) {
       });
     });
   });
+} else {
+  req.flash('error','Please login first.');
+  res.redirect('/');
+}
 });
 
 //get service page

@@ -66,8 +66,8 @@
           <span id="total-price" class="text-red">0</span> Baht</h2>
         <div class="service-btn">
           {{#eq service.status "available"}}
-          <button type="submit" class="btn checkout-btn my-2 my-sm-0">Checkout</button>
-          <button type="submit" formaction="/service/reserve" class="btn reserve-btn my-2 my-sm-0">Reserve</button>
+          <button id="checkout-btn" type="submit" class="btn checkout-btn my-2 my-sm-0" disabled>Checkout</button>
+          <button id="reserve-btn" type="submit" formaction="/service/reserve" class="btn reserve-btn my-2 my-sm-0" disabled>Reserve</button>
           {{/eq}}
         </div>
       </form>

@@ -59,12 +59,20 @@
           total += (addserv.val()*qty);
         }
       });
-
+      var isCheck = false;
       $('#select-time .form-check-input').each(function () {
         if ($(this).is(':checked')) {
           total += (_price * parseInt($(this).val()));
+          isCheck = true;
         }
       });
+      if(isCheck){
+        $("#checkout-btn").attr('disabled',false);
+        $("#reserve-btn").attr('disabled',false);
+      } else {
+        $("#checkout-btn").attr('disabled',true);
+        $("#reserve-btn").attr('disabled',true);
+      }
       $('#total-price').text(total);
     };
     sendEvent = function (sel, step) {
