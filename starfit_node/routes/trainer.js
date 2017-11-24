@@ -25,7 +25,7 @@ router.post('/create',(req,res,next) => {
   if (sessionChecker(req)) {
     var uid = req.session.user.id;
     var user = req.session.user;
-    var new_service = {
+    var service = {
       name : req.body.name,
       ttype : req.body.ttype,
       rating : 0,
@@ -37,6 +37,17 @@ router.post('/create',(req,res,next) => {
       timeSlots : req.body.timeSlots,
       addServ : req.body.addServ
     };
+
+    Services.addService(service,(err,raw) =>{
+      if(err){
+        console.log(err);
+        req.flash("error","An error occurred");
+        res.redirect("back");
+      }
+      console.log(raw);
+      
+    });
+
     
   } else {
     req.flash('error', "Please login.");
