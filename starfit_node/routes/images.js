@@ -120,6 +120,7 @@ router.get('/user/:_id', function(req, res, next) {
 //upload profile by user _id
 router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, res, next) {
   var id;
+  if(req.files.length>0){
 	//solve ObjectId casting problem
 	if(mongoose.Types.ObjectId.isValid(req.params._id)) {
 		var id = req.params._id;
@@ -166,7 +167,13 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
         });
       });
     }
-	});
+  });
+}
+else{
+  console.log("No image files");
+  req.flash("error","No picture selected");
+  res.redirect('/profile');
+}
 });
 
 //upload profile by user _id
