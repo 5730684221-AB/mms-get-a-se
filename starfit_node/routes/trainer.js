@@ -13,6 +13,15 @@ var sessionChecker = function (req) {
   }
 };
 
+router.use((req,res,next) =>{
+  if (sessionChecker(req)) {
+    next();
+} else {
+  req.flash('error', "Please login.");
+  res.redirect("/");
+}
+});
+
 /* GET trainers listing. */
 router.get('/', (req, res, next) => {
   res.render('trainer',{
@@ -22,7 +31,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/create',(req,res,next) => {
-  if (sessionChecker(req)) {
+ 
     var uid = req.session.user.id;
     var user = req.session.user;
     var service = {
@@ -47,12 +56,32 @@ router.post('/create',(req,res,next) => {
       console.log(raw);
       
     });
+  
+});
 
-    
-  } else {
-    req.flash('error', "Please login.");
-    res.redirect("/");
-  }
+router.post('/update',(req,res,next) => {
+  var uid = req.session.user.id;
+  var sid = req.body.sid;
+  Services.getServicesById(sid,(err,service) =>{
+    if(err){
+      console.log(err);
+      req.flash("error","An error occurred.");
+      res.redirect('back');
+    }
+    if(!service){
+      console.log("no service found");
+      req.flash("error","No sevice found");
+      res.redirect('back');
+    }
+    Services.update(sid,req.body,null,(err,service) =>{
+      if(err){
+        console.log(err);
+        req.flash("error","Update failed");
+      }
+      req.flash("success","Update successfull");
+      res.redirect('back');
+    });
+  });
 });
 
 module.exports = router;

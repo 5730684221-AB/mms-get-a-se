@@ -170,26 +170,16 @@ router.get('/profile', function (req, res, next) {
 router.post('/update', function (req, res, next) {
   if (sessionChecker(req)) {
     var id = req.session.user.id;
-    updateUser = {};
-    if (req.body.fname) {
-      updateUser.fname = req.body.fname;
-    }
-    if (req.body.lname) {
-      updateUser.lname = req.body.lname;
-    }
-    if (req.body.phone) {
-      updateUser.phone = req.body.phone;
-    }
-    console.log("update user = ", updateUser);
-    Users.updateUser(id, updateUser, null, (err, user) => {
+    console.log(req.body);
+    Users.updateUser(id, req.body, null, (err, user) => {
       console.log("update");
       if (err) {
         console.log(err);
         req.flash('error', "Something error.");
       }
-      req.session.user.fname = updateUser.fname;
-      req.session.user.lname = updateUser.lname;
-      req.session.user.phone = updateUser.phone;
+      req.session.user.fname = user.fname;
+      req.session.user.lname = user.lname;
+      req.session.user.phone = user.phone;
       console.log("session router = ", req.session.user);
       req.flash('success', "Update is successful.");
       res.redirect("/");
@@ -758,10 +748,6 @@ router.post('/review/:sid/:rid',function(req,res,next){
     });
     
   
-});
-
-router.post('/checkout', function (req, res, next) {
-  res.send(req.body);
 });
 
 

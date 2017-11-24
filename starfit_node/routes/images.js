@@ -176,7 +176,7 @@ else{
 }
 });
 
-//upload profile by user _id
+//upload profile by service_id
 router.post('/service/:_id', multer({storage : storageser}).any(), function(req, res, next) {
   var id;
 	//solve ObjectId casting problem
@@ -226,6 +226,7 @@ router.post('/service/:_id', multer({storage : storageser}).any(), function(req,
     }
 	});
 });
+
 
 //upload img
 router.post('/', multer({storage : storageimg}).any(), function(req, res, next) {
