@@ -48,8 +48,8 @@ module.exports.getServiceById = (id, callback) => {
 }
 
 // Add Service
-module.exports.addService = (Service, callback) => {
-	Service.create(Service, callback);
+module.exports.addService = (service, callback) => {
+	Service.create(service, callback);
 }
 
 module.exports.servicetagToLocation = (tag) => {
