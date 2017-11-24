@@ -30,10 +30,19 @@ router.get('/', (req, res, next) => {
   });
 });
 
+router.get('/create',(req,res,next) =>{
+  res.render('add_service',{
+    title: 'Add Service',
+    style: 'style'
+  });
+});
+
 router.post('/create',(req,res,next) => {
  
     var uid = req.session.user.id;
     var user = req.session.user;
+
+    console.log("body",req.body);
     var service = {
       name : req.body.name,
       ttype : req.body.ttype,
@@ -51,10 +60,10 @@ router.post('/create',(req,res,next) => {
       if(err){
         console.log(err);
         req.flash("error","An error occurred");
-        res.redirect("back");
+        res.redirect("/trainer");
       }
       console.log(raw);
-      
+      res.redirect("/trainer");
     });
   
 });

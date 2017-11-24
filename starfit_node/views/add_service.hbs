@@ -52,6 +52,39 @@
   <div style="font-size: 1.2em" class="row center-line">
     Information
   </div>
+   <form action="/trainer/create" method="POST" class="col-xs-8 col-md-8 col-lg-8 my-3">
+      <div class="form-group">
+            <label for="Name">Service name</label>
+            <input type="text" class="form-control" name="name" aria-describedby="nameHelp" placeholder="Service Name" required>
+            <small id="nameHelp" class="form-text text-muted">TIP: Name it something easy to understand, but easily recognizable, like "The Iron Abs Routine".</small>
+          </div>
+          <div class="form-group">
+            <label for="ttype">Training type</label>
+                <select name="ttype" class="form-control searchbox-text searchbox-dropbox" required>
+                  <option value="0">- เลือกประเภท -</option>
+                  <option value="1">Body building</option>
+                  <option value="2">Weight loss</option>
+                  <option value="3">Cardio</option>
+                  <option value="4">Endurance</option>
+                  <option value="5">Flexibility</option>
+                </select>
+          </div>
+          <div class="form-group">
+            <label for="avout">About your service</label>
+            <textarea id="about" type="text" class="form-control" rows="3" name="about" placeholder="Details of your service"></textarea>
+          </div>
+
+          
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="text" class="form-control" placeholder="500"  name="price" id="price" required pattern="\d{1,10}">
+             <small id="nameHelp" class="form-text text-muted">Price in THB/hour.</small>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-danger" value="Create">
+          </div>
+    </form>
   <div class="">
 
   </div>
