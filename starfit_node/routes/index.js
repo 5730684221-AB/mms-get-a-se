@@ -455,22 +455,24 @@ router.get('/reservation/pay/:rid', function (req, res, next) {
             reservation = reservations[i];
           }
         }
-        // console.log("reservation ",reservation);
+        console.log("reservation item ====== ",reservation.items);
         var success_url = hostname + '/service/' + rid + '/success';
         var cancel_url = hostname + '/service/cancel';
         var itemsdb = reservation.items;
         var total = reservation.price;
-        var items = [{}];
+        var items = [];
         // console.log(itemsdb);
         // console.log(total);
 
         for (var i = 0; i < itemsdb.length; i++) {
           var itemdb = itemsdb[i];
-          items[i].name = itemdb.name;
-          items[i].sku = itemdb.sku;
-          items[i].price = itemdb.price;
-          items[i].currency = itemdb.currency;
-          items[i].quantity = itemdb.quantity;
+          var item = {};
+          item.name = itemdb.name;
+          item.sku = itemdb.sku;
+          item.price = itemdb.price;
+          item.currency = itemdb.currency;
+          item.quantity = itemdb.quantity;
+          items.push(item);
         }
         console.log(items);
 
