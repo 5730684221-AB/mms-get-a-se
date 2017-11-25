@@ -47,6 +47,9 @@ h6 {
 .display-4 {
     font-size: 2em;
 }
+.display-5 {
+    font-size: 1.4em;
+}
 
 .wrapper{
     display: flex;
