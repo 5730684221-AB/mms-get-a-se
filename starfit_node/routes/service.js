@@ -293,42 +293,42 @@ router.post('/reserve', function (req, res, next) {
   var timeSlots = [];
   //parsing key-value
 
-  for(var i=0;i<keys.length;i++){
+  for (var i = 0; i < keys.length; i++) {
     var a = keys[i].split("-");
-    if(a.length<=1)continue;
+    if (a.length <= 1) continue;
     var item = {};
     //service times
-    if(a[0].trim() === "times"){
+    if (a[0].trim() === "times") {
       //timeslot in serv
-      var timeSlot = a[1]+"-"+a[2]+"-"+a[3];
+      var timeSlot = a[1] + "-" + a[2] + "-" + a[3];
       console.log(timeSlot);
       timeSlots.push(timeSlot);
       //items in res
-      item.name = keys[i];
+      item.name = keys[i].substring(6);
       item.sku = "service";
       item.price = req.body.price;
       item.currency = "THB";
       item.quantity = req.body[keys[i]];
-      totalPrice += item.price*item.quantity;
+      totalPrice += item.price * item.quantity;
       items.push(item);
-      }
-      //additional services
-      else if(a[0] === "add"){
+    }
+    //additional services
+    else if (a[0] === "add") {
       item.name = a[1];
       item.sku = "service";
       item.price = req.body[keys[i]];
       item.currency = "THB";
       items.push(item);
-      }else if(a[0] === "qty"){
-     items.forEach(function(item){
-       if(item.name === a[1]){
-         item.quantity = req.body[keys[i]];
-         totalPrice += item.price*item.quantity;
+    } else if (a[0] === "qty") {
+      items.forEach(function (item) {
+        if (item.name === a[1]) {
+          item.quantity = req.body[keys[i]];
+          totalPrice += item.price * item.quantity;
         }
-       });
-       //others
-      }else continue;
-    }
+      });
+      //others
+    } else continue;
+  }
   // console.log("items");
   // console.log(items);
   var service = Services.getServiceById(reservation.sid,function(err,service){

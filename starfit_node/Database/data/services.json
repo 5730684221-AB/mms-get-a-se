@@ -9,23 +9,23 @@
 		"price": 300,
 		"status": "available",
 		"timeSlots": [{
-				"day": "Monday",
+				"day": "Wed",
 				"time": [9, 10],
 				"available": true,
 				"id": "Monday-9-10"
 			}, {
-				"day": "Monday",
+				"day": "M",
 				"time": [13, 14],
 				"available": true,
 				"id": "Monday-13-14"
 			}, {
-				"day": "Tuesday",
+				"day": "Tu",
 				"time": [10, 11],
 				"available": true,
 				"id": "Tuesday-10-11"
 			},
 			{
-				"day": "Tuesday",
+				"day": "Frid",
 				"time": [15, 17],
 				"available": true,
 				"id": "Tuesday-15-17"
