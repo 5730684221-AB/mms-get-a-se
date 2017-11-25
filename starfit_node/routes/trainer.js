@@ -3,7 +3,24 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.render('trainer', {
+    title: 'Starfit : Trainer',
+    style: 'style'
+  });
+});
+
+router.get('/addservice', function(req, res, next) {
+  res.render('add_service', {
+    title: 'Starfit : Trainer',
+    style: 'style'
+  });
+});
+
+router.get('/myservice', function(req, res, next) {
+  res.render('my_services', {
+    title: 'Starfit : Trainer',
+    style: 'style'
+  });
 });
 
 module.exports = router;

@@ -14,7 +14,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-const hostname = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost:3000';
+const hostname = process.env.HOST_HOSTNAME ? process.env.HOST_HOSTNAME : 'localhost:3000';
 
 var sessionChecker = function (req) {
   if (req.session.user) {
@@ -220,6 +220,7 @@ router.post('/reset', function (req, res, next) {
       var updateUser = {
         secret: resetsecret
       };
+      console.log("hostname ===== ",hostname);
       var reseturi = hostname + '/reset/' + userid + '/' + resetsecret;
       Users.updateUser(userid, updateUser, null, (err, user) => {
         console.log("update");
@@ -507,6 +508,7 @@ router.get('/reservation/pay/:rid', function (req, res, next) {
 
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
+              console.log("Paypal error : ",error);
               throw error;
           } else {
             console.log("create payment response = ")
