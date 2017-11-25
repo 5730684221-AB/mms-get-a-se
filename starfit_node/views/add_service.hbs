@@ -13,7 +13,7 @@
     </div>
   </div>
 </div>
-<div class="container">
+<div class="container mt-2">
   <div style="font-size: 1.2em" class="row center-line">
     Edit service images
   </div>
@@ -53,34 +53,71 @@
     Information
   </div>
   <div class="input-field">
-    <label for="Name">Service from</label>
+      <label class="mt-1" for="Name">Service from</label>
+      <input class="form-control " type="text" name="fname" >
+  </div>
+
+  <div class="input-field">
+    <label class="mt-1" for="Name">Details</label>
+    <input class="form-control" type="text" name="fname" >
+  </div>
+
+   <label class="mt-1" for="Name">Time slot</label>
+    <div class="container">
+      <div class="row">
+        <input id=buttontime style="padding: 5px 26px;" type="date" name="party">
+        <div class="dropdown">
+          <button id=buttontime class="btn dropdown-toggle ml-4" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+            Select time
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">08:00-09:00</a>
+            <a class="dropdown-item" href="#">09:00-10:00</a>
+            <a class="dropdown-item" href="#">10:00-11:00</a>
+            <a class="dropdown-item" href="#">11:00-12:00</a>
+            <a class="dropdown-item" href="#">12:00-13:00</a>
+            <a class="dropdown-item" href="#">13:00-14:00</a>
+            <a class="dropdown-item" href="#">14:00-15:00</a>
+            <a class="dropdown-item" href="#">15:00-16:00</a>
+            <a class="dropdown-item" href="#">16:00-17:00</a>
+            <a class="dropdown-item" href="#">17:00-18:00</a>
+            <a class="dropdown-item" href="#">18:00-19:00</a>
+            <a class="dropdown-item" href="#">19:00-20:00</a>
+            <a class="dropdown-item" href="#">20:00-21:00</a>
+            <a class="dropdown-item" href="#">21:00-22:00</a>
+          </div>
+       </div>
+    </div>
+  </div>
+  <input type="button" class="btn btn-danger mt-2" value="Add time slot">
+  <div class="input-field">
+    <label class="mt-1" for="Name">Location</label>
     <input class="form-control" type="text" name="fname" >
   </div>
   <div class="input-field">
-    <label for="Name">Details</label>
+    <label class="mt-1" for="Name">Price</label>
     <input class="form-control" type="text" name="fname" >
   </div>
-  <label for="Name">Details</label>
-  <div class="row">
-  <div class="dropdown">
-      <button id=buttontime class=" dropdown-toggle" type="button" data-toggle="dropdown">date
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-
-      </ul>
+  <div class="form-row">
+    <div class="form-group col-sm-12 col-md-5 col-lg-5">
+      <label class="mt-1" for="Name">More service</label>
+      <input type="text" class="form-control" name="More service" >
     </div>
-    <div class="dropdown">
-        <button id=buttontime class=" dropdown-toggle" type="button" data-toggle="dropdown">time
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-
-        </ul>
+    <div class="form-group col-sm-12 col-md-7 col-lg-7">
+      <label class="mt-1" for="Name">Fee</label>
+      <input type="text" class="form-control" name="Fee">
+    </div>
+  </div>
+  <input type="button" class="btn btn-danger" value="Add more">
+  <div class="container mb-3">
+    <div class="row">
+      <div class="mt-3">
+        <button type="submit" class="btn btn-danger btn-lg mr-3">Submit</button>
+      </div>
+      <div class="mt-3">
+        <button type="submit" class="btn btn-outline-danger btn-lg">Cancel</button>
       </div>
     </div>
+  </div>
+
  </div>
