@@ -15,7 +15,7 @@ var sessionChecker = function (req) {
 };
 
 //payment
-const hostname = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost:3000';
+const hostname = process.env.HOST_HOSTNAME ? process.env.HOST_HOSTNAME : 'localhost:3000';
 
 //pay
 router.post('/pay', function (req, res, next) {
