@@ -7,7 +7,6 @@
 		"about": "We uses large muscle movement over a sustained period of time keeping your heart rate to at least 50% of its maximum level. Are your workout intense enough? Your Target Heart Rate can answer that question. To obtain your Target Heart Rate check out our calculator Read more: Cardio Exercise Definition and Benefits #HealthStatus Follow us: @glwHealthStatus on Twitter | healthstatuscom on Facebook",
 		"place": [1, 4, 12, 49],
 		"price": 300,
-		"img": ["default-service"],
 		"status": "available",
 		"timeSlots": [{
 				"day": "Monday",
@@ -66,7 +65,6 @@
 		"about": "Bodybuilding makes not only a fit body, but also fit mind. The word bodybuilding says everything. It is so easy to understand the meaning of this word and what this sport is about. Bodybuilding is the best sport when it comes to making your body proportionally shaped and fit.",
 		"place": [12, 13],
 		"price": 700,
-		"img": ["default-service"],
 		"status": "available",
 		"timeSlots": [{
 			"day": "Monday",
@@ -108,7 +106,6 @@
 		"about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 		"place": [12, 1],
 		"price": 1200,
-		"img": ["default-service"],
 		"status": "busy",
 		"timeSlots": [{
 			"day": "Monday",
@@ -139,7 +136,6 @@
 		"about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut facilisis lorem diam, eu commodo elit commodo vel. Maecenas at velit molestie, tempus dui vel, tincidunt mi. Cras at ex sed odio viverra consequat.",
 		"place": [1, 2],
 		"price": 300,
-		"img": ["default-service"],
 		"status": "available",
 		"timeSlots": [{
 			"day": "Monday",
