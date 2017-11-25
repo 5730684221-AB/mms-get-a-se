@@ -169,9 +169,59 @@ router.post('/user/:_id', multer({storage : storagepro}).any(), function(req, re
 	});
 });
 
-//upload profile by user _id
-router.post('/service/:_id', multer({storage : storageser}).any(), function(req, res, next) {
+//get service by serviceid and picno
+router.get('/service/:sid/:picno', function(req, res, next) {
   var id;
+  var picno = req.params.picno;
+	//solve ObjectId casting problem
+	if(mongoose.Types.ObjectId.isValid(req.params.sid)) {
+		var id = req.params.sid;
+	}
+	else{
+		var id = null;
+  }
+  console.log("serviceid =",id)
+	Services.getServiceById(id, (err, service) => {
+    console.log("service =",service)
+		if(err){
+			throw err;
+		}
+    if(service === null){
+      res.send("Services not found")
+    }
+    else{
+      var imgid = service.images[picno];
+      console.log("imgid =",imgid)
+      if(imgid == "default"){
+          images.getDefSer(function(err, images) {
+          console.log(images);
+          console.log(__dirname +"/../" + images.path);
+          res.sendFile(path.resolve(__dirname +"/../" + images.path));
+        });
+      }
+      else{
+        images.getImageById(imgid, function(err, images) {
+          if (err) {
+            throw err;
+          }
+          if(images === null){
+            res.send("Services dont have images")
+          }else {
+            // res.download(images.path);
+            // res.download(images.path);
+            console.log(__dirname + "/../" + images.path);
+            res.sendFile(path.resolve(__dirname +"/../" + images.path));
+          }
+        });
+      }
+    }
+	});
+});
+
+//upload service by service _id
+router.post('/service/:_id/:picno', multer({storage : storageser}).any(), function(req, res, next) {
+  var id;
+  var picno =  req.params.picno;
 	//solve ObjectId casting problem
 	if(mongoose.Types.ObjectId.isValid(req.params._id)) {
 		var id = req.params._id;
@@ -183,14 +233,14 @@ router.post('/service/:_id', multer({storage : storageser}).any(), function(req,
 		if(err){
 			throw err;
 		}
-    if(user === null){
+    if(service === null){
       res.send("service not found")
     }
     else{ //found service
       console.log(req.files);
       console.log(service);
 
-      var numserimg = service.img.length;
+
       var path = req.files[0].path;
       var imageName = req.files[0].originalname;
       var imagepath = {};
@@ -200,19 +250,21 @@ router.post('/service/:_id', multer({storage : storageser}).any(), function(req,
 
       images.addImage(imagepath, function(err, pic) { //add picture
         var imgid = pic._id;
-        service = {
-          //something
-        };
-        Services.updateService(id, service, null, (err, service) => {
+        var updateservice
+        var updateservice = { "$set": {} };
+        updateservice["$set"]["images."+picno]= imgid;
+        Services.updateService(id, updateservice, null, (err, service) => {
           console.log("update img");
+          req.flash('success', "Update is successful.");
+          res.redirect("/");
           if(err){
             console.log(err);
           }
-          Services.getUserById(req.params._id, (err, service) => {
+          Services.getServiceById(req.params._id, (err, service) => {
             if(err){
               console.log(err);
             }
-            res.send(service);
+            console.log(service);
           });
         });
       });

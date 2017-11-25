@@ -9,27 +9,34 @@
 		"price": 300,
 		"status": "available",
 		"timeSlots": [{
-				"day": "Wed",
+				"day": "Monday",
 				"time": [9, 10],
 				"available": true,
 				"id": "Monday-9-10"
 			}, {
-				"day": "M",
+				"day": "Wednesday",
 				"time": [13, 14],
 				"available": true,
-				"id": "Monday-13-14"
+				"id": "Wednesday-13-14"
 			}, {
-				"day": "Tu",
+				"day": "Tuesday",
 				"time": [10, 11],
 				"available": true,
 				"id": "Tuesday-10-11"
 			},
 			{
-				"day": "Frid",
+				"day": "Saturday",
 				"time": [15, 17],
 				"available": true,
-				"id": "Tuesday-15-17"
+				"id": "Saturday-15-17"
+			},
+			{
+				"day": "Wed",
+				"time": [15, 17],
+				"available": true,
+				"id": "Wed-15-17"
 			}
+
 		],
 		"addServ": [{
 			"name": "water(bottle)",

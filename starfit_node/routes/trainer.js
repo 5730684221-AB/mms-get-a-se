@@ -37,7 +37,8 @@ router.post('/addservice', function (req, res, next) {
       price : req.body.price,
       tname : req.session.user.fname +" "+req.session.user.lname,
       place : req.body.place,
-      status : "busy"
+      status : "busy",
+      images : ["default","default","default"]
     };
     // var newservice = {
     //       "name": "newservice",

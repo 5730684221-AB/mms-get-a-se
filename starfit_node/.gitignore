@@ -37,7 +37,7 @@ npm-debug.log
 
 # file storage
 public/uploads/profiles/*
-public/uploads/service/*
+public/uploads/services/*
 public/uploads/img/*
 
 !public/uploads/profiles/default-profile.png
