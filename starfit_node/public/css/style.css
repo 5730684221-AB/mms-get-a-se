@@ -326,6 +326,17 @@ a.image-popup-link:focus {
     border-style: dashed;
     border-color: #D3D3D3;
 }
+#buttontime {
+    background-color:white;
+    color: black;
+    text-align: left;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #e7e7e7;
+    padding: 5px 50px;
+}
 
 .btn-groups .button:hover {
     background-color: #DCDCDC;
