@@ -18,6 +18,7 @@ var cookieSession = require('cookie-session')
 //routes
 var service = require('./routes/service');
 var trainer = require('./routes/trainer');
+var admin = require('./routes/admin');
 var api = require('./routes/api');
 var images = require('./routes/images');
 var index = require('./routes/index');
@@ -126,6 +127,7 @@ app.use(function (req, res, next) {
 app.use('/', index);
 app.use('/service', service);
 app.use('/trainer', trainer);
+app.use('/admin', admin);
 app.use('/api', api);
 app.use('/images', images);
 

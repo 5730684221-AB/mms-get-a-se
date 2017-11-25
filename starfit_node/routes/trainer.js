@@ -11,14 +11,14 @@ router.get('/', function(req, res, next) {
 
 router.get('/addservice', function(req, res, next) {
   res.render('add_service', {
-    title: 'Starfit : Trainer',
+    title: 'Starfit : Add Service',
     style: 'style'
   });
 });
 
 router.get('/myservice', function(req, res, next) {
   res.render('my_services', {
-    title: 'Starfit : Trainer',
+    title: 'Starfit : My Services',
     style: 'style'
   });
 });
