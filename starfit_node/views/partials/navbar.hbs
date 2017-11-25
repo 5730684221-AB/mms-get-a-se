@@ -14,7 +14,7 @@
                     <a class="btn btn-link trainer-button my-2 my-sm-0" href="/trainer">Trainer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-link gray-link my-2 my-sm-0" href="/profile/{{account.id}}">My Profile</a>
+                    <a class="btn btn-link gray-link my-2 my-sm-0" href="/profile">My Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-link gray-link my-2 my-sm-0" href="/signout">Sign out</a>
@@ -23,7 +23,11 @@
                     <p class="btn my-2 my-sm-0 signin-as">
                         <span>
                             {{!-- <i class="fa fa-user-circle" aria-hidden="true"></i> --}}
+                            {{#if account.image}}
                             <img class="profile-image-nav" src="/images/user/{{account.id}}">
+                            {{else}}
+                            <img class="profile-image-nav" src="/images/user.png">
+                            {{/if}}
                         </span> Sign in as {{account.name}}</p>
                 </li>
             </ul>

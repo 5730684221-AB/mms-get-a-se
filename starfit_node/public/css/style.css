@@ -204,7 +204,7 @@ li.nav-item>a {
 }
 
 .text-red{
-    color:red;
+    color:red !important;
 }
 
 .busy{
@@ -350,7 +350,10 @@ a.image-popup-link:focus {
 .head-form{
   text-indent:50px;
   font-size: 1.5em;
+}
 
+.review-form{
+    width: 100%;
 }
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {

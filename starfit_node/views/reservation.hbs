@@ -1,43 +1,69 @@
-<div class="container">
-  <img class="logo" src = "/images/logo_wide.png"/>
-  <!-- <h1>Welcome to StarFit</h1><br > -->
-  <div style="height: 10px"></div>
-  <div class="row">
-    <div class="main">
-      <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-md-6">
-          <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
-        </div>
-      </div>
-      <div class="login-or">
-        <hr class="hr-or">
-        <span class="span-or">or</span>
-      </div>
-
-      <form role="form">
-        <div class="form-group">
-          <label for="inputUsernameEmail">Username or email</label>
-          <input type="text" class="form-control" id="inputUsernameEmail">
-        </div>
-        <div class="form-group">
-          <a class="pull-right" href="#">Forgot password?</a>
-          <label for="inputPassword">Password</label>
-          <input type="password" class="form-control" id="inputPassword">
-        </div>
-        <div class="checkbox pull-right">
-          <label>
-            <input type="checkbox">
-            Remember me </label>
-        </div>
-        <button type="submit" class="btn btn btn-primary">
-          Log In
-        </button>
-      </form>
-
-    </div>
-
+<div class="service-name py-2">
+  <div class="container">
+    <h2 class="py-1 my-0">My Reservation</h2>
   </div>
+</div>
+
+<div class="container my-3">
+  <div class="row d-flex justify-content-center">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a class="btn btn-danger" href="/profile">My Profile</a>
+      <a class="btn btn-danger" href="/reservation">My Reservation</a>
+    </div>
+  </div>
+  {{#if account.reservations}}
+  <table class="table table-hover mx-auto my-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Reservation ID</th>
+        <th scope="col">Service ID</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each account.reservations}}
+      <tr>
+        <th scope="row">{{math @index "+" 1}}
+        </th>
+        <td>
+          <a href="/reservation/{{this.rid}}">{{this.rid}}</a>
+        </td>
+        <td>
+          <a href="/service/{{this.sid}}">{{this.sname}}</a>
+        </td>
+        {{#if this.isPaid}}
+        <td class="available">Paid</td>
+        {{else}}
+        <td class="text-red">Not Paid</td>
+        {{/if}} {{#if this.isPaid}} {{#if this.isReview}}
+        <td>
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Thank you for your comment.
+        </td>
+        {{else}}
+        <td>
+          <a href="/review/{{this.sid}}/{{this.rid}}">
+            <i class="fa fa-commenting" aria-hidden="true"></i>
+            </i> Click to review</a>
+        </td>
+        {{/if}} {{else}}
+        <td>
+          <a href="/reservation/pay/{{this.rid}}">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Click to pay</a>
+        </td>
+        {{/if}}
+        <td>{{#unless this.isPaid}}
+          <a class="text-dark" href="/reservation/cancel/{{this.rid}}">
+            <i class="text-red fa fa-times" aria-hidden="true"></i>
+          </a>
+          {{/unless}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <h3 class="text-center my-5">You have not reservation history</h3>
+  {{/if}}
 </div>

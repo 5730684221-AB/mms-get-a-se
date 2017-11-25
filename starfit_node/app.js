@@ -10,6 +10,7 @@ var multer = require('multer');
 var uuid = require('uuid');
 var flash = require('connect-flash');
 var router = express.Router();
+var dotenv = require('dotenv').config();
 
 var hbs = require('hbs');
 var cookieSession = require('cookie-session')
@@ -23,10 +24,7 @@ var index = require('./routes/index');
 
 //mongo
 var mongoose = require('mongoose');
-var mongodbip = "192.168.99.100:27017";
-
-//singto 192.168.99.100:27017
-//J localhost:27017
+var mongodbip = process.env.DB_HOST;
 
 if (containerized()) {
     mongoose.connect('mongodb://database:27017/db', { useMongoClient: true });
@@ -40,6 +38,14 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log("connected to db")
+});
+
+// paypal
+var paypal = require('paypal-rest-sdk');
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': process.env.PAPAL_ID,
+  'client_secret': process.env.PAPAL_SECRET
 });
 
 var app = express();
@@ -113,7 +119,7 @@ app.use(function (req, res, next) {
       req.session.user.name = fullname;
   }
   app.locals.account = req.session.user;
-  console.log("app local account = ",app.locals.account );
+  console.log("req.session.user = ",req.session.user );
   next();
 });
 

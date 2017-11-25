@@ -1,32 +1,54 @@
-[
-	{
-		"email":"aithanet@gmail.com",
-		"password":"test1",
-		"fname":"Thanet",
-		"lname":"Sirichanyaphong",
-		"phone":"0812341256",
-		"image" : "default-profile",
-		"reservations":[
+[{
+		"email": "aithanet@gmail.com",
+		"password": "test1",
+		"fname": "Thanet",
+		"lname": "Sirichanyaphong",
+		"phone": "0812341256",
+		"reservations": [{
+				"rid": "12315323",
+				"sid": "125",
+				"sname": "RUNN",
+				"timestamp": "",
+				"tname": "Papon Trongprokorb",
+				"uname": "Thanet Sirichanyaphong",
+				"price": "780",
+				"isPaid": true,
+				"isReview": true,
+				"paymethod": "credit"
+			},
 			{
-			"rid":"12315323",
-			"sid":"33232",
-			"timestamp":"",
-			"tname":"Papon Trongprokorb",
-			"uname":"Thanet Sirichanyaphong",
-			"price":"780",
-			"paymethod":"credit"
+				"rid": "12315321",
+				"sid": "1234",
+				"sname": "RUNN",
+				"timestamp": "",
+				"tname": "Papon Trongprokorb",
+				"uname": "Thanet Sirichanyaphong",
+				"price": "780",
+				"isPaid": true,
+				"isReview": false,
+				"paymethod": "credit"
+			}, {
+				"rid": "12315322",
+				"sid": "123",
+				"sname": "RUNN",
+				"timestamp": "",
+				"tname": "Papon Trongprokorb",
+				"uname": "Thanet Sirichanyaphong",
+				"price": "780",
+				"isPaid": false,
+				"isReview": false,
+				"paymethod": "credit"
 			}
 		]
 	},
 	{
-		"email":"poppapon@gmail.com",
-		"password":"test2",
-		"fname":"Papon",
-		"lname":"Trongprokorb",
-		"phone":"0811230123",
-		"image" : "default-profile",
+		"email": "poppapon@gmail.com",
+		"password": "test2",
+		"fname": "Papon",
+		"lname": "Trongprokorb",
+		"phone": "0811230123",
 		"trainer": true,
-		"services":[
+		"services": [
 			"33232",
 			"33233"
 		]

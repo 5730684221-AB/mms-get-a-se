@@ -49,18 +49,30 @@
       type: 'image',
     });
     var calculatePrice = function (price) {
+      console.log("call price");
       var total = 0;
       var _price = parseInt(price);
-      $('#select-service .form-check-input').each(function () {
-        if ($(this).is(':checked')) {
-          total += parseInt($(this).val());
+      $('#select-service .form-check').each(function () {
+        var qty = $(this).find("#qty").first().val();
+        var addserv = $(this).find("#addserv").first();
+        if (addserv.is(':checked')) {
+          total += (addserv.val()*qty);
         }
       });
+      var isCheck = false;
       $('#select-time .form-check-input').each(function () {
         if ($(this).is(':checked')) {
-          total += (_price*parseInt($(this).val()));
+          total += (_price * parseInt($(this).val()));
+          isCheck = true;
         }
       });
+      if(isCheck){
+        $("#checkout-btn").attr('disabled',false);
+        $("#reserve-btn").attr('disabled',false);
+      } else {
+        $("#checkout-btn").attr('disabled',true);
+        $("#reserve-btn").attr('disabled',true);
+      }
       $('#total-price').text(total);
     };
     sendEvent = function (sel, step) {
@@ -97,6 +109,16 @@
     $(document).ready(function () {
       $('#profile-upload-btn').click(function () {
         $("#profile-upload").click();
+      });
+      $("#profile-upload").on("change", function () {
+        if (this.files && this.files[0]) {
+          console.log("if");
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('#profile-image').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
       });
     });
 

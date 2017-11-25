@@ -1,16 +1,22 @@
 <div class="service-name py-2">
   <div class="container">
-    <h2>My Profile</h2>
+    <h2 class="py-1 my-0">My Profile</h2>
   </div>
 </div>
 
 <div class="container my-3">
+  <div class="row d-flex justify-content-center">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a class="btn btn-danger" href="/profile">My Profile</a>
+      <a class="btn btn-danger" href="/reservation">My Reservation</a>
+    </div>
+  </div>
   <div class="row">
     <div class=" col-xs-4 col-md-4 col-lg-4 mb-3">
       <div class="row my-3">
         {{#if account.image}}
-        <img class="circle" src="/images/user/{{account.id}}" width="180" height="180" /> {{else}}
-        <img class="circle" src="/images/user.png" width="180" height="180" /> {{/if}}
+        <img id="profile-image" class="circle" src="/images/user/{{account.id}}" width="180" height="180" /> {{else}}
+        <img id="profile-image" class="circle" src="/images/user.png" width="180" height="180" /> {{/if}}
       </div>
       <div class="row my-3">
         <form enctype="multipart/form-data" action="/images/user/{{account.id}}" method="POST" class="btn-under-pic">
@@ -18,7 +24,7 @@
             <i class="text-red fa fa-circle fa-stack-2x"></i>
             <i class="text-white fa fa-upload fa-stack-1x"></i>
           </span>
-          <input id="profile-upload" name="userFile" type="file" style="display:none;">
+          <input id="profile-upload" name="userFile" type="file" style="display:none;" accept="image/*">
           <button type="submit" class="btn btn-danger">Upload</button>
         </form>
       </div>
@@ -40,7 +46,8 @@
       </div>
       <div class="input-field">
         <label for="number">Phone Number</label>
-        <input class="form-control" type="text" name="phone" class="validate" value="{{account.phone}}" required pattern="\d{1,10}" title="Please type only 10 digits number">
+        <input class="form-control" type="text" name="phone" class="validate" value="{{account.phone}}" required pattern="\d{1,10}"
+          title="Please type only 1-10 digits number">
       </div>
       <div class="mt-3">
         <button type="submit" class="btn btn-danger">Save</button>
