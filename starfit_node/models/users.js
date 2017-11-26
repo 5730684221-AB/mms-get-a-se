@@ -8,6 +8,7 @@ var userchema = mongoose.Schema ({
   phone : String,
   image : String,
   secret : String,
+  isAdmin : Boolean,
   reservations :[{
       rid : String ,
       sid : String ,

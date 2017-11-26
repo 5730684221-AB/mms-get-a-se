@@ -72,7 +72,6 @@ router.post('/signup', function (req, res, next) {
           lname: user.lname,
           phone: user.phone,
           image: user.image,
-          trainer: user.trainer,
           reservations: user.reservations,
           login: true
         };
@@ -122,7 +121,6 @@ router.post('/signin', function (req, res, next) {
         lname: user.lname,
         phone: user.phone,
         image: user.image,
-        trainer: user.trainer,
         reservations: user.reservations,
         login: true
       };
@@ -628,7 +626,6 @@ router.get('/reservation/cancel/:rid', function (req, res, next) { //reservation
                 lname: user.lname,
                 phone: user.phone,
                 image: user.image,
-                trainer: user.trainer,
                 reservations: user.reservations,
                 login: true
               };
