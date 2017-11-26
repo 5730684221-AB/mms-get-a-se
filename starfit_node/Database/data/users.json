@@ -46,10 +46,6 @@
 		"password": "test2",
 		"fname": "Papon",
 		"lname": "Trongprokorb",
-		"phone": "0811230123",
-		"services": [
-			"33232",
-			"33233"
-		]
+		"phone": "0811230123"
 	}
 ]

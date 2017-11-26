@@ -33,8 +33,8 @@ var userchema = mongoose.Schema ({
 const User = module.exports = mongoose.model('user',userchema);
 
 // Get users
-module.exports.getUser = (callback, limit) => {
-	User.find(callback).limit(limit);
+module.exports.getUser = (query,callback, limit) => {
+	User.find(query).limit(limit).exec(callback);
 }
 
 // Get user by email
