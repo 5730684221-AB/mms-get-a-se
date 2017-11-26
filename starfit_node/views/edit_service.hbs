@@ -59,17 +59,17 @@
     </div>
     <div class="input-field">
       <label class="mt-3" for="Name">Service name</label>
-      <input class="form-control" type="text" name="name" value={{service.name}} required>
+      <input class="form-control" type="text" name="name" value="{{service.name}}" required>
     </div>
 
     <div class="input-field">
       <label class="mt-3" for="Name">Details</label>
-      <textarea class="form-control" rows="5" name="about" value={{service.about}} ></textarea>
+      <textarea class="form-control" rows="5" name="about" >{{service.about}}</textarea>
     </div>
 
     <div class="input-field">
       <label class="mt-3" for="Name">Type</label>
-      <select name="ttype" class="form-control searchbox-text searchbox-dropbox" value={{service.ttype}}>
+      <select id ="ttype" name="ttype" class="form-control searchbox-text searchbox-dropbox">
         <option value="0">- เลือกประเภท -</option>
         <option value="1">Body building</option>
         <option value="2">Weight loss</option>
@@ -83,13 +83,14 @@
 
     <div class="input-field">
       <label class="mt-3" for="Name">Time slot</label>
+      {{#each service.timeSlots}}
       <div id="time-container" class="container">
         <div class="row py-1">
           <div class="col-sm-4">
-            <input class="form-control" type="date" name="date[]" required>
+            <input class="form-control" id="date[{{@index}}]" type="date" name="date[]" selectedIndex="setSelectedValue(date[{{@index}}],{{this}})" required>
           </div>
           <div class="col-sm-4">
-            <select name="time[]" class="form-control searchbox-text searchbox-dropbox" required>
+            <select id="time[]" name="time[{{@index}}]" class="form-control searchbox-text searchbox-dropbox" selectedIndex="setSelectedValue(time[{{@index}}],{{this}})" required>
               <option value="0">---- Select time----</option>
               <option value="8-9">08:00-09:00</option>
               <option value="9-10">09:00-10:00</option>
@@ -109,6 +110,7 @@
           </div>
         </div>
       </div>
+      {{/each}}
     </div>
     <button type="button" id="time-btn" class="btn btn-danger mt-1 btn-sm">Add time slot</button>
 
@@ -176,11 +178,12 @@
 
     <div class="input-field">
       <label class="mt-3" for="Name">Price</label>
-      <input class="form-control" type="number" name="price" min="1" max="999999" value={{service.price}} required>
+      <input class="form-control" type="number" name="price" min="1" max="999999" value="{{service.price}}" required>
     </div>
 
     <div class="input-field">
       <label class="mt-3" for="Name">More service</label>
+      {{#each}}
       <div id="addserv-container" class="container">
         <div class="form-row">
           <div class="form-group col-sm-6">
@@ -193,6 +196,7 @@
           </div>
         </div>
       </div>
+      {{/each}}
     </div>
     <button type="button" id="addserv-btn" class="btn btn-danger mt-1 btn-sm">Add more</button>
 
@@ -208,4 +212,24 @@
       </div>
     </div>
   </form>
+  <script language='javascript' type='text/javascript'>
+    
+    function setSelectedValue(DOMid, valueToSet) {
+        console.log(DOMid);
+        console.log(valueToSet);
+        var selectObj = document.getElementById(DOMid);
+    for (var i = 0; i < selectObj.options.length; i++) {
+        if (selectObj.options[i].text== valueToSet) {
+            selectObj.options[i].selected = true;
+            return i;
+        }
+    }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+            var type = document.getElementById("ttype");
+            console.log("{{service.about}}");
+           type.selectedIndex = {{service.ttype}};
+        });
+  </script>
 </div>

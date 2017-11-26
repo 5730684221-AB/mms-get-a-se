@@ -113,7 +113,31 @@ router.post('/:sid/update', function (req, res, next) {
       price : req.body.price,
       place : req.body.place,
     };
-    console.log("update service = ", updateService);
+
+    var timeSlots = [];
+    for(var i=0;i <req.body.date.length;i++){
+      var slot = {};
+      slot.day = req.body.date[i];
+      var time = req.body.time[i].split('-');
+      console.log(time);
+      slot.time = [Number(time[0]),Number(time[1])];
+      slot.available = true;
+      slot.id = slot.day + "-"+slot.time[0]+"-"+slot.time[1];
+      timeSlots.push(slot);
+      updateservice.status = "available";
+      }
+    updateservice.timeSlots = timeSlots;
+
+    //additional services
+    var addServ = [];
+    for(var i=0;i<req.body.addserv.length;i++){
+      var serv = {};
+      serv.name = req.body.addserv[i];
+      serv.price = req.body.addprice[i];
+      addServ.push(serv);
+    }
+    updateservice.addServ = addServ;
+    console.log("update service = ", JSON.stringify(updateService));
     Services.updateService(sid, updateService, null, (err, user) => {
       console.log("update");
       if (err) {
@@ -191,7 +215,7 @@ Services.getService({tid : tid},(err,result) =>{
 });
 
 router.get('/edit/:sid',(req,res,next) =>{
-  var uid = req.sessionuser.id;
+  var uid = req.session.user.id;
   var sid = req.params.sid;
   Services.getServiceById(sid,(err,service) =>{
       if(err){
@@ -208,4 +232,23 @@ router.get('/edit/:sid',(req,res,next) =>{
   });
 });
 
+router.post('/edit/:sid',(req,res,next) =>{
+  var tid = req.session.user.id;
+  var sid = req.params.sid;
+  var updateservice = {
+    name: req.body.name,
+    ttype : req.body.ttype,
+    about : req.body.about,
+    price : req.body.price,
+    tid : req.session.user.id,
+    place : req.body.location,
+    images : ["default","default","default"]
+  };
+
+  Services.updateService(sid,updateservice,null,(err,service) =>{
+    if(err){
+      console.log(err)
+    }
+  });
+});
 module.exports = router;
