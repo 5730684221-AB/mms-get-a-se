@@ -11,32 +11,32 @@ var Services = require('../models/services');
 //     }else{
 //       return false;
 //     }
-    
+
 //   } else {
 //       return false;
 //   }
 // };
 
-router.use(function(req,res,next){
+router.use(function (req, res, next) {
   if (req.session.user) {
     //login
     next();
   } else {
-    req.flash("error","please login");
+    req.flash("error", "please login");
     res.redirect('/');
   }
 });
 
 
 //get trainer page
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('trainer', {
     title: 'Starfit : Trainer',
     style: 'style'
   });
 });
 
-router.get('/addservice', function(req, res, next) {
+router.get('/addservice', function (req, res, next) {
   res.render('add_service', {
     title: 'Starfit : Add Service',
     style: 'style'
@@ -47,117 +47,119 @@ router.get('/addservice', function(req, res, next) {
 
 //service addservice
 router.post('/addservice', function (req, res, next) {
-    console.log("==================addservice====================");
-    console.log("req = ",req.body);
-    var newservice = {
-      name: req.body.name,
-      ttype : req.body.ttype,
-      rating : 0,
-      about : req.body.about,
-      price : req.body.price,
-      tid : req.session.user.id,
-      place : req.body.location,
-      status : "busy",
-      images : ["default","default","default"]
-    };
-    //timeSlots
-    var timeSlots = [];
-    for(var i=0;i <req.body.date.length;i++){
-      var slot = {};
-      slot.day = req.body.date[i];
-      var time = req.body.time[i].split('-');
-      console.log(time);
-      slot.time = [Number(time[0]),Number(time[1])];
-      slot.available = true;
-      slot.id = slot.day + "-"+slot.time[0]+"-"+slot.time[1];
-      timeSlots.push(slot);
-      newservice.status = "available";
-      }
-    newservice.timeSlots = timeSlots;
+  console.log("==================addservice====================");
+  console.log("req = ", req.body);
+  var newservice = {
+    name: req.body.name,
+    ttype: req.body.ttype,
+    rating: 0,
+    about: req.body.about,
+    price: req.body.price,
+    tid: req.session.user.id,
+    place: req.body.location,
+    status: "busy",
+    images: ["default", "default", "default"]
+  };
+  //timeSlots
+  var timeSlots = [];
+  for (var i = 0; i < req.body.date.length; i++) {
+    var slot = {};
+    slot.day = req.body.date[i];
+    var time = req.body.time[i].split('-');
+    console.log(time);
+    slot.time = [Number(time[0]), Number(time[1])];
+    slot.available = true;
+    slot.id = slot.day + "-" + slot.time[0] + "-" + slot.time[1];
+    timeSlots.push(slot);
+    newservice.status = "available";
+  }
+  newservice.timeSlots = timeSlots;
 
-    //additional services
-    var addServ = [];
-    for(var i=0;i<req.body.addserv.length;i++){
+  //additional services
+  var addServ = [];
+  if (req.body.addserv) {
+    for (var i = 0; i < req.body.addserv.length; i++) {
       var serv = {};
       serv.name = req.body.addserv[i];
       serv.price = req.body.addprice[i];
       addServ.push(serv);
     }
     newservice.addServ = addServ;
+  }
 
-
-    console.log("newservice = ",JSON.stringify(newservice));
-    Services.addService(newservice, (err, services) => {
-      if (err) {
-        console.log("addService error");
-        req.flash('error', "Something blew up during addService.");
-        res.redirect("/");
-        }
-        else {
-          console.log("service = ", services);
-          req.flash('success', "Create new Service successful.");
-          res.redirect('/');
-        }
-    });
+  console.log("newservice = ", JSON.stringify(newservice));
+  Services.addService(newservice, (err, services) => {
+    if (err) {
+      console.log("addService error");
+      req.flash('error', "Something blew up during addService.");
+      res.redirect("/");
+    } else {
+      console.log("service = ", services);
+      req.flash('success', "Create new Service successful.");
+      res.redirect('/');
+    }
+  });
 });
 
 
 
 //update service
 router.post('/:sid/update', function (req, res, next) {
-    var sid = req.params.sid;
-    var updateService = {
-      name: req.body.name,
-      ttype : req.body.ttype,
-      about : req.body.about,
-      price : req.body.price,
-      place : req.body.place,
-    };
+  var sid = req.params.sid;
+  var updateService = {
+    name: req.body.name,
+    ttype: req.body.ttype,
+    about: req.body.about,
+    price: req.body.price,
+    place: req.body.place,
+  };
 
-    var timeSlots = [];
-    for(var i=0;i <req.body.date.length;i++){
-      var slot = {};
-      slot.day = req.body.date[i];
-      var time = req.body.time[i].split('-');
-      console.log(time);
-      slot.time = [Number(time[0]),Number(time[1])];
-      slot.available = true;
-      slot.id = slot.day + "-"+slot.time[0]+"-"+slot.time[1];
-      timeSlots.push(slot);
-      updateservice.status = "available";
-      }
-    updateservice.timeSlots = timeSlots;
+  var timeSlots = [];
+  for (var i = 0; i < req.body.date.length; i++) {
+    var slot = {};
+    slot.day = req.body.date[i];
+    var time = req.body.time[i].split('-');
+    console.log(time);
+    slot.time = [Number(time[0]), Number(time[1])];
+    slot.available = true;
+    slot.id = slot.day + "-" + slot.time[0] + "-" + slot.time[1];
+    timeSlots.push(slot);
+    updateservice.status = "available";
+  }
+  updateservice.timeSlots = timeSlots;
 
-    //additional services
-    var addServ = [];
-    for(var i=0;i<req.body.addserv.length;i++){
-      var serv = {};
-      serv.name = req.body.addserv[i];
-      serv.price = req.body.addprice[i];
-      addServ.push(serv);
+  //additional services
+  var addServ = [];
+  for (var i = 0; i < req.body.addserv.length; i++) {
+    var serv = {};
+    serv.name = req.body.addserv[i];
+    serv.price = req.body.addprice[i];
+    addServ.push(serv);
+  }
+  updateservice.addServ = addServ;
+  console.log("update service = ", JSON.stringify(updateService));
+  Services.updateService(sid, updateService, null, (err, user) => {
+    console.log("update");
+    if (err) {
+      console.log(err);
+      req.flash('error', "Something error.");
     }
-    updateservice.addServ = addServ;
-    console.log("update service = ", JSON.stringify(updateService));
-    Services.updateService(sid, updateService, null, (err, user) => {
-      console.log("update");
-      if (err) {
-        console.log(err);
-        req.flash('error', "Something error.");
-      }
-      req.flash('success', "Update is successful.");
-      res.redirect("/");
-    });
+    req.flash('success', "Update is successful.");
+    res.redirect("/");
+  });
 });
 
-router.get('/myservice', function(req, res, next) {
+router.get('/myservice', function (req, res, next) {
   var uid = req.session.user.id;
   console.log("==============myservices===============");
   var tid = req.session.user.id;
-Services.getService({tid : tid},(err,result) =>{
-    if(err){
+  Services.getService({
+    tid: tid
+  }, (err, result) => {
+    if (err) {
       console.log(err);
     }
-    console.log('services =',result);
+    console.log('services =', result);
     var ret = {};
     ret.results = [];
     var newArray = [];
@@ -214,39 +216,39 @@ Services.getService({tid : tid},(err,result) =>{
   });
 });
 
-router.get('/edit/:sid',(req,res,next) =>{
+router.get('/edit/:sid', (req, res, next) => {
   var uid = req.session.user.id;
   var sid = req.params.sid;
-  Services.getServiceById(sid,(err,service) =>{
-      if(err){
-        console.log(err);
-        req.flash("error","Something went wrong");
-        res.redirect('/');
-      }
-      console.log("service =",service);
-      res.render('edit_service',{
-        title: 'Starfit : '+service.name,
-        style: 'style',
-        service: service
-      });
+  Services.getServiceById(sid, (err, service) => {
+    if (err) {
+      console.log(err);
+      req.flash("error", "Something went wrong");
+      res.redirect('/');
+    }
+    console.log("service =", service);
+    res.render('edit_service', {
+      title: 'Starfit : ' + service.name,
+      style: 'style',
+      service: service
+    });
   });
 });
 
-router.post('/edit/:sid',(req,res,next) =>{
+router.post('/edit/:sid', (req, res, next) => {
   var tid = req.session.user.id;
   var sid = req.params.sid;
   var updateservice = {
     name: req.body.name,
-    ttype : req.body.ttype,
-    about : req.body.about,
-    price : req.body.price,
-    tid : req.session.user.id,
-    place : req.body.location,
-    images : ["default","default","default"]
+    ttype: req.body.ttype,
+    about: req.body.about,
+    price: req.body.price,
+    tid: req.session.user.id,
+    place: req.body.location,
+    images: ["default", "default", "default"]
   };
 
-  Services.updateService(sid,updateservice,null,(err,service) =>{
-    if(err){
+  Services.updateService(sid, updateservice, null, (err, service) => {
+    if (err) {
       console.log(err)
     }
   });

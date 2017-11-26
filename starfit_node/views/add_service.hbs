@@ -69,8 +69,8 @@
 
     <div class="input-field">
       <label class="mt-3" for="Name">Type</label>
-      <select name="ttype" class="form-control searchbox-text searchbox-dropbox">
-        <option value="0">- เลือกประเภท -</option>
+      <select name="ttype" class="form-control searchbox-text searchbox-dropbox" required>
+        <option value="" disabled selected>- เลือกประเภท -</option>
         <option value="1">Body building</option>
         <option value="2">Weight loss</option>
         <option value="3">Cardio</option>
@@ -86,11 +86,18 @@
       <div id="time-container" class="container">
         <div class="row py-1">
           <div class="col-sm-4">
-            <input class="form-control" type="date" name="date[]" required>
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button id="addserv2-rm" class="btn btn-remove" type="button" disabled>
+                  <i class="fa fa-trash text-red" aria-hidden="true"></i>
+                </button>
+              </span>
+              <input class="form-control" type="date" name="date[]" required>
+            </div>
           </div>
           <div class="col-sm-4">
             <select name="time[]" class="form-control searchbox-text searchbox-dropbox" required>
-              <option value="0">---- Select time----</option>
+              <option value="" disabled selected>---- Select time----</option>
               <option value="8-9">08:00-09:00</option>
               <option value="9-10">09:00-10:00</option>
               <option value="10-11">10:00-11:00</option>
@@ -116,59 +123,66 @@
       <label class="mt-3" for="Name">Location</label>
       <div id="location-container" class="container">
         <div class="row mt-1">
-          <select name="location[]" class="form-control searchbox-text searchbox-dropbox" required>
-            <option value="0">- เลือกอำเภอ -</option>
-            <option value="18">เขตคลองสาน</option>
-            <option value="30">เขตจตุจักร </option>
-            <option value="35">เขตจอมทอง </option>
-            <option value="36">เขตดอนเมือง </option>
-            <option value="26">เขตดินแดง </option>
-            <option value="46">เขตคลองสามวา</option>
-            <option value="33">เขตคลองเตย</option>
-            <option value="43">เขตคันนายาว</option>
-            <option value="2">เขตดุสิต </option>
-            <option value="19">เขตตลิ่งชัน </option>
-            <option value="48">เขตทวีวัฒนา </option>
-            <option value="49">เขตทุ่งครุ </option>
-            <option value="15">เขตธนบุรี </option>
-            <option value="20">เขตบางกอกน้อย </option>
-            <option value="16">เขตบางกอกใหญ่ </option>
-            <option value="6">เขตบางกะปิ </option>
-            <option value="21">เขตบางขุนเทียน </option>
-            <option value="31">เขตบางคอแหลม </option>
-            <option value="29">เขตบางซื่อ </option>
-            <option value="47">เขตบางนา </option>
-            <option value="50">เขตบางบอน </option>
-            <option value="25">เขตบางพลัด </option>
-            <option value="4">เขตบางรัก </option>
-            <option value="5">เขตบางเขน </option>
-            <option value="40">เขตบางแค </option>
-            <option value="27">เขตบึงกุ่ม </option>
-            <option value="7">เขตปทุมวัน </option>
-            <option value="32">เขตประเวศ </option>
-            <option value="8">เขตป้อมปราบศัตรูพ่าย </option>
-            <option value="14">เขตพญาไท </option>
-            <option value="1">เขตพระนคร </option>
-            <option value="9">เขตพระโขนง </option>
-            <option value="22">เขตภาษีเจริญ </option>
-            <option value="10">เขตมีนบุรี </option>
-            <option value="12">เขตยานนาวา </option>
-            <option value="37">เขตราชเทวี </option>
-            <option value="24">เขตราษฎร์บูรณะ </option>
-            <option value="11">เขตลาดกระบัง </option>
-            <option value="38">เขตลาดพร้าว </option>
-            <option value="45">เขตวังทองหลาง </option>
-            <option value="39">เขตวัฒนา </option>
-            <option value="34">เขตสวนหลวง </option>
-            <option value="44">เขตสะพานสูง </option>
-            <option value="13">เขตสัมพันธวงศ์ </option>
-            <option value="28">เขตสาทร </option>
-            <option value="42">เขตสายไหม </option>
-            <option value="3">เขตหนองจอก </option>
-            <option value="23">เขตหนองแขม </option>
-            <option value="41">เขตหลักสี่ </option>
-            <option value="17">เขตห้วยขวาง </option>
-          </select>
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button id="addserv-rm" class="btn btn-remove" type="button" disabled>
+                <i class="fa fa-trash text-red" aria-hidden="true"></i>
+              </button>
+            </span>
+            <select name="location[]" class="form-control searchbox-text searchbox-dropbox" required>
+              <option value="" disabled selected>- เลือกอำเภอ -</option>
+              <option value="18">เขตคลองสาน</option>
+              <option value="30">เขตจตุจักร </option>
+              <option value="35">เขตจอมทอง </option>
+              <option value="36">เขตดอนเมือง </option>
+              <option value="26">เขตดินแดง </option>
+              <option value="46">เขตคลองสามวา</option>
+              <option value="33">เขตคลองเตย</option>
+              <option value="43">เขตคันนายาว</option>
+              <option value="2">เขตดุสิต </option>
+              <option value="19">เขตตลิ่งชัน </option>
+              <option value="48">เขตทวีวัฒนา </option>
+              <option value="49">เขตทุ่งครุ </option>
+              <option value="15">เขตธนบุรี </option>
+              <option value="20">เขตบางกอกน้อย </option>
+              <option value="16">เขตบางกอกใหญ่ </option>
+              <option value="6">เขตบางกะปิ </option>
+              <option value="21">เขตบางขุนเทียน </option>
+              <option value="31">เขตบางคอแหลม </option>
+              <option value="29">เขตบางซื่อ </option>
+              <option value="47">เขตบางนา </option>
+              <option value="50">เขตบางบอน </option>
+              <option value="25">เขตบางพลัด </option>
+              <option value="4">เขตบางรัก </option>
+              <option value="5">เขตบางเขน </option>
+              <option value="40">เขตบางแค </option>
+              <option value="27">เขตบึงกุ่ม </option>
+              <option value="7">เขตปทุมวัน </option>
+              <option value="32">เขตประเวศ </option>
+              <option value="8">เขตป้อมปราบศัตรูพ่าย </option>
+              <option value="14">เขตพญาไท </option>
+              <option value="1">เขตพระนคร </option>
+              <option value="9">เขตพระโขนง </option>
+              <option value="22">เขตภาษีเจริญ </option>
+              <option value="10">เขตมีนบุรี </option>
+              <option value="12">เขตยานนาวา </option>
+              <option value="37">เขตราชเทวี </option>
+              <option value="24">เขตราษฎร์บูรณะ </option>
+              <option value="11">เขตลาดกระบัง </option>
+              <option value="38">เขตลาดพร้าว </option>
+              <option value="45">เขตวังทองหลาง </option>
+              <option value="39">เขตวัฒนา </option>
+              <option value="34">เขตสวนหลวง </option>
+              <option value="44">เขตสะพานสูง </option>
+              <option value="13">เขตสัมพันธวงศ์ </option>
+              <option value="28">เขตสาทร </option>
+              <option value="42">เขตสายไหม </option>
+              <option value="3">เขตหนองจอก </option>
+              <option value="23">เขตหนองแขม </option>
+              <option value="41">เขตหลักสี่ </option>
+              <option value="17">เขตห้วยขวาง </option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -182,16 +196,6 @@
     <div class="input-field">
       <label class="mt-3" for="Name">More service</label>
       <div id="addserv-container" class="container">
-        <div class="form-row">
-          <div class="form-group col-sm-6">
-            <label>Service name</label>
-            <input type="text" class="form-control" name="addserv[]">
-          </div>
-          <div class="form-group col-sm-4">
-            <label>Fee</label>
-            <input type="number" class="form-control" name="addprice[]" min="1" max="999999">
-          </div>
-        </div>
       </div>
     </div>
     <button type="button" id="addserv-btn" class="btn btn-danger mt-1 btn-sm">Add more</button>

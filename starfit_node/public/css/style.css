@@ -358,6 +358,15 @@ a.image-popup-link:focus {
 .review-form{
     width: 100%;
 }
+
+#addserv-rm {
+    cursor: pointer;
+}
+
+.btn-remove {
+    cursor: pointer;
+    border-color:#ced4da
+}
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
     .overlay a {font-size: 20px}
