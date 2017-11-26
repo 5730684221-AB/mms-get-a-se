@@ -17,14 +17,15 @@ var Services = require('../models/services');
 //   }
 // };
 
-var sessionChecker = function (req) {
+router.use(function(req,res,next){
   if (req.session.user) {
     //login
-    return true;
+    next();
   } else {
-    return false;
+    req.flash("error","please login");
+    res.redirect('/');
   }
-};
+});
 
 
 //get trainer page
@@ -52,30 +53,46 @@ router.get('/myservice', function(req, res, next) {
 
 //service addservice
 router.post('/addservice', function (req, res, next) {
-  if(true){ //trainerChecker(req)
-    console.log("addservice");
+    console.log("==================addservice====================");
+    console.log("req = ",req.body);
     var newservice = {
       name: req.body.name,
       ttype : req.body.ttype,
-      rating : null,
+      rating : 0,
       about : req.body.about,
       price : req.body.price,
       tname : req.session.user.fname +" "+req.session.user.lname,
-      place : req.body.place,
+      place : req.body.location,
       status : "busy",
       images : ["default","default","default"]
     };
-    // var newservice = {
-    //       "name": "newservice",
-    //       "ttype" : 3,
-    //       "about" : "IDK",
-    //       "price" : 500,
-    //       "tname" : "GU",
-    //       "place" : [1,2,3],
-    //       "status" : "busy"
-    // }
-    console.log("newservice = ",newservice);
+    //timeSlots
+    var timeSlots = [];
+    for(var i=0;i <req.body.date.length;i++){
+      var slot = {};
+      slot.day = req.body.date[i];
+      var time = req.body.time[i].split('-');
+      console.log(time);
+      slot.time = [Number(time[0]),Number(time[1])];
+      slot.available = true;
+      slot.id = slot.day + "-"+slot.time[0]+"-"+slot.time[1];
+      timeSlots.push(slot);
+      newservice.status = "available";
+      }
+    newservice.timeSlots = timeSlots;
 
+    //additional services
+    var addServ = [];
+    for(var i=0;i<req.body.addserv.length;i++){
+      var serv = {};
+      serv.name = req.body.addserv[i];
+      serv.price = req.body.addprice[i];
+      addServ.push(serv);
+    }
+    newservice.addServ = addServ;
+
+
+    console.log("newservice = ",JSON.stringify(newservice));
     Services.addService(newservice, (err, services) => {
       if (err) {
         console.log("addService error");
@@ -88,15 +105,10 @@ router.post('/addservice', function (req, res, next) {
           res.redirect('/');
         }
     });
-  }else{
-    req.flash('error', "Pls Login first.");
-    res.redirect('/');
-  }
 });
 
 //add time slot
 router.post('/:sid/addtimeslot', function (req, res, next) {
-  if(true){ //trainerChecker(req)
     var sid = req.params.sid;
     var newtimeslot = {
       id: req.body.day+"-"+req.body.time[0]+"-"+req.body.time[1],
@@ -125,15 +137,11 @@ router.post('/:sid/addtimeslot', function (req, res, next) {
         res.redirect("/");
       }
     });
-  } else {
-    req.flash('error', "Please login.");
-    // res.redirect("/");
-  }
 });
 
 //remove time slot rvmts?tid=day-h1-h2
 router.get('/:sid/rvmts', function (req, res, next) {
-  if(true){ //trainerChecker(req)
+  //trainerChecker(req)
     var sid = req.params.sid;
     var tid = req.query.tid;
     console.log("tid = ", tid);
@@ -151,15 +159,10 @@ router.get('/:sid/rvmts', function (req, res, next) {
         res.redirect("/");
       }
     });
-  } else {
-    req.flash('error', "Please login.");
-    // res.redirect("/");
-  }
 });
 
 //add addServ
 router.post('/:sid/addserv', function (req, res, next) {
-  if(true){ //trainerChecker(req)
     var sid = req.params.sid;
     var newserv = {
       name : req.body.name,
@@ -184,15 +187,10 @@ router.post('/:sid/addserv', function (req, res, next) {
         res.redirect("/");
       }
     });
-  } else {
-    req.flash('error', "Please login.");
-    // res.redirect("/");
-  }
 });
 
 //remove Serv rmvserv?name=day-h1-h2
 router.get('/:sid/rmvserv', function (req, res, next) {
-  if(true){ //trainerChecker(req)
     var sid = req.params.sid;
     var sname = req.query.name;
     console.log("sname = ", sname);
@@ -209,15 +207,10 @@ router.get('/:sid/rmvserv', function (req, res, next) {
         res.redirect("/");
       }
     });
-  } else {
-    req.flash('error', "Please login.");
-    // res.redirect("/");
-  }
 });
 
 //update service
 router.post('/:sid/update', function (req, res, next) {
-  if(true){ //trainerChecker(req)
     var sid = req.params.sid;
     var updateService = {
       name: req.body.name,
@@ -236,16 +229,22 @@ router.post('/:sid/update', function (req, res, next) {
       req.flash('success', "Update is successful.");
       res.redirect("/");
     });
-  } else {
-    req.flash('error', "Please login.");
-    // res.redirect("/");
-  }
 });
 
 router.get('/myservice', function(req, res, next) {
+  var uid = req.session.user.id;
+  var tname = req.session.user.fname+" "+req.session.user.lname;
+  var services = Services.getService({tname : tname});
+  console.log("services = ",services);
+  var result = {
+    results : services,
+    results_count : services.length
+  }
+
   res.render('my_services', {
     title: 'Starfit : My Services',
-    style: 'style'
+    style: 'style',
+    search : result
   });
 });
 
