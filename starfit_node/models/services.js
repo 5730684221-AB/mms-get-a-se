@@ -37,8 +37,8 @@ var servicechema = mongoose.Schema ({
 const Service = module.exports = mongoose.model('service',servicechema);
 
 // Get service
-module.exports.getService = (callback, limit) => {
-	Service.find(callback).limit(limit);
+module.exports.getService = (query,callback, limit) => {
+	Service.find(query).limit(limit).exec(callback);
 }
 
 // Get Service

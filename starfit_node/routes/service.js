@@ -300,7 +300,7 @@ router.post('/reserve', function (req, res, next) {
     //service times
     if (a[0].trim() === "times") {
       //timeslot in serv
-      var timeSlot = a[1,2,3] + "-" + a[4] + "-" + a[5];
+      var timeSlot = a[1] + "-" +a[2] + "-" +a[3] + "-" + a[4] + "-" + a[5];
       console.log(timeSlot);
       timeSlots.push(timeSlot);
       //items in res

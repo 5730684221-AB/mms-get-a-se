@@ -43,12 +43,6 @@ router.get('/addservice', function(req, res, next) {
   });
 });
 
-router.get('/myservice', function(req, res, next) {
-  res.render('my_services', {
-    title: 'Starfit : My Services',
-    style: 'style'
-  });
-});
 
 
 //service addservice
@@ -100,7 +94,7 @@ router.post('/addservice', function (req, res, next) {
         res.redirect("/");
         }
         else {
-          console.log("services = ", services);
+          console.log("service = ", services);
           req.flash('success', "Create new Service successful.");
           res.redirect('/');
         }
@@ -233,19 +227,25 @@ router.post('/:sid/update', function (req, res, next) {
 
 router.get('/myservice', function(req, res, next) {
   var uid = req.session.user.id;
+  console.log("==============myservices===============");
   var tname = req.session.user.fname+" "+req.session.user.lname;
-  var services = Services.getService({tname : tname});
-  console.log("services = ",services);
-  var result = {
-    results : services,
-    results_count : services.length
-  }
+Services.getService({tname : tname},(err,service) =>{
+    if(err){
+      console.log(err);
+    }
+    console.log('services =',service);
+    var result = {
+      results : service
+    }
+    console.log("\n\n\n\n==================================");
+    console.log("result =",result);
+    res.render('my_services', {
+      title: 'Starfit : My Services',
+      style: 'style',
+      search : result
+    });
+  },null);
 
-  res.render('my_services', {
-    title: 'Starfit : My Services',
-    style: 'style',
-    search : result
-  });
 });
 
 module.exports = router;
