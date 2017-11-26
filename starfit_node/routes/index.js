@@ -593,7 +593,7 @@ router.get('/reservation/cancel/:rid', function (req, res, next) { //reservation
         // console.log("reservation = " ,reservation);
         console.log("items = " ,items);
         for(var i = 0 ; i<items.length; i++) {
-          var timeslotid = items[i].name.substring(6);
+          var timeslotid = items[i].name;
           console.log("timeslotid = " ,timeslotid);
           var tquery = {
             _id : serviceid,
