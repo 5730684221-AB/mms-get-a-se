@@ -4,18 +4,28 @@ var router = express.Router();
 var Users = require('../models/users');
 var Services = require('../models/services');
 
-var trainerChecker = function (req) {
-  if (req.session.user) {
-    if(req.session.user.trainer){
-      return true;
-    }else{
-      return false;
-    }
+// var trainerChecker = function (req) {
+//   if (req.session.user) {
+//     if(req.session.user.trainer){
+//       return true;
+//     }else{
+//       return false;
+//     }
     
+//   } else {
+//       return false;
+//   }
+// };
+
+var sessionChecker = function (req) {
+  if (req.session.user) {
+    //login
+    return true;
   } else {
-      return false;
+    return false;
   }
 };
+
 
 //get trainer page
 router.get('/', function(req, res, next) {
@@ -24,6 +34,21 @@ router.get('/', function(req, res, next) {
     style: 'style'
   });
 });
+
+router.get('/addservice', function(req, res, next) {
+  res.render('add_service', {
+    title: 'Starfit : Add Service',
+    style: 'style'
+  });
+});
+
+router.get('/myservice', function(req, res, next) {
+  res.render('my_services', {
+    title: 'Starfit : My Services',
+    style: 'style'
+  });
+});
+
 
 //service addservice
 router.post('/addservice', function (req, res, next) {

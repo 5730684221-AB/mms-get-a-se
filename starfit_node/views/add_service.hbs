@@ -68,11 +68,25 @@
     </div>
 
     <div class="input-field">
+      <label class="mt-3" for="Name">Type</label>
+      <select name="ttype" class="form-control searchbox-text searchbox-dropbox">
+        <option value="0">- เลือกประเภท -</option>
+        <option value="1">Body building</option>
+        <option value="2">Weight loss</option>
+        <option value="3">Cardio</option>
+        <option value="4">Endurance</option>
+        <option value="5">Flexibility</option>
+      </select>
+    </div>
+
+
+
+    <div class="input-field">
       <label class="mt-3" for="Name">Time slot</label>
       <div id="time-container" class="container">
-        <div class="row">
+        <div class="row py-1">
           <div class="col-sm-4">
-            <input class="px-1 py-1 form-control" type="date" name="date" required>
+            <input class="form-control" type="date" name="date" required>
           </div>
           <div class="col-sm-4">
             <select name="time" class="form-control searchbox-text searchbox-dropbox" required>
