@@ -53,10 +53,20 @@
               <input id="addserv" class="form-check-input" type="checkbox" name="add-{{this.name}}" value="{{this.price}}" onchange="calculatePrice({{../service.price}})"> {{this.name}}
               <span class="text-red">+{{this.price}} Baht</span>
               Qty :
-              <input id="qty" style="width:40px" type="number" value="1" name="qty-{{this.name}}" onchange="calculatePrice({{../service.price}})" min="1" max="99">
+              <input id="qty" style="width:40px" type="number" value="1" name="qty-{{this.name}}" onchange="calculatePrice({{../service.price}})" oninput="qtycheck()" min="1" max="99">
             </label>
           </div>
           {{/each}}
+           <script language='javascript' type='text/javascript'>
+              function qtycheck() {
+                if (document.getElementById('qty').value < 0 || document.getElementById('qty').value>99) {
+                  document.getElementById('qty').setCustomValidity('Please enter a number between 0-99');
+                } else {
+                  // input is valid -- reset the error message
+                  document.getElementById('qty').setCustomValidity('');
+                }
+              }
+            </script>
         </div>
         {{/if}}
 

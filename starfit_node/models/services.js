@@ -51,6 +51,11 @@ module.exports.addService = (service, callback) => {
 	Service.create(service, callback);
 }
 
+module.exports.updateService = (_id, service, options, callback) => {
+	var query = { '_id': _id };
+	User.findOneAndUpdate(query, service, options, callback);
+}
+
 module.exports.servicetagToLocation = (tag) => {
   var location = '';
   switch(tag) {

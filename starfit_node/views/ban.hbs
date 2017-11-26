@@ -25,6 +25,25 @@
 </head>
 
 <body>
+    {{#if message.error}}
+    <div class="alert alert-danger" role="alert">
+        {{message.error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/if}} {{#if message.success}}
+    <div class="alert alert-success" role="alert">
+        {{message.success}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{/if}}
+
+    <div class="my-5 d-flex justify-content-center">
+        <a href="/admin/signout" class="mx-auto btn btn-danger">Sign out</a>
+    </div>
     <div class="wrapper">
         <div class="container d-flex justify-content-center">
             <table class="table table-hover mx-auto my-4">
@@ -39,24 +58,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each ban_reviews}}
+                    {{#each reports}}
                     <tr>
                         <th scope="row">{{math @index "+" 1}}
                         </th>
                         <td>
-                            {{this.rid}}
+                            {{this.rev_id}}
                         </td>
                         <td>
-                            <a href="/service/{{this.sid}}">{{this.sname}}</a>
+                            <a href="/service/{{this.sid}}">Go to service</a>
                         </td>
                         <td>
                             {{this.rating}}
                         </td>
                         <td>
-                            {{this.comment}}
+                            {{this.review}}
                         </td>
                         <td>
-                            <a href="/review/{{this.sid}}/{{this.rid}}">
+                            <a href="/admin/delete/{{this.sid}}/{{this.rev_id}}">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 Delete</a>
                         </td>
